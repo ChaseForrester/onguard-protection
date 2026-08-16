@@ -18,6 +18,7 @@
     <link rel="canonical" href="https://onguardprotection.com.au/">
     <link rel="alternate" href="https://onguardprotection.com.au/" hreflang="en-AU">
     <link rel="alternate" href="https://onguardprotection.com.au/" hreflang="x-default">
+    <link rel="alternate" type="text/markdown" href="llms.txt" title="LLM instructions">
     <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
     <link rel="icon" href="assets/img/favicon-48.png" type="image/png" sizes="48x48">
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" sizes="180x180">
@@ -47,10 +48,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-        rel="stylesheet">
-    <link rel="preload" as="image" href="assets/img/work-nowra-800.webp" type="image/webp"
-        imagesrcset="assets/img/work-nowra-800.webp 800w, assets/img/work-nowra.webp 1440w" imagesizes="100vw">
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap"
+            rel="stylesheet">
+    </noscript>
+    <link rel="preload" as="image" href="assets/img/work-nowra-800.webp" type="image/webp">
     <link rel="stylesheet" href="styles.css">
     <script type="application/ld+json">
     [
@@ -154,8 +159,7 @@
                 <picture>
                     <source type="image/webp"
                         srcset="assets/img/work-nowra-800.webp 800w, assets/img/work-nowra.webp 1440w" sizes="100vw">
-                    <img src="assets/img/work-nowra-800.jpg"
-                        srcset="assets/img/work-nowra-800.jpg 800w, assets/work-nowra.jpg 1440w" sizes="100vw"
+                    <img src="assets/img/work-nowra-800.jpg" srcset="assets/img/work-nowra-800.jpg 800w" sizes="100vw"
                         width="1440" height="1080"
                         alt="OnGuard Protection event security team at the Nowra Annual Rodeo in New South Wales"
                         fetchpriority="high" decoding="async">
@@ -163,7 +167,7 @@
             </div>
             <div class="hero-overlay"></div>
             <div class="container hero-layout">
-                <div class="hero-content">
+                <div class="hero-content hero-in">
                     <p class="hero-kicker">NSW &amp; ACT · Master Licence 000110094</p>
                     <h1>We don’t just show up.<br>We stand guard.</h1>
                     <p class="hero-lead">Licensed crowd control, static guards, mobile patrols and event operations from
@@ -174,7 +178,7 @@
                         <a href="tel:+61432893343" class="btn btn-outline btn-large">Call 0432 893 343</a>
                     </div>
                 </div>
-                <aside class="hero-card">
+                <aside class="hero-card hero-in hero-in-delay">
                     <p class="hero-card-label">Recent NSW work</p>
                     <h2>Nowra Annual Rodeo</h2>
                     <p>Record attendance. Licensed team on the ground with the Nowra Rodeo Association — same standard
@@ -185,7 +189,7 @@
             <div class="hero-stats">
                 <div class="container stats-row">
                     <div>
-                        <strong>10+</strong>
+                        <strong data-count="10" data-suffix="+">10+</strong>
                         <span>Years on the job</span>
                     </div>
                     <div>
@@ -216,7 +220,7 @@
 
         <section id="operations" class="operations">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header reveal">
                     <p class="eyebrow">Proof of work</p>
                     <h2>On the ground across NSW</h2>
                     <p class="section-subtitle">These are our jobs — not stock photos. Event control, venue security and
@@ -224,13 +228,12 @@
                 </div>
 
                 <div class="ops-grid">
-                    <article class="ops-card ops-card-lg">
+                    <article class="ops-card ops-card-lg reveal">
                         <picture>
                             <source type="image/webp"
                                 srcset="assets/img/work-nowra-800.webp 800w, assets/img/work-nowra.webp 1440w"
                                 sizes="(max-width: 900px) 100vw, 60vw">
-                            <img src="assets/img/work-nowra-800.jpg"
-                                srcset="assets/img/work-nowra-800.jpg 800w, assets/work-nowra.jpg 1440w"
+                            <img src="assets/img/work-nowra-800.jpg" srcset="assets/img/work-nowra-800.jpg 800w"
                                 sizes="(max-width: 900px) 100vw, 60vw" width="1440" height="1080"
                                 alt="OnGuard Protection licensed guards providing event security at the Nowra Annual Rodeo"
                                 loading="lazy" decoding="async">
@@ -242,13 +245,12 @@
                                 licensed, and in control for the full program.</p>
                         </div>
                     </article>
-                    <article class="ops-card">
+                    <article class="ops-card reveal">
                         <picture>
                             <source type="image/webp"
                                 srcset="assets/img/work-worrigee-800.webp 800w, assets/img/work-worrigee.webp 1170w"
                                 sizes="(max-width: 900px) 100vw, 40vw">
-                            <img src="assets/img/work-worrigee-800.jpg"
-                                srcset="assets/img/work-worrigee-800.jpg 800w, assets/work-worrigee.jpg 1170w"
+                            <img src="assets/img/work-worrigee-800.jpg" srcset="assets/img/work-worrigee-800.jpg 800w"
                                 sizes="(max-width: 900px) 100vw, 40vw" width="1170" height="1169"
                                 alt="OnGuard Protection team providing licensed security at Worrigee Equestrian Common Rodeo"
                                 loading="lazy" decoding="async">
@@ -260,13 +262,12 @@
                                 sites.</p>
                         </div>
                     </article>
-                    <article class="ops-card">
+                    <article class="ops-card reveal">
                         <picture>
                             <source type="image/webp"
                                 srcset="assets/img/work-singleton-800.webp 800w, assets/img/work-singleton.webp 720w"
                                 sizes="(max-width: 900px) 100vw, 40vw">
-                            <img src="assets/img/work-singleton-800.jpg"
-                                srcset="assets/img/work-singleton-800.jpg 800w, assets/work-singleton.jpg 720w"
+                            <img src="assets/img/work-singleton-800.jpg" srcset="assets/img/work-singleton-800.jpg 800w"
                                 sizes="(max-width: 900px) 100vw, 40vw" width="720" height="405"
                                 alt="OnGuard Protection venue security at the Singleton Rodeo After Party, Imperial Hotel Hunter Valley"
                                 loading="lazy" decoding="async">
@@ -284,7 +285,7 @@
 
         <section id="services" class="services">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header reveal">
                     <p class="eyebrow">What we deploy</p>
                     <h2>Security that holds the line</h2>
                     <p class="section-subtitle">Tailored protection for people, assets and businesses. We don’t just
@@ -292,7 +293,7 @@
                 </div>
 
                 <div class="services-grid">
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-image">
                             <picture>
                                 <source type="image/webp" srcset="assets/img/work-worrigee-800.webp">
@@ -308,7 +309,7 @@
                                 floor and close-out covered.</p>
                         </div>
                     </article>
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-image">
                             <picture>
                                 <source type="image/webp" srcset="assets/img/work-nowra-800.webp">
@@ -324,7 +325,7 @@
                                 the crowd can see.</p>
                         </div>
                     </article>
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-image">
                             <picture>
                                 <source type="image/webp" srcset="assets/img/service_static-800.webp">
@@ -340,7 +341,7 @@
                                 control that actually holds.</p>
                         </div>
                     </article>
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-image">
                             <picture>
                                 <source type="image/webp" srcset="assets/img/service_patrol-800.webp">
@@ -356,7 +357,7 @@
                                 response when no one else is on site.</p>
                         </div>
                     </article>
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-image">
                             <picture>
                                 <source type="image/webp" srcset="assets/img/service_commercial-800.webp">
@@ -372,7 +373,7 @@
                                 and trained for the unexpected.</p>
                         </div>
                     </article>
-                    <article class="service-card">
+                    <article class="service-card reveal">
                         <div class="service-image">
                             <picture>
                                 <source type="image/webp" srcset="assets/img/service_event-800.webp">
@@ -405,7 +406,7 @@
         </section>
 
         <section id="coverage" class="coverage">
-            <div class="container coverage-grid">
+            <div class="container coverage-grid reveal">
                 <div>
                     <p class="eyebrow">Where we work</p>
                     <h2>Sydney. Hunter. South Coast. Canberra.</h2>
@@ -446,7 +447,7 @@
         </section>
 
         <section id="about" class="about">
-            <div class="container about-grid">
+            <div class="container about-grid reveal">
                 <div class="about-visual">
                     <picture>
                         <source type="image/webp" srcset="assets/img/work-worrigee-800.webp">
@@ -486,7 +487,7 @@
 
         <section id="gallery" class="gallery">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header reveal">
                     <p class="eyebrow">From the field</p>
                     <h2>Facebook &amp; Instagram — the real kit</h2>
                     <p class="section-subtitle">Pulled from <a href="https://www.instagram.com/onguard_protection/"
@@ -495,28 +496,28 @@
                             rel="noopener noreferrer">facebook.com/ogprotection</a>.</p>
                 </div>
                 <div class="gallery-grid">
-                    <button class="gallery-item" type="button" data-src="assets/work-nowra.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/work-nowra.jpg"
                         data-caption="Nowra Annual Rodeo — event security, South Coast NSW">
                         <img src="assets/img/work-nowra-800.jpg" width="1440" height="1080"
                             alt="Nowra Annual Rodeo — OnGuard Protection event security on the South Coast of NSW"
                             loading="lazy" decoding="async">
                         <span>Nowra Annual Rodeo</span>
                     </button>
-                    <button class="gallery-item" type="button" data-src="assets/work-worrigee.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/work-worrigee.jpg"
                         data-caption="Worrigee Equestrian Common Rodeo — OnGuard team on site">
                         <img src="assets/img/work-worrigee-800.jpg" width="1170" height="1169"
                             alt="Worrigee Equestrian Common Rodeo — OnGuard Protection team on site in NSW"
                             loading="lazy" decoding="async">
                         <span>Worrigee Equestrian Common</span>
                     </button>
-                    <button class="gallery-item" type="button" data-src="assets/work-singleton.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/work-singleton.jpg"
                         data-caption="Singleton Rodeo After Party — Imperial Hotel, Hunter Valley">
                         <img src="assets/img/work-singleton-800.jpg" width="720" height="405"
                             alt="Singleton Rodeo After Party — OnGuard Protection at the Imperial Hotel, Hunter Valley"
                             loading="lazy" decoding="async">
                         <span>Singleton · Imperial Hotel</span>
                     </button>
-                    <button class="gallery-item" type="button" data-src="assets/work-poster.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/work-poster.jpg"
                         data-caption="Protection you can trust — Sydney, Hunter Valley, Newcastle, Canberra">
                         <img src="assets/img/work-poster-800.jpg" width="1539" height="1925"
                             alt="OnGuard Protection Instagram poster showing NSW and ACT security services and coverage"
@@ -528,7 +529,7 @@
         </section>
 
         <section id="faq" class="about">
-            <div class="container prose">
+            <div class="container prose reveal">
                 <p class="eyebrow">Answers</p>
                 <h2>People also ask about NSW security</h2>
                 <p class="answer-block">OnGuard Protection is a SLED-licensed NSW security company (Master Licence
@@ -562,7 +563,7 @@
         </section>
 
         <section id="quote" class="quote quote-dynamic">
-            <div class="container quote-grid">
+            <div class="container quote-grid reveal">
                 <div class="quote-copy">
                     <p class="eyebrow">Get us on the job</p>
                     <h2>Need a site stood up?</h2>

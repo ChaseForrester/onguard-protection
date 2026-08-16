@@ -88,7 +88,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     initWizard();
+    initReveals();
+    initCountUp();
 });
+
+function initReveals() {
+    const items = document.querySelectorAll(".reveal");
+    if (!items.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        items.forEach((el) => el.classList.add("is-in"));
+        return;
+    }
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-in");
+            io.unobserve(entry.target);
+        });
+    }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
+    items.forEach((el) => io.observe(el));
+}
+
+function initCountUp() {
+    const nums = document.querySelectorAll("[data-count]");
+    if (!nums.length) return;
+    const run = (el) => {
+        const end = Number(el.dataset.count);
+        if (!end) return;
+        const suffix = el.dataset.suffix || "";
+        const start = performance.now();
+        const tick = (now) => {
+            const t = Math.min(1, (now - start) / 900);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(end * eased) + suffix;
+            if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            run(entry.target);
+            io.unobserve(entry.target);
+        });
+    }, { threshold: 0.6 });
+    nums.forEach((el) => io.observe(el));
+}
 
 function initWizard() {
     const form = document.getElementById("quote-form");

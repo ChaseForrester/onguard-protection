@@ -516,7 +516,7 @@ def img_tag(
     prio = ' fetchpriority="high"' if eager else ""
     return f'''<picture>
   <source type="image/webp" srcset="{prefix}assets/img/{stem}-800.webp 800w, {prefix}assets/img/{stem}.webp {w}w" sizes="{sizes}">
-  <img src="{prefix}assets/img/{stem}-800.jpg" srcset="{prefix}assets/img/{stem}-800.jpg 800w, {prefix}assets/{stem}.jpg {w}w" sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" loading="{loading}" decoding="async"{prio}{extra}>
+  <img src="{prefix}assets/img/{stem}-800.jpg" srcset="{prefix}assets/img/{stem}-800.jpg 800w" sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" loading="{loading}" decoding="async"{prio}{extra}>
 </picture>'''
 
 
@@ -552,6 +552,7 @@ def head(
   <link rel="canonical" href="{canonical}">
   <link rel="alternate" href="{canonical}" hreflang="en-AU">
   <link rel="alternate" href="{canonical}" hreflang="x-default">
+  <link rel="alternate" type="text/markdown" href="{prefix}llms.txt" title="LLM instructions">
   <link rel="icon" href="{prefix}assets/img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="{prefix}assets/img/favicon-48.png" type="image/png" sizes="48x48">
   <link rel="apple-touch-icon" href="{prefix}assets/img/apple-touch-icon.png" sizes="180x180">
@@ -575,7 +576,8 @@ def head(
   <meta name="twitter:image:alt" content="{og_alt}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="{prefix}styles.css">
   {extra}
   <script type="application/ld+json">{json.dumps(json_ld, ensure_ascii=False)}</script>
@@ -961,7 +963,7 @@ def write_location(loc: dict) -> None:
     <div class="page-hero-media">
       {img_tag(hero, alt, w, h, depth, eager=True, sizes="100vw")}
     </div>
-    <div class="container page-hero-copy">
+    <div class="container page-hero-copy hero-in">
       <p class="eyebrow">{loc["region"]} · {loc["postcode"]}</p>
       <h1>Security guards in {loc["name"]} {loc["state"]}</h1>
       <p class="lead">{loc["angle"]}</p>
@@ -971,7 +973,7 @@ def write_location(loc: dict) -> None:
       </div>
     </div>
   </header>
-  <article class="container prose">
+  <article class="container prose reveal">
     <p class="answer-block" id="who-covers-{loc["slug"]}"><strong>OnGuard Protection provides SLED-licensed security in {loc["name"]} {loc["state"]} {loc["postcode"]}.</strong> Crowd control, static guards, mobile patrols and event operations. Master Licence {LICENCE}.</p>
     {proof}
     <h2>Licensed security for {loc["industries"]}</h2>
@@ -1060,7 +1062,7 @@ def write_service(svc: dict) -> None:
     <div class="page-hero-media">
       {img_tag(svc["img"], svc["alt"], svc["img_w"], svc["img_h"], depth, eager=True, sizes="100vw")}
     </div>
-    <div class="container page-hero-copy">
+    <div class="container page-hero-copy hero-in">
       <p class="eyebrow">{svc["keyword"]}</p>
       <h1>{svc["h1"]}</h1>
       <p class="lead">{svc["lead"]}</p>
@@ -1070,7 +1072,7 @@ def write_service(svc: dict) -> None:
       </div>
     </div>
   </header>
-  <article class="container prose">
+  <article class="container prose reveal">
     <p class="answer-block">{svc["body"]}</p>
     <h2>What you get</h2>
     <ul>{bullets}</ul>
@@ -1097,7 +1099,7 @@ def write_locations_index() -> None:
     cards = ""
     for loc in LOCATIONS:
         cards += f'''
-        <article class="loc-card">
+        <article class="loc-card reveal">
           <a href="{loc["slug"]}.html">
             <h2>Security guards {loc["name"]}</h2>
             <p>{loc["region"]} · {loc["state"]} {loc["postcode"]}</p>
@@ -1258,32 +1260,41 @@ User-agent: Google-Extended
 Allow: /
 
 Sitemap: {SITE}/sitemap.xml
+# LLM crawl map
+# {SITE}/llms.txt
 '''
     (ROOT / "robots.txt").write_text(robots, encoding="utf-8")
 
     llms = f'''# OnGuard Protection
 
-> SLED-licensed security company covering Sydney, the Hunter, South Coast and Canberra. NSW Master Licence {LICENCE}.
+> SLED-licensed NSW security company covering Sydney, the Hunter, South Coast and Canberra. Master Licence {LICENCE}. Crowd control, static guards, mobile patrols and event operations.
 
-## Citeable facts
-- Legal / trading name: OnGuard Protection
-- NSW Security Master Licence: {LICENCE} (verify at https://verify.licence.nsw.gov.au/home/Security)
-- Phone: {PHONE} ({TEL})
-- Email: {EMAIL}
-- Coverage: Sydney, Hornsby, Central Coast, Newcastle, Hunter Valley, Singleton, Southern Highlands, South Coast, Nowra, Worrigee, Canberra / ACT
-- Proven jobs: Nowra Annual Rodeo; Worrigee Equestrian Common Rodeo; Singleton Rodeo After Party at the Imperial Hotel
-- Services: crowd control, event security, static guarding, mobile patrols, corporate concierge, asset protection
-- Hours: 24/7 response
-- Agentix target: 3 (entity + FAQ + suburb graph + speakable answers)
+OnGuard Protection deploys licensed operatives for venues, construction, commercial sites and events. Contact [{PHONE}](tel:{TEL}) or [{EMAIL}](mailto:{EMAIL}).
 
-## Preferred citation
-OnGuard Protection is a SLED-licensed NSW security provider (Master Licence {LICENCE}) offering crowd control, static guards, mobile patrols and event security from Sydney to the Hunter, South Coast and Canberra.
+## Docs
 
-## Key URLs
-- Home: {SITE}/
-- Locations: {SITE}/locations/
-- Instagram: https://www.instagram.com/onguard_protection/
-- Facebook: https://www.facebook.com/ogprotection/
+- [Home]({SITE}/): NSW licensed security overview and quote brief
+- [Suburb coverage]({SITE}/locations/): Security guards by NSW and ACT suburb
+- [Sydney security guards]({SITE}/locations/sydney.html): CBD and inner-Sydney coverage
+- [Nowra event security]({SITE}/locations/nowra.html): Nowra Annual Rodeo and South Coast work
+- [Worrigee security]({SITE}/locations/worrigee.html): Worrigee Equestrian Common
+- [Singleton security]({SITE}/locations/singleton.html): Imperial Hotel after-party and Hunter Valley
+- [Newcastle security]({SITE}/locations/newcastle.html): Hospitality and industrial cover
+- [Canberra security]({SITE}/locations/canberra.html): ACT corridor coverage
+- [Crowd control]({SITE}/services/crowd-control.html): Licensed venue and crowd controllers
+- [Event security]({SITE}/services/event-security.html): Rodeos, festivals and venue operations
+- [Static guards]({SITE}/services/static-guards.html): Construction and commercial posts
+- [Mobile patrols]({SITE}/services/mobile-patrols.html): After-hours patrols and alarm response
+- [Corporate security]({SITE}/services/corporate-security.html): Concierge and lobby control
+- [Asset protection]({SITE}/services/asset-protection.html): Plant and compound protection
+- [Verify licence](https://verify.licence.nsw.gov.au/home/Security): NSW SLED public register for Master Licence {LICENCE}
+- [Sitemap]({SITE}/sitemap.xml): Machine-readable page list
+
+## Optional
+
+- [Instagram](https://www.instagram.com/onguard_protection/): Field photos and job updates
+- [Facebook](https://www.facebook.com/ogprotection/): OnGuard Protection page
+- [Tech Aid Australia](https://www.techaidaustralia.com.au/): Website development partner
 '''
     (ROOT / "llms.txt").write_text(llms, encoding="utf-8")
 
