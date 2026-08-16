@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>OnGuard Security Operatives Portal</title>
+  <link rel="preload" href="../assets/fonts/barlowcond-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --bg-dark: #070b14;
+      --bg-card: rgba(16, 24, 43, 0.85);
+      --bg-input: rgba(10, 15, 28, 0.6);
+      --border-color: rgba(243, 238, 230, 0.1);
+      --primary: #c22712;
+      --primary-hover: #e0321c;
+      --text-main: #f3eee6;
+      --text-muted: #9aa3b5;
+      --accent-glow: rgba(194, 39, 18, 0.2);
+      --success: #00e676;
+      --warning: #ffb300;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Barlow', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .portal-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
+
+    /* Glassmorphic Cards & Panels */
+    .glass-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .glass-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+    }
+
+    /* Views Switcher */
+    .portal-view {
+      display: none;
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .portal-view.is-active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Auth View specific CSS */
+    .auth-box {
+      max-width: 480px;
+      margin: 4rem auto;
+      text-align: center;
+    }
+
+    .auth-logo {
+      width: 180px;
+      margin-bottom: 2rem;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+    
+    .auth-divider span {
+      padding: 0 1rem;
+    }
+
+    .auth-providers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      box-sizing: border-box;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px var(--accent-glow);
+      outline: none;
+    }
+
+    /* Checkbox & Options Grids */
+    .subclass-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .checkbox-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .checkbox-card:hover {
+      border-color: var(--primary);
+    }
+
+    .checkbox-card input[type="checkbox"] {
+      margin-top: 0.2rem;
+      accent-color: var(--primary);
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .checkbox-label-body strong {
+      display: block;
+      color: var(--text-main);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .checkbox-label-body span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: block;
+    }
+
+    /* Badge & Chips */
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    .badge-pending { background: rgba(255, 179, 0, 0.15); border: 1px solid rgba(255, 179, 0, 0.3); color: var(--warning); }
+    .badge-verified { background: rgba(0, 230, 118, 0.15); border: 1px solid rgba(0, 230, 118, 0.3); color: var(--success); }
+    .badge-rejected { background: rgba(194, 39, 18, 0.15); border: 1px solid rgba(194, 39, 18, 0.3); color: #ff523b; }
+    .badge-blocked { background: #000; border: 1px solid #333; color: #ff0000; }
+
+    /* Dashboard Header Layout */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .dashboard-header h1 {
+      margin: 0;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 2.25rem;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-input);
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .user-pill-email {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Sub-navigation tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.75rem 1.25rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover, .tab-btn.is-active {
+      color: var(--text-main);
+      background: rgba(243, 238, 230, 0.05);
+    }
+
+    .tab-btn.is-active {
+      border-bottom: 2px solid var(--primary);
+      border-radius: 6px 6px 0 0;
+    }
+
+    /* Dashboard Layout Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Shift Cards */
+    .shift-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .shift-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .shift-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+    }
+
+    .shift-date {
+      font-size: 0.85rem;
+      color: var(--primary-hover);
+      font-weight: 600;
+    }
+
+    .shift-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .shift-brief {
+      font-size: 0.9rem;
+      border-left: 2px solid var(--primary);
+      padding-left: 0.75rem;
+      margin: 0;
+    }
+
+    /* Weekly scheduler */
+    .week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .day-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+      gap: 1rem;
+    }
+
+    .day-name {
+      width: 120px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+    }
+
+    .time-windows {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .time-window-inputs {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .time-window-inputs input[type="time"] {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      color: var(--text-main);
+      padding: 0.4rem;
+    }
+
+    .btn-small {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    /* Super Admin CSS */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      color: var(--primary-hover);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Queue Table & Image Previews */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .data-table th, .data-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .data-table tr:hover td {
+      background: rgba(243, 238, 230, 0.02);
+    }
+
+    .licence-preview-btn {
+      background: rgba(194, 39, 18, 0.1);
+      border: 1px solid rgba(194, 39, 18, 0.3);
+      color: #ff523b;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .licence-preview-btn:hover {
+      background: var(--primary);
+      color: var(--text-main);
+    }
+
+    /* SMS/Code Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(7, 11, 20, 0.85);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 440px;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .modal-card h3 {
+      margin-top: 0;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    /* Toast system */
+    #toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      animation: toastIn 0.3s ease forwards;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .toast-close {
+      cursor: pointer;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+    }
+
+    /* Hide element helper */
+    [hidden] {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="inner-page">
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <p class="top-bar-live"><span class="pulse" aria-hidden="true"></span> 24/7 NSW response</p>
+      <p class="top-bar-licence">SLED Master Licence 000110094 <a href="https://verify.licence.nsw.gov.au/home/Security" target="_blank" rel="noopener noreferrer">Verify</a></p>
+      <a class="top-bar-phone" href="tel:+61432893343">0432 893 343</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="main-nav" aria-label="Primary">
+        <a href="../index.html" class="logo">
+          <img src="../assets/brand/onguard-nav-560.webp" srcset="../assets/brand/onguard-nav-560.webp 560w, ../assets/brand/onguard-nav.webp 2048w" sizes="200px" width="560" height="229" alt="OnGuard Protection logo — NSW SLED licensed security" decoding="async">
+        </a>
+        <div class="nav-links">
+          <ul class="nav-list">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../jobs/index.html">Guard Jobs Portal</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="portal-container">
+      
+      <!-- 1. AUTHENTICATION VIEW -->
+      <div id="view-auth" class="portal-view is-active">
+        <div class="glass-panel auth-box">
+          <img src="../assets/brand/onguard-lockup-480.webp" alt="OnGuard Protection" class="auth-logo">
+          <h2>Security Operatives Portal</h2>
+          <p class="lead" style="font-size:0.95rem; margin-bottom:2rem;">Restricted to SLED licensed NSW Class 1 security guards. All access audited under OG-LEG-2026-001.</p>
+          
+          <form id="email-login-form">
+            <div class="form-group">
+              <label for="login-email">Email Address</label>
+              <input type="email" id="login-email" class="form-control" placeholder="name@domain.com" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">Sign In with Email</button>
+            <p style="font-size:0.85rem; margin-top:1rem; color:var(--text-muted);">
+              Don't have an account? <a href="#" onclick="toggleAuthMode(false); return false;" style="color:var(--primary-hover); font-weight:600;">Sign Up</a>
+            </p>
+          </form>
+
+          <form id="email-signup-form" hidden>
+            <div class="form-group">
+              <label for="signup-name">Display Name</label>
+              <input type="text" id="signup-name" class="form-control" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-email">Email Address</label>
+              <input type="email" id="signup-email" class="form-control" placeholder="name@domain.com" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">Create Account</button>
+            <p style="font-size:0.85rem; margin-top:1rem; color:var(--text-muted);">
+              Already registered? <a href="#" onclick="toggleAuthMode(true); return false;" style="color:var(--primary-hover); font-weight:600;">Sign In</a>
+            </p>
+          </form>
+
+          <div class="auth-divider">
+            <span>or use alternative sign in</span>
+          </div>
+
+          <div class="auth-providers">
+            <button type="button" id="google-signin-btn" class="btn btn-ghost" style="width:100%; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.47h4.84c-.21 1.12-.84 2.07-1.79 2.7v2.24h2.9c1.7-1.57 2.69-3.88 2.69-6.57zm-8.64 8.8c2.43 0 4.47-.8 5.96-2.18l-2.9-2.24c-.8.54-1.84.87-3.06.87-2.35 0-4.34-1.58-5.05-3.71h-3v2.32C3.12 15.65 6.3 18 9 18z" fill="#4285F4"/><path d="M3.95 10.74c-.18-.54-.28-1.12-.28-1.74s.1-1.2.28-1.74V4.94h-3a9 9 0 0 0 0 8.12l3-2.32zm5.05-7.07c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.84 11.43 0 9 0 6.3 0 3.12 2.35 1.96 4.94l3 2.32c.71-2.13 2.7-3.71 5.04-3.71z" fill="#EA4335"/></svg>
+              Sign In with Google
+            </button>
+            <button type="button" id="phone-signin-btn" class="btn btn-ghost" style="width:100%;">
+              📞 Sign In with Mobile Number
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. KYC INTAKE FORM VIEW -->
+      <div id="view-kyc" class="portal-view">
+        <div class="glass-panel">
+          <h2>Mandatory NSW Class 1 KYC Onboarding</h2>
+          <p class="lead">Complete your KYC profile. All entries are audited under NSW SLED compliance codes.</p>
+          
+          <form id="kyc-submit-form">
+            <!-- Section 1: Licence & Identity -->
+            <h3 style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2rem; font-family:'Barlow Condensed', sans-serif;">1. Physical NSW Security Licence</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="kyc-licence-number">Licence Number</label>
+                <input type="text" id="kyc-licence-number" class="form-control" placeholder="e.g. 10094101" required>
+              </div>
+              <div class="form-group">
+                <label for="kyc-licence-expiry">Expiry Date</label>
+                <input type="date" id="kyc-licence-expiry" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Select All Subclasses Held (Schedule D)</label>
+              <div class="subclass-grid">
+                <label class="checkbox-card">
+                  <input type="checkbox" name="subclass" value="1A">
+                  <div class="checkbox-label-body">
+                    <strong>1A Security Officer</strong>
+                    <span>Unarmed static, patrol & event crowd control (post-June 2023 merger)</span>
+                  </div>
+                </label>
+                <label class="checkbox-card">
+                  <input type="checkbox" name="subclass" value="1B">
+                  <div class="checkbox-label-body">
+                    <strong>1B Bodyguard</strong>
+                    <span>Close VIP personal protection detail</span>
+                  </div>
+                </label>
+                <label class="checkbox-card">
+                  <input type="checkbox" name="subclass" value="1C">
+                  <div class="checkbox-label-body">
+                    <strong>1C Cash-in-Transit</strong>
+                    <span>Transit of physical currency and high-value logistics</span>
+                  </div>
+                </label>
+                <label class="checkbox-card">
+                  <input type="checkbox" name="subclass" value="1D">
+                  <div class="checkbox-label-body">
+                    <strong>1D Guard Dog Handler</strong>
+                    <span>K9-integrated perimeter security patrols</span>
+                  </div>
+                </label>
+                <label class="checkbox-card">
+                  <input type="checkbox" name="subclass" value="1E">
+                  <div class="checkbox-label-body">
+                    <strong>1E Monitoring Operator</strong>
+                    <span>Remote alarm panel & CCTV control room operators</span>
+                  </div>
+                </label>
+                <label class="checkbox-card">
+                  <input type="checkbox" name="subclass" value="1F">
+                  <div class="checkbox-label-body">
+                    <strong>1F Armed Guard</strong>
+                    <span>High-deterrence armed sites requiring active carrying permit</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Uploads -->
+            <div class="form-row" style="margin-top:1.5rem;">
+              <div class="form-group">
+                <label for="kyc-file-front">Licence Front Image (JPG/PNG)</label>
+                <input type="file" id="kyc-file-front" class="form-control" accept="image/jpeg,image/png,image/webp" required>
+                <span class="field-hint">Max file size 8MB</span>
+              </div>
+              <div class="form-group">
+                <label for="kyc-file-back">Licence Back Image (JPG/PNG)</label>
+                <input type="file" id="kyc-file-back" class="form-control" accept="image/jpeg,image/png,image/webp" required>
+                <span class="field-hint">Max file size 8MB</span>
+              </div>
+            </div>
+
+            <!-- Section 2: Contact & Payroll -->
+            <h3 style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2.5rem; font-family:'Barlow Condensed', sans-serif;">2. Contact details & Superannuation</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="kyc-mobile">Mobile Number (Authentication mirror)</label>
+                <input type="tel" id="kyc-mobile" class="form-control" placeholder="e.g. 0432893343" required>
+              </div>
+              <div class="form-group">
+                <label for="kyc-email">Email Address</label>
+                <input type="email" id="kyc-email" class="form-control" required readonly>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="kyc-firstaid">First Aid Certificate Expiry (Optional)</label>
+                <input type="date" id="kyc-firstaid" class="form-control">
+                <span class="field-hint">Required for 1A crowd/event event postings (typically HLTAID011)</span>
+              </div>
+              <div class="form-group">
+                <label for="kyc-super-usi">Super USI or Fund Name</label>
+                <input type="text" id="kyc-super-usi" class="form-control" placeholder="e.g. 16457520308001 (or AustralianSuper)" required>
+              </div>
+            </div>
+
+            <!-- Section 3: Bank details -->
+            <h3 style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2.5rem; font-family:'Barlow Condensed', sans-serif;">3. Payroll Bank Account</h3>
+            
+            <div class="form-group">
+              <label for="kyc-bank-name">Account Name</label>
+              <input type="text" id="kyc-bank-name" class="form-control" placeholder="e.g. Johnathan Doe" required>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="kyc-bank-bsb">BSB Number (6 Digits)</label>
+                <input type="text" id="kyc-bank-bsb" class="form-control" placeholder="e.g. 062900" maxlength="6" pattern="\d{6}" required>
+              </div>
+              <div class="form-group">
+                <label for="kyc-bank-account">Account Number</label>
+                <input type="text" id="kyc-bank-account" class="form-control" placeholder="e.g. 10452399" required>
+              </div>
+            </div>
+
+            <button type="submit" id="kyc-submit-btn" class="btn btn-primary" style="margin-top:2rem; width:100%; padding:1rem;">Submit KYC Application</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 3. KYC PENDING STATE -->
+      <div id="view-pending" class="portal-view">
+        <div class="glass-panel" style="text-align:center; padding:4rem 2rem;">
+          <div class="badge badge-pending" style="font-size:1.25rem; margin-bottom:1.5rem; padding:0.5rem 1.5rem;">KYC Review Pending</div>
+          <h2>Application Under Review</h2>
+          <p class="lead" style="max-width:600px; margin: 1rem auto 2rem auto;">Your NSW Class 1 licence and payroll credentials have been submitted and are currently awaiting super admin validation. Non-verified users are restricted from platform scheduling.</p>
+          <p style="color:var(--text-muted); font-size:0.9rem;">Master Licence context: 000110094. Ref: OG-LEG-2026-001</p>
+          <button class="btn btn-ghost" onclick="triggerSignOut()" style="margin-top:1.5rem;">Sign Out</button>
+        </div>
+      </div>
+
+      <!-- 4. ACCOUNT DENIED / REJECTED VIEW -->
+      <div id="view-rejected" class="portal-view">
+        <div class="glass-panel" style="text-align:center; padding:4rem 2rem;">
+          <div class="badge badge-rejected" style="font-size:1.25rem; margin-bottom:1.5rem; padding:0.5rem 1.5rem;">Access Denied</div>
+          <h2>Verification Unsuccessful</h2>
+          <p class="lead" style="max-width:600px; margin: 1rem auto; color:#ff523b;" id="rejected-reason-text">Your licence details could not be validated or did not meet NSW SLED requirements.</p>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:2rem;">Access is limited exclusively to valid NSW Class 1 operatives under OnGuard Legal Pack OG-LEG-2026-001.</p>
+          <button class="btn btn-ghost" onclick="triggerSignOut()">Return to Login</button>
+        </div>
+      </div>
+
+      <!-- 5. GUARD CRM PANEL (VERIFIED GUARD) -->
+      <div id="view-guard" class="portal-view">
+        <div class="dashboard-header">
+          <div>
+            <h1>Guard Administration CRM</h1>
+            <div style="display:flex; gap:0.5rem; margin-top:0.5rem; flex-wrap:wrap;" id="guard-subclass-tags">
+              <!-- Dynamically populated tags -->
+            </div>
+          </div>
+          <div class="user-pill">
+            <span class="badge badge-verified">Verified</span>
+            <span class="user-pill-email" id="guard-user-email">guard@domain.com</span>
+            <button class="btn btn-ghost btn-small" onclick="triggerSignOut()" style="padding:0.25rem 0.6rem; font-size:0.75rem;">Sign Out</button>
+          </div>
+        </div>
+
+        <div class="nav-tabs" role="tablist">
+          <button class="tab-btn is-active" role="tab" onclick="switchGuardTab('shifts', this)">Assigned Shifts</button>
+          <button class="tab-btn" role="tab" onclick="switchGuardTab('availability', this)">Availability Planner</button>
+          <button class="tab-btn" role="tab" onclick="switchGuardTab('profile', this)">My Credentials</button>
+          <button class="tab-btn" role="tab" onclick="switchGuardTab('notifications', this)">Alerts (<span id="guard-alerts-count">0</span>)</button>
+        </div>
+
+        <!-- Guard Tabs Content -->
+        <div class="dashboard-grid">
+          <!-- Left Column (Tab Content) -->
+          <div>
+            <!-- Shifts Tab -->
+            <div id="guard-tab-shifts" class="guard-tab-panel">
+              <div class="glass-panel">
+                <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Upcoming Roster Tasks</h3>
+                <div id="guard-shifts-container">
+                  <p class="field-hint">No active shifts scheduled for your subclasses currently.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Availability Tab -->
+            <div id="guard-tab-availability" class="guard-tab-panel" style="display:none;">
+              <div class="glass-panel">
+                <div class="week-header">
+                  <h3 style="margin:0; font-family:'Barlow Condensed', sans-serif;">Week Availability Scheduler</h3>
+                  <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <label for="avail-week-select" style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Mon Start Date:</label>
+                    <input type="date" id="avail-week-select" class="form-control" style="width:160px; padding:0.4rem;" required>
+                  </div>
+                </div>
+                
+                <form id="guard-availability-form">
+                  <div class="day-row">
+                    <span class="day-name">Monday</span>
+                    <div class="time-windows" id="avail-windows-mon">
+                      <div class="time-window-inputs">
+                        <input type="time" name="mon_start_0" value="08:00"> to <input type="time" name="mon_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="day-row">
+                    <span class="day-name">Tuesday</span>
+                    <div class="time-windows" id="avail-windows-tue">
+                      <div class="time-window-inputs">
+                        <input type="time" name="tue_start_0" value="08:00"> to <input type="time" name="tue_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="day-row">
+                    <span class="day-name">Wednesday</span>
+                    <div class="time-windows" id="avail-windows-wed">
+                      <div class="time-window-inputs">
+                        <input type="time" name="wed_start_0" value="08:00"> to <input type="time" name="wed_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="day-row">
+                    <span class="day-name">Thursday</span>
+                    <div class="time-windows" id="avail-windows-thu">
+                      <div class="time-window-inputs">
+                        <input type="time" name="thu_start_0" value="08:00"> to <input type="time" name="thu_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="day-row">
+                    <span class="day-name">Friday</span>
+                    <div class="time-windows" id="avail-windows-fri">
+                      <div class="time-window-inputs">
+                        <input type="time" name="fri_start_0" value="08:00"> to <input type="time" name="fri_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="day-row">
+                    <span class="day-name">Saturday</span>
+                    <div class="time-windows" id="avail-windows-sat">
+                      <div class="time-window-inputs">
+                        <input type="time" name="sat_start_0" value="08:00"> to <input type="time" name="sat_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="day-row">
+                    <span class="day-name">Sunday</span>
+                    <div class="time-windows" id="avail-windows-sun">
+                      <div class="time-window-inputs">
+                        <input type="time" name="sun_start_0" value="08:00"> to <input type="time" name="sun_end_0" value="16:00">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-top:1.5rem;">
+                    <label for="avail-notes">Notes / Specific Limits</label>
+                    <input type="text" id="avail-notes" class="form-control" placeholder="e.g. Unavailability on Wed morning">
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem; width:100%;">Save Availability Week</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Credentials Tab -->
+            <div id="guard-tab-profile" class="guard-tab-panel" style="display:none;">
+              <div class="glass-panel">
+                <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Licence & Compliance Records</h3>
+                <div class="form-group">
+                  <label>Full Name / Display Name</label>
+                  <input type="text" id="guard-profile-name" class="form-control" placeholder="Updating name...">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>NSW Security Licence Number</label>
+                    <input type="text" id="guard-profile-licence" class="form-control" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label>Licence Expiry</label>
+                    <input type="text" id="guard-profile-expiry" class="form-control" readonly>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>BSB (Last 3 masked)</label>
+                    <input type="text" id="guard-profile-bsb" class="form-control" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label>Account Number (Masked)</label>
+                    <input type="text" id="guard-profile-account" class="form-control" readonly>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>First Aid Expiry Date</label>
+                  <input type="text" id="guard-profile-firstaid" class="form-control" readonly>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveGuardProfileName()" style="width:100%;">Update Display Name</button>
+              </div>
+            </div>
+
+            <!-- Alerts Tab -->
+            <div id="guard-tab-notifications" class="guard-tab-panel" style="display:none;">
+              <div class="glass-panel">
+                <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">System Alerts</h3>
+                <div id="guard-alerts-container">
+                  <!-- Dynamically populated alerts -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column (Status/Quick Info) -->
+          <div>
+            <div class="glass-panel">
+              <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Licence Compliance</h3>
+              <p style="font-size:0.9rem; color:var(--text-muted);">Your compliance stats under <strong>OG-LEG-2026-001</strong>:</p>
+              <ul style="padding-left:1.25rem; font-size:0.9rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.5rem;">
+                <li>Jurisdiction: <strong>NSW Only</strong> (No cross-border shifts authorized)</li>
+                <li>Master Licence: <strong>000110094</strong></li>
+                <li>First-Aid Roster Flag: <strong id="compliance-fa-status">Not Supplied</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. SUPER ADMIN DASHBOARD CRM -->
+      <div id="view-admin" class="portal-view">
+        <div class="dashboard-header">
+          <div>
+            <h1>Super Admin Operations CRM</h1>
+            <p class="lead" style="margin: 0.25rem 0 0 0; font-size:0.95rem;">Full system overrides, KYC approvals, and guard allocations</p>
+          </div>
+          <div class="user-pill">
+            <span class="badge" style="background:var(--primary); color:var(--text-main);">Super Admin</span>
+            <span class="user-pill-email" id="admin-user-email">admin@ogprotection.com.au</span>
+            <button class="btn btn-ghost btn-small" onclick="triggerSignOut()" style="padding:0.25rem 0.6rem; font-size:0.75rem;">Sign Out</button>
+          </div>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="metrics-row">
+          <div class="metric-card">
+            <div class="metric-value" id="metric-guard-count">0</div>
+            <div class="metric-label">Verified Guards</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metric-pending-count">0</div>
+            <div class="metric-label">Pending KYC</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="metric-jobs-count">0</div>
+            <div class="metric-label">Open Shifts</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" style="color:var(--success);" id="metric-p2-status">OFF</div>
+            <div class="metric-label">Phase 2 Status</div>
+          </div>
+        </div>
+
+        <div class="nav-tabs" role="tablist">
+          <button class="tab-btn is-active" role="tab" onclick="switchAdminTab('kyc-queue', this)">KYC Queue (<span id="admin-kyc-badge">0</span>)</button>
+          <button class="tab-btn" role="tab" onclick="switchAdminTab('directory', this)">Guard Directory</button>
+          <button class="tab-btn" role="tab" onclick="switchAdminTab('shifts-mgr', this)">Shifts Manager</button>
+        </div>
+
+        <!-- Admin Tabs Content -->
+        <!-- Tab 1: KYC Queue -->
+        <div id="admin-tab-kyc-queue" class="admin-tab-panel">
+          <div class="glass-panel">
+            <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Pending Guard Onboarding KYC Queue</h3>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Guard Email</th>
+                    <th>Licence No.</th>
+                    <th>Expiry</th>
+                    <th>Subclasses</th>
+                    <th>Front Image</th>
+                    <th>Back Image</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-kyc-tbody">
+                  <tr>
+                    <td colspan="7" class="field-hint" style="text-align:center;">No pending KYC verification requests.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Guard Directory -->
+        <div id="admin-tab-directory" class="admin-tab-panel" style="display:none;">
+          <div class="glass-panel">
+            <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Approved NSW Class 1 Guards</h3>
+            <div class="form-group" style="margin-bottom:1.5rem;">
+              <input type="text" id="admin-guard-search" class="form-control" placeholder="Search by name, licence number, subclass code, or phone..." oninput="triggerGuardSearch()">
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Licence No.</th>
+                    <th>Subclasses</th>
+                    <th>Mobile</th>
+                    <th>First Aid Expiry</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-directory-tbody">
+                  <!-- Dynamically populated guards -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Shifts Manager -->
+        <div id="admin-tab-shifts-mgr" class="admin-tab-panel" style="display:none;">
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:2rem;">
+            <!-- Left: Shifts list -->
+            <div class="glass-panel">
+              <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Shifts Schedule</h3>
+              <div id="admin-jobs-list">
+                <!-- Dynamically populated jobs -->
+              </div>
+            </div>
+
+            <!-- Right: Create new Job -->
+            <div class="glass-panel">
+              <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Create NSW Roster Job</h3>
+              <form id="admin-create-job-form">
+                <div class="form-group">
+                  <label for="job-client">Client Name</label>
+                  <input type="text" id="job-client" class="form-control" required>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="job-suburb">Suburb (NSW Only)</label>
+                    <input type="text" id="job-suburb" class="form-control" placeholder="e.g. Parramatta" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="job-postcode">Postcode</label>
+                    <input type="text" id="job-postcode" class="form-control" placeholder="e.g. 2150" maxlength="4" pattern="\d{4}" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="job-address">Site Address</label>
+                  <input type="text" id="job-address" class="form-control" required>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="job-start">Start Time</label>
+                    <input type="datetime-local" id="job-start" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="job-finish">Finish Time</label>
+                    <input type="datetime-local" id="job-finish" class="form-control" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>Required Activities (Roster Rule Target)</label>
+                  <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="static"> Static / Access Screening (1A)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="crowd_control"> Crowd Control / Venue Guard (1A)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="bodyguard"> VIP Close Protection (1B)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="cash_in_transit"> Cash-in-Transit transit (1C)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="dog_team"> Dog Handler Perimeter Patrol (1D)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="monitoring_centre"> Alarm Control monitoring (1E)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="armed"> Armed Guard Deterrence (1F)
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Roster Constraints & Flags</label>
+                  <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" id="job-flag-fa"> Requires First Aid Certification (HLTAID011)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" id="job-flag-dog"> Requires Canine Dog handler (1D)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" id="job-flag-armed"> Requires Armed carries (1F)
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="job-brief">Shift brief / Instructions</label>
+                  <textarea id="job-brief" rows="3" class="form-control" placeholder="Risk brief, attire, details..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width:100%;">Create & Save Shift</button>
+              </form>
+              <button class="btn btn-ghost" onclick="triggerSeedJobs()" style="width:100%; margin-top:1rem; border-color:var(--warning); color:var(--warning);">⚡ Seed Mock Jobs across NSW</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- SMS CONFIRMATION CODE MODAL -->
+  <div class="modal-overlay" id="sms-modal">
+    <div class="modal-card">
+      <h3>Enter verification code</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">We sent an SMS with a 6-digit confirmation code to your mobile number. Enter it below to complete sign in.</p>
+      <div class="form-group">
+        <label for="sms-otp-code">SMS Verification Code</label>
+        <input type="text" id="sms-otp-code" class="form-control" placeholder="123456" maxlength="6" pattern="\d{6}">
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-top:1.5rem;">
+        <button class="btn btn-ghost" onclick="closeSmsModal()" style="flex:1;">Cancel</button>
+        <button class="btn btn-primary" id="sms-confirm-btn" style="flex:1;">Confirm Code</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOB ASSIGNMENT MODAL -->
+  <div class="modal-overlay" id="assign-modal">
+    <div class="modal-card" style="max-width:540px;">
+      <h3>Assign Guard to Shift</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;" id="assign-job-details-text">Select a verified Class 1 guard. The roster rule validates licence subclasses and first aid.</p>
+      
+      <input type="hidden" id="assign-job-id">
+      
+      <div class="form-group" style="margin-top:1.5rem;">
+        <label for="assign-guard-select">Eligible Verified Guards</label>
+        <select id="assign-guard-select" class="form-control" required>
+          <!-- Populated dynamically with eligible guards only -->
+        </select>
+      </div>
+      
+      <div style="display:flex; gap:0.5rem; margin-top:2rem;">
+        <button class="btn btn-ghost" onclick="closeAssignModal()" style="flex:1;">Close</button>
+        <button class="btn btn-primary" id="assign-confirm-btn" style="flex:1;">Assign Guard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REJECTION REASON INPUT MODAL -->
+  <div class="modal-overlay" id="reject-modal">
+    <div class="modal-card">
+      <h3>Reject KYC Application</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">Specify the reason for rejecting this guard's licence. The applicant will be logged out and see this reason.</p>
+      <input type="hidden" id="reject-guard-uid">
+      <div class="form-group">
+        <label for="reject-reason-input">Rejection Reason</label>
+        <input type="text" id="reject-reason-input" class="form-control" placeholder="e.g. Licence expired or invalid subclass selection" required>
+      </div>
+      <div style="display:flex; gap:0.5rem; margin-top:1.5rem;">
+        <button class="btn btn-ghost" onclick="closeRejectModal()" style="flex:1;">Cancel</button>
+        <button class="btn btn-primary" id="reject-confirm-btn" style="flex:1; background:var(--primary);">Confirm Reject</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIDDEN RECAPTCHA FOR PHONE AUTH -->
+  <div id="recaptcha-container"></div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container"></div>
+
+  <footer class="site-footer">
+    <div class="container" style="text-align:center; padding: 2rem 0; border-top:1px solid var(--border-color); color:var(--text-muted); font-size:0.85rem;">
+      <p>© 2026 OnGuard Protection. NSW SLED Master Licence 000110094. Built in compliance with OG-LEG-2026-001.</p>
+    </div>
+  </footer>
+
+  <!-- FIREBASE MODULAR SDK LOADER -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged,
+      GoogleAuthProvider,
+      signInWithPopup,
+      PhoneAuthProvider,
+      RecaptchaVerifier,
+      signInWithPhoneNumber
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      collection, 
+      query, 
+      where, 
+      orderBy, 
+      onSnapshot, 
+      addDoc, 
+      updateDoc 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { 
+      getStorage, 
+      ref, 
+      uploadBytesResumable, 
+      getDownloadURL 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+    import { 
+      getFunctions, 
+      httpsCallable 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js";
+
+    // Firebase configuration parameters
+    const firebaseConfig = {
+      apiKey: "AIzaSyAY0ojrgZoskKSWzSgAL7mr_yfew3-o56g",
+      authDomain: "onguard-protection.firebaseapp.com",
+      projectId: "onguard-protection",
+      storageBucket: "onguard-protection.firebasestorage.app",
+      messagingSenderId: "751073393273",
+      appId: "1:751073393273:web:7520b22a08f51152a4cf53"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    const functions = getFunctions(app);
+
+    // Global states
+    let currentUser = null;
+    let userRole = "applicant";
+    let accessState = "unverified";
+    let confirmationResult = null; // Phone confirmation
+    let liveVerifiedGuards = []; // Cached verified guards for matching
+
+    // Toast triggers
+    window.showToast = function(message, type = "error") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.style.borderLeftColor = type === "success" ? "var(--success)" : type === "warning" ? "var(--warning)" : "var(--primary)";
+      toast.innerHTML = `
+        <span style="font-size:0.95rem;">${message}</span>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 5000);
+    };
+
+    // Router views map
+    const views = {
+      auth: document.getElementById("view-auth"),
+      kyc: document.getElementById("view-kyc"),
+      pending: document.getElementById("view-pending"),
+      rejected: document.getElementById("view-rejected"),
+      guard: document.getElementById("view-guard"),
+      admin: document.getElementById("view-admin")
+    };
+
+    function showView(viewKey) {
+      Object.keys(views).forEach(key => {
+        if (views[key]) {
+          views[key].classList.toggle("is-active", key === viewKey);
+        }
+      });
+    }
+
+    // Toggle Login / Signup
+    window.toggleAuthMode = function(isSignIn) {
+      document.getElementById("email-login-form").hidden = !isSignIn;
+      document.getElementById("email-signup-form").hidden = isSignIn;
+    };
+
+    // Trigger Sign Out
+    window.triggerSignOut = async function() {
+      try {
+        await signOut(auth);
+        showView("auth");
+      } catch (err) {
+        showToast("Sign out failed: " + err.message);
+      }
+    };
+
+    // Listen to Auth State changes
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        // Check for superadmin flag in claims
+        const idToken = await user.getIdTokenResult(true);
+        
+        if (idToken.claims.superadmin === true) {
+          userRole = "superadmin";
+          accessState = "verified";
+          document.getElementById("admin-user-email").textContent = user.email || "superadmin";
+          initSuperAdminListeners();
+          showView("admin");
+          return;
+        }
+
+        // Pull active user doc from users collection
+        try {
+          const userDocRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(userDocRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            accessState = data.accessState || "unverified";
+            userRole = data.role || "applicant";
+            
+            if (accessState === "kyc_required") {
+              document.getElementById("kyc-email").value = user.email || "";
+              showView("kyc");
+            } else if (accessState === "kyc_pending") {
+              showView("pending");
+            } else if (accessState === "verified" && userRole === "guard") {
+              document.getElementById("guard-user-email").textContent = user.email || user.phoneNumber || "guard";
+              initGuardDashboard(user.uid);
+              showView("guard");
+            } else if (accessState === "rejected" || accessState === "blocked") {
+              document.getElementById("rejected-reason-text").textContent = data.rejectedReason || "Your application did not pass verification.";
+              showView("rejected");
+              await signOut(auth);
+            } else {
+              showView("pending");
+            }
+          } else {
+            // First time registration logic (if beforeCreate trigger missed it)
+            await setDoc(doc(db, "users", user.uid), {
+              uid: user.uid,
+              role: "applicant",
+              accessState: "kyc_required",
+              email: user.email,
+              phone: user.phoneNumber,
+              displayName: user.displayName,
+              jurisdiction: "NSW",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              lastAuthAt: new Date(),
+              verifiedAt: null,
+              claimsVersion: Date.now()
+            });
+            document.getElementById("kyc-email").value = user.email || "";
+            showView("kyc");
+          }
+        } catch (err) {
+          showToast("Error checking verification state: " + err.message);
+          await signOut(auth);
+          showView("auth");
+        }
+      } else {
+        currentUser = null;
+        showView("auth");
+      }
+    });
+
+    // 1. EMAIL SIGN IN
+    document.getElementById("email-login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const pass = document.getElementById("login-password").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        showToast("Signed in successfully!", "success");
+      } catch (err) {
+        showToast("Sign in failed: " + err.message);
+      }
+    });
+
+    // 2. EMAIL SIGN UP
+    document.getElementById("email-signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const pass = document.getElementById("signup-password").value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        if (auth.currentUser) {
+          await updateDoc(doc(db, "users", auth.currentUser.uid), {
+            displayName: name
+          });
+        }
+        showToast("Account created successfully!", "success");
+      } catch (err) {
+        showToast("Registration failed: " + err.message);
+      }
+    });
+
+    // 3. GOOGLE SIGN IN
+    document.getElementById("google-signin-btn").addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        await signInWithPopup(auth, provider);
+        showToast("Signed in with Google", "success");
+      } catch (err) {
+        showToast("Google authentication failed: " + err.message);
+      }
+    });
+
+    // 4. PHONE SIGN IN (OTP SMS FLOW)
+    let recaptchaVerifier = null;
+    document.getElementById("phone-signin-btn").addEventListener("click", async () => {
+      const phoneNumber = prompt("Enter your mobile number in international format (e.g. +61432893343):");
+      if (!phoneNumber) return;
+      
+      try {
+        if (!recaptchaVerifier) {
+          recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            'size': 'invisible'
+          });
+        }
+        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+        showToast("SMS OTP verification code sent!", "success");
+        document.getElementById("sms-modal").classList.add("is-active");
+      } catch (err) {
+        showToast("Phone sign in failed: " + err.message);
+      }
+    });
+
+    window.closeSmsModal = function() {
+      document.getElementById("sms-modal").classList.remove("is-active");
+    };
+
+    document.getElementById("sms-confirm-btn").addEventListener("click", async () => {
+      const code = document.getElementById("sms-otp-code").value;
+      if (!code || code.length !== 6) {
+        showToast("Enter a valid 6 digit code.");
+        return;
+      }
+      try {
+        await confirmationResult.confirm(code);
+        closeSmsModal();
+        showToast("SMS authentication verified!", "success");
+      } catch (err) {
+        showToast("Invalid code: " + err.message);
+      }
+    });
+
+    // 5. KYC PROFILE SUBMISSION WITH FILE UPLOADS
+    document.getElementById("kyc-submit-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+      
+      const submitBtn = document.getElementById("kyc-submit-btn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Uploading assets & credentials...";
+
+      const licenceNumber = document.getElementById("kyc-licence-number").value.toUpperCase();
+      const licenceExpiry = document.getElementById("kyc-licence-expiry").value;
+      const firstAidExpiry = document.getElementById("kyc-firstaid").value || null;
+      const usi = document.getElementById("kyc-super-usi").value;
+      const bsb = document.getElementById("kyc-bank-bsb").value.replace(/\s/g, "");
+      const accountNumber = document.getElementById("kyc-bank-account").value.replace(/\s/g, "");
+      const accountName = document.getElementById("kyc-bank-name").value;
+      const mobile = document.getElementById("kyc-mobile").value;
+      
+      // Get subclass checkbox arrays
+      const subclasses = Array.from(document.querySelectorAll('input[name="subclass"]:checked')).map(cb => cb.value);
+      if (subclasses.length === 0) {
+        showToast("You must select at least one Schedule D licence subclass.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit KYC Application";
+        return;
+      }
+
+      const fileFront = document.getElementById("kyc-file-front").files[0];
+      const fileBack = document.getElementById("kyc-file-back").files[0];
+
+      if (!fileFront || !fileBack) {
+        showToast("Please upload both the front and back images of your physical licence.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit KYC Application";
+        return;
+      }
+
+      try {
+        // Upload front
+        const frontExt = fileFront.name.split('.').pop();
+        const frontRef = ref(storage, `kyc/${currentUser.uid}/licence-front.${frontExt}`);
+        const frontSnap = await uploadBytesResumable(frontRef, fileFront);
+        const frontUrl = await getDownloadURL(frontSnap.ref);
+
+        // Upload back
+        const backExt = fileBack.name.split('.').pop();
+        const backRef = ref(storage, `kyc/${currentUser.uid}/licence-back.${backExt}`);
+        const backSnap = await uploadBytesResumable(backRef, fileBack);
+        const backUrl = await getDownloadURL(backSnap.ref);
+
+        // Call submitKyc HTTPS Cloud Function
+        const submitKycFn = httpsCallable(functions, 'submitKyc');
+        await submitKycFn({
+          licenceNumber,
+          licenceExpiry,
+          subclasses,
+          licenceFrontPath: frontUrl,
+          licenceBackPath: backUrl,
+          mobile,
+          email: currentUser.email || "",
+          accountName,
+          bsb,
+          accountNumber,
+          usi,
+          firstAidExpiry
+        });
+
+        showToast("KYC Application submitted successfully!", "success");
+        showView("pending");
+      } catch (err) {
+        showToast("Submission failed: " + err.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit KYC Application";
+      }
+    });
+
+    // 6. GUARD DASHBOARD CRM LOGIC
+    let guardUnsubscribeList = [];
+    window.switchGuardTab = function(tabName, btn) {
+      // Toggle active buttons
+      const buttons = document.querySelectorAll('.nav-tabs[role="tablist"] .tab-btn');
+      buttons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      // Toggle content panels
+      const panels = document.querySelectorAll('.guard-tab-panel');
+      panels.forEach(p => p.style.display = 'none');
+      document.getElementById(`guard-tab-${tabName}`).style.display = 'block';
+    };
+
+    async function initGuardDashboard(uid) {
+      // Clean previous unsubscribes
+      guardUnsubscribeList.forEach(unsub => unsub());
+      guardUnsubscribeList = [];
+
+      // 1. Fetch User and KYC records to show credentials
+      try {
+        const kycSnap = await getDoc(doc(db, "kyc", uid));
+        if (kycSnap.exists()) {
+          const kyc = kycSnap.data();
+          document.getElementById("guard-profile-licence").value = kyc.licenceNumber || "";
+          document.getElementById("guard-profile-expiry").value = kyc.licenceExpiry || "";
+          document.getElementById("guard-profile-firstaid").value = kyc.firstAidExpiry || "Not Supplied";
+          document.getElementById("compliance-fa-status").textContent = kyc.firstAidExpiry ? `Expires ${kyc.firstAidExpiry}` : "Not Supplied";
+          
+          if (kyc.bank) {
+            document.getElementById("guard-profile-bsb").value = `***${kyc.bank.bsb.substring(3)}`;
+            document.getElementById("guard-profile-account").value = `******${kyc.bank.accountNumber.substring(kyc.bank.accountNumber.length - 3)}`;
+          }
+
+          // Build Subclass Tags
+          const tagsContainer = document.getElementById("guard-subclass-tags");
+          tagsContainer.innerHTML = "";
+          kyc.subclasses.forEach(sc => {
+            const span = document.createElement("span");
+            span.className = "subclass-chip";
+            span.textContent = `Subclass ${sc}`;
+            tagsContainer.appendChild(span);
+          });
+        }
+        
+        const userSnap = await getDoc(doc(db, "users", uid));
+        if (userSnap.exists()) {
+          document.getElementById("guard-profile-name").value = userSnap.data().displayName || "";
+        }
+      } catch (err) {
+        showToast("Failed to fetch profile: " + err.message);
+      }
+
+      // 2. Real-time Shifts Listener
+      const shiftsQuery = query(collection(db, "jobs"), where("assignedUid", "==", uid), orderBy("startAt", "asc"));
+      const unsubShifts = onSnapshot(shiftsQuery, (snapshot) => {
+        const container = document.getElementById("guard-shifts-container");
+        if (snapshot.empty) {
+          container.innerHTML = `<p class="field-hint">No active shifts scheduled for your subclasses currently.</p>`;
+          return;
+        }
+
+        container.innerHTML = "";
+        snapshot.forEach(docSnap => {
+          const job = docSnap.data();
+          const start = job.startAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
+          const finish = job.finishAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
+          
+          const div = document.createElement("div");
+          div.className = "shift-card";
+          div.innerHTML = `
+            <div class="shift-card-header">
+              <h4 class="shift-title">${job.clientName} — ${job.suburb}</h4>
+              <span class="badge" style="background:#111; color:var(--text-main); font-size:0.75rem;">${job.status}</span>
+            </div>
+            <div class="shift-date">📅 ${start} to ${finish}</div>
+            <div class="shift-meta">
+              <span>📍 <strong>Address:</strong> ${job.siteAddress || "NSW"}</span>
+              <span>💼 <strong>Activities:</strong> ${job.requiredActivities.join(', ')}</span>
+            </div>
+            <p class="shift-brief">📋 <strong>Brief:</strong> ${job.brief}</p>
+          `;
+          container.appendChild(div);
+        });
+      }, (err) => {
+        console.error("Shifts listener failed:", err);
+      });
+      guardUnsubscribeList.push(unsubShifts);
+
+      // 3. Real-time Alerts Listener
+      const alertsQuery = query(collection(db, "notifications"), where("uid", "==", uid), orderBy("createdAt", "desc"));
+      const unsubAlerts = onSnapshot(alertsQuery, (snapshot) => {
+        const container = document.getElementById("guard-alerts-container");
+        document.getElementById("guard-alerts-count").textContent = snapshot.size;
+
+        if (snapshot.empty) {
+          container.innerHTML = `<p class="field-hint">No system notifications on file.</p>`;
+          return;
+        }
+
+        container.innerHTML = "";
+        snapshot.forEach(docSnap => {
+          const note = docSnap.data();
+          const date = note.createdAt ? note.createdAt.toDate().toLocaleDateString('en-AU') : "Just now";
+          const div = document.createElement("div");
+          div.className = "shift-card";
+          div.style.borderLeftColor = note.read ? "var(--border-color)" : "var(--primary)";
+          div.innerHTML = `
+            <div class="shift-card-header">
+              <strong style="font-size:1rem; color:${note.read ? 'var(--text-muted)' : 'var(--text-main)'}">${note.title}</strong>
+              <span style="font-size:0.75rem; color:var(--text-muted);">${date}</span>
+            </div>
+            <p style="margin:0.25rem 0 0.75rem 0; font-size:0.9rem; color:var(--text-muted);">${note.body}</p>
+            ${!note.read ? `<button class="btn btn-ghost btn-small" onclick="markAlertRead('${docSnap.id}')">Mark Read</button>` : ''}
+          `;
+          container.appendChild(div);
+        });
+      });
+      guardUnsubscribeList.push(unsubAlerts);
+    }
+
+    window.saveGuardProfileName = async function() {
+      const name = document.getElementById("guard-profile-name").value;
+      if (!name) return;
+      try {
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          displayName: name,
+          updatedAt: new Date()
+        });
+        showToast("Display name updated!", "success");
+      } catch (err) {
+        showToast("Update failed: " + err.message);
+      }
+    };
+
+    window.markAlertRead = async function(noteId) {
+      try {
+        await updateDoc(doc(db, "notifications", noteId), {
+          read: true
+        });
+        showToast("Alert marked read", "success");
+      } catch (err) {
+        showToast("Failed to update notification: " + err.message);
+      }
+    };
+
+    // Availability form submit
+    document.getElementById("guard-availability-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const weekStart = document.getElementById("avail-week-select").value;
+      const notes = document.getElementById("avail-notes").value;
+      if (!weekStart) {
+        showToast("Please pick a Monday start date.");
+        return;
+      }
+
+      const daysKeys = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+      const days = {};
+      daysKeys.forEach(dk => {
+        const start = document.getElementsByName(`${dk}_start_0`)[0].value;
+        const end = document.getElementsByName(`${dk}_end_0`)[0].value;
+        days[dk] = [{ start, end }];
+      });
+
+      const weekId = `${currentUser.uid}_${weekStart}`;
+      try {
+        await setDoc(doc(db, "availability", weekId), {
+          uid: currentUser.uid,
+          weekStart,
+          days,
+          notes,
+          updatedAt: new Date()
+        });
+        showToast("Availability schedule updated successfully!", "success");
+      } catch (err) {
+        showToast("Save failed: " + err.message);
+      }
+    });
+
+
+    // 7. SUPER ADMIN CRM LOGIC
+    let adminUnsubscribeList = [];
+    window.switchAdminTab = function(tabName, btn) {
+      const buttons = document.querySelectorAll('.nav-tabs[role="tablist"] .tab-btn');
+      buttons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      const panels = document.querySelectorAll('.admin-tab-panel');
+      panels.forEach(p => p.style.display = 'none');
+      document.getElementById(`admin-tab-${tabName}`).style.display = 'block';
+    };
+
+    function initSuperAdminListeners() {
+      adminUnsubscribeList.forEach(unsub => unsub());
+      adminUnsubscribeList = [];
+
+      // 1. Listen to global platformConfig
+      const unsubConfig = onSnapshot(doc(db, "platformConfig", "live"), (snap) => {
+        if (snap.exists()) {
+          const config = snap.data();
+          document.getElementById("metric-guard-count").textContent = config.verifiedGuardCount || 0;
+          document.getElementById("metric-p2-status").textContent = config.phase2Enabled ? "ACTIVE" : "OFF";
+          document.getElementById("metric-p2-status").style.color = config.phase2Enabled ? "var(--success)" : "var(--primary)";
+        }
+      });
+      adminUnsubscribeList.push(unsubConfig);
+
+      // 2. Listen to pending KYC applications
+      const kycQuery = query(collection(db, "users"), where("accessState", "==", "kyc_pending"), orderBy("updatedAt", "desc"));
+      const unsubKyc = onSnapshot(kycQuery, async (snapshot) => {
+        const tbody = document.getElementById("admin-kyc-tbody");
+        document.getElementById("metric-pending-count").textContent = snapshot.size;
+        document.getElementById("admin-kyc-badge").textContent = snapshot.size;
+
+        if (snapshot.empty) {
+          tbody.innerHTML = `<tr><td colspan="7" class="field-hint" style="text-align:center;">No pending KYC verification requests.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = "";
+        for (const userDocSnap of snapshot.docs) {
+          const user = userDocSnap.data();
+          // Fetch corresponding kyc detailed fields
+          const kycSnap = await getDoc(doc(db, "kyc", user.uid));
+          if (kycSnap.exists()) {
+            const kyc = kycSnap.data();
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td><strong>${kyc.email}</strong><br><span style="font-size:0.8rem; color:var(--text-muted);">${user.displayName || 'Applicant'}</span></td>
+              <td>${kyc.licenceNumber}</td>
+              <td>${kyc.licenceExpiry}</td>
+              <td>${kyc.subclasses.join(', ')}</td>
+              <td><button class="licence-preview-btn" onclick="window.open('${kyc.licenceFrontPath}', '_blank')">View Front</button></td>
+              <td><button class="licence-preview-btn" onclick="window.open('${kyc.licenceBackPath}', '_blank')">View Back</button></td>
+              <td>
+                <button class="btn btn-small" onclick="approveKyc('${user.uid}')" style="background:var(--success); color:#000; font-weight:700;">Approve</button>
+                <button class="btn btn-small" onclick="openRejectModal('${user.uid}')" style="background:var(--primary); color:var(--text-main);">Reject</button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          }
+        }
+      });
+      adminUnsubscribeList.push(unsubKyc);
+
+      // 3. Listen to verified guards list (Directory)
+      const directoryQuery = query(collection(db, "users"), where("accessState", "==", "verified"));
+      const unsubDirectory = onSnapshot(directoryQuery, async (snapshot) => {
+        liveVerifiedGuards = [];
+        const tbody = document.getElementById("admin-directory-tbody");
+        tbody.innerHTML = "";
+        
+        for (const userDocSnap of snapshot.docs) {
+          const user = userDocSnap.data();
+          const kycSnap = await getDoc(doc(db, "kyc", user.uid));
+          if (kycSnap.exists()) {
+            const kyc = kycSnap.data();
+            liveVerifiedGuards.push({ ...user, kyc });
+            const tr = document.createElement("tr");
+            tr.className = "guard-directory-row";
+            tr.innerHTML = `
+              <td><strong>${user.displayName || 'Guard'}</strong><br><span style="font-size:0.8rem; color:var(--text-muted);">${user.email}</span></td>
+              <td>${kyc.licenceNumber}</td>
+              <td>${kyc.subclasses.join(', ')}</td>
+              <td>${kyc.mobile}</td>
+              <td>${kyc.firstAidExpiry || 'Not Provided'}</td>
+              <td><span class="badge badge-verified">Verified</span></td>
+            `;
+            tbody.appendChild(tr);
+          }
+        }
+      });
+      adminUnsubscribeList.push(unsubDirectory);
+
+      // 4. Listen to jobs schedule
+      const jobsQuery = query(collection(db, "jobs"), orderBy("startAt", "asc"));
+      const unsubJobs = onSnapshot(jobsQuery, (snapshot) => {
+        const container = document.getElementById("admin-jobs-list");
+        document.getElementById("metric-jobs-count").textContent = snapshot.size;
+
+        if (snapshot.empty) {
+          container.innerHTML = `<p class="field-hint">No jobs scheduled yet.</p>`;
+          return;
+        }
+
+        container.innerHTML = "";
+        snapshot.forEach(docSnap => {
+          const job = docSnap.data();
+          const id = docSnap.id;
+          const start = job.startAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
+          const finish = job.finishAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
+          
+          let guardAssignedText = `<button class="btn btn-small" onclick="openAssignModal('${id}')">Assign Guard</button>`;
+          if (job.status === "assigned" && job.assignedUid) {
+            guardAssignedText = `assigned to <strong style="color:var(--success);">${job.assignedLicenceNumber || job.assignedUid}</strong>`;
+          }
+
+          const div = document.createElement("div");
+          div.className = "shift-card";
+          div.innerHTML = `
+            <div class="shift-card-header">
+              <h4 class="shift-title">${job.clientName} — ${job.suburb} (Postcode ${job.postcode})</h4>
+              <span class="badge" style="background:#0a0f1c; border: 1px solid var(--border-color); color:var(--text-main); font-size:0.75rem;">${job.status}</span>
+            </div>
+            <div class="shift-date">📅 ${start} to ${finish}</div>
+            <div class="shift-meta">
+              <span>📍 <strong>Address:</strong> ${job.siteAddress || "NSW"}</span>
+              <span>💼 <strong>Activities:</strong> ${job.requiredActivities.join(', ')}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(243, 238, 230, 0.05); padding-top:0.75rem; margin-top:0.75rem;">
+              <span>Roster status: ${guardAssignedText}</span>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      });
+      adminUnsubscribeList.push(unsubJobs);
+    }
+
+    // Approve applicant KYC
+    window.approveKyc = async function(uid) {
+      try {
+        const reviewKycFn = httpsCallable(functions, 'reviewKyc');
+        await reviewKycFn({ uid, decision: 'verified', notes: 'Approved via Super Admin Console' });
+        showToast("Guard approved and marked verified!", "success");
+      } catch (err) {
+        showToast("Approval failed: " + err.message);
+      }
+    };
+
+    // Reject applicant KYC modal controls
+    window.openRejectModal = function(uid) {
+      document.getElementById("reject-guard-uid").value = uid;
+      document.getElementById("reject-modal").classList.add("is-active");
+    };
+
+    window.closeRejectModal = function() {
+      document.getElementById("reject-modal").classList.remove("is-active");
+    };
+
+    document.getElementById("reject-confirm-btn").addEventListener("click", async () => {
+      const uid = document.getElementById("reject-guard-uid").value;
+      const reason = document.getElementById("reject-reason-input").value;
+      if (!reason) {
+        showToast("Enter a rejection reason.");
+        return;
+      }
+      try {
+        const reviewKycFn = httpsCallable(functions, 'reviewKyc');
+        await reviewKycFn({ uid, decision: 'rejected', reason });
+        closeRejectModal();
+        showToast("Guard rejected successfully.", "warning");
+      } catch (err) {
+        showToast("Rejection failed: " + err.message);
+      }
+    });
+
+    // Guard search filter logic
+    window.triggerGuardSearch = function() {
+      const q = document.getElementById("admin-guard-search").value.toLowerCase();
+      const rows = document.querySelectorAll(".guard-directory-row");
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(q) ? "table-row" : "none";
+      });
+    };
+
+    // Create New Job Shift
+    document.getElementById("admin-create-job-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const clientName = document.getElementById("job-client").value;
+      const suburb = document.getElementById("job-suburb").value;
+      const postcode = document.getElementById("job-postcode").value;
+      const siteAddress = document.getElementById("job-address").value;
+      const startAt = new Date(document.getElementById("job-start").value);
+      const finishAt = new Date(document.getElementById("job-finish").value);
+      const brief = document.getElementById("job-brief").value;
+      
+      const requiresFirstAid = document.getElementById("job-flag-fa").checked;
+      const requiresDog = document.getElementById("job-flag-dog").checked;
+      const requiresArmed = document.getElementById("job-flag-armed").checked;
+
+      const requiredActivities = Array.from(document.querySelectorAll('input[name="job-activity"]:checked')).map(cb => cb.value);
+      if (requiredActivities.length === 0) {
+        showToast("Select at least one required activity.");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "jobs"), {
+          clientName,
+          suburb,
+          postcode,
+          siteAddress,
+          startAt,
+          finishAt,
+          brief,
+          requiredActivities,
+          requiresFirstAid,
+          requiresDog,
+          requiresArmed,
+          status: "open",
+          jurisdiction: "NSW",
+          assignedUid: null,
+          assignedSubclasses: null,
+          assignedLicenceNumber: null,
+          createdByUid: currentUser.uid,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+        showToast("Shift created successfully!", "success");
+        document.getElementById("admin-create-job-form").reset();
+      } catch (err) {
+        showToast("Save failed: " + err.message);
+      }
+    });
+
+    // Seed mock jobs across NSW helper
+    window.triggerSeedJobs = async function() {
+      const mockJobs = [
+        {
+          clientName: "Darling Harbour Entertainment Hub",
+          suburb: "Sydney",
+          postcode: "2000",
+          siteAddress: "Darling Drive, Sydney NSW",
+          startAt: new Date(Date.now() + 86400000), // tomorrow
+          finishAt: new Date(Date.now() + 115200000),
+          brief: "Provide evening crowd control at entrance gates. Check IDs. HLTAID011 first aid is mandatory.",
+          requiredActivities: ["crowd_control"],
+          requiresFirstAid: true,
+          requiresDog: false,
+          requiresArmed: false
+        },
+        {
+          clientName: "Parramatta Plaza Armored Pickups",
+          suburb: "Parramatta",
+          postcode: "2150",
+          siteAddress: "Macquarie St, Parramatta NSW",
+          startAt: new Date(Date.now() + 172800000),
+          finishAt: new Date(Date.now() + 201600000),
+          brief: "Armored escort transit from central plaza banks to vault. Requires 1C cash transit subclass.",
+          requiredActivities: ["cash_in_transit"],
+          requiresFirstAid: false,
+          requiresDog: false,
+          requiresArmed: true
+        },
+        {
+          clientName: "Penrith Heavy Logistics Facility",
+          suburb: "Penrith",
+          postcode: "2750",
+          siteAddress: "Castlereagh Rd, Penrith NSW",
+          startAt: new Date(Date.now() + 259200000),
+          finishAt: new Date(Date.now() + 302400000),
+          brief: "K9 night perimeter secure patrol. Handler must hold 1D dog handler licence.",
+          requiredActivities: ["dog_team"],
+          requiresFirstAid: false,
+          requiresDog: true,
+          requiresArmed: false
+        }
+      ];
+
+      try {
+        for (const job of mockJobs) {
+          await addDoc(collection(db, "jobs"), {
+            ...job,
+            status: "open",
+            jurisdiction: "NSW",
+            assignedUid: null,
+            assignedSubclasses: null,
+            assignedLicenceNumber: null,
+            createdByUid: currentUser.uid,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          });
+        }
+        showToast("Mock jobs successfully seeded in NSW!", "success");
+      } catch (err) {
+        showToast("Seed failed: " + err.message);
+      }
+    };
+
+    // Job Assign Modal & Matching Roster Validation
+    window.openAssignModal = function(jobId) {
+      document.getElementById("assign-job-id").value = jobId;
+      
+      // Pull job data to show details and filter guards
+      const jobDocRef = doc(db, "jobs", jobId);
+      getDoc(jobDocRef).then(snap => {
+        if (!snap.exists()) return;
+        const job = snap.data();
+        document.getElementById("assign-job-details-text").innerHTML = `
+          Job: <strong>${job.clientName} (${job.suburb})</strong><br>
+          Required Activities: <strong>${job.requiredActivities.join(', ')}</strong><br>
+          Needs: ${job.requiresFirstAid ? '⭐ First Aid' : ''} ${job.requiresDog ? '🐕 K9 Dog Team' : ''} ${job.requiresArmed ? '🔫 Armed Guard' : ''}
+        `;
+
+        // Filter and build select dropdown options
+        const select = document.getElementById("assign-guard-select");
+        select.innerHTML = '<option value="">-- Choose Guard --</option>';
+
+        liveVerifiedGuards.forEach(g => {
+          let isEligible = true;
+          const held = g.kyc.subclasses || [];
+          const required = job.requiredActivities || [];
+          
+          // Roster rule: checks
+          if (job.requiresDog && !held.includes("1D")) isEligible = false;
+          if (job.requiresArmed && !held.includes("1F")) isEligible = false;
+          if (required.includes("cash_in_transit") && !held.includes("1C")) isEligible = false;
+          if (required.includes("bodyguard") && !held.includes("1B")) isEligible = false;
+          
+          // Check general roster activity matching
+          const authorisations = new Set();
+          held.forEach(code => {
+            if (code === "1A") {
+              ["static", "mobile_patrol", "alarm_response", "crowd_control", "event_security", "concierge", "construction_gate", "bag_search", "access_screening", "event_closeout"].forEach(a => authorisations.add(a));
+            } else if (code === "1B") {
+              authorisations.add("bodyguard");
+            } else if (code === "1C") {
+              authorisations.add("cash_in_transit");
+            } else if (code === "1D") {
+              authorisations.add("dog_team");
+            } else if (code === "1E") {
+              authorisations.add("monitoring_centre");
+            } else if (code === "1F") {
+              authorisations.add("armed");
+            }
+          });
+          
+          const activitiesMatch = required.every(a => authorisations.has(a));
+          if (!activitiesMatch) isEligible = false;
+
+          // Check First Aid expiry if required
+          if (job.requiresFirstAid) {
+            const fa = g.kyc.firstAidExpiry;
+            if (!fa || new Date(fa) < new Date()) {
+              isEligible = false;
+            }
+          }
+
+          if (isEligible) {
+            const opt = document.createElement("option");
+            opt.value = g.uid;
+            opt.textContent = `${g.displayName || 'Guard'} (${g.kyc.licenceNumber}) - Subclasses: ${held.join(',')}`;
+            select.appendChild(opt);
+          }
+        });
+
+        document.getElementById("assign-modal").classList.add("is-active");
+      });
+    };
+
+    window.closeAssignModal = function() {
+      document.getElementById("assign-modal").classList.remove("is-active");
+    };
+
+    document.getElementById("assign-confirm-btn").addEventListener("click", async () => {
+      const jobId = document.getElementById("assign-job-id").value;
+      const guardUid = document.getElementById("assign-guard-select").value;
+      if (!guardUid) {
+        showToast("Please select a valid matching guard.");
+        return;
+      }
+
+      try {
+        const assignJobFn = httpsCallable(functions, 'assignJob');
+        await assignJobFn({ jobId, guardUid });
+        closeAssignModal();
+        showToast("Guard successfully assigned to roster shift!", "success");
+      } catch (err) {
+        showToast("Assignment failed: " + err.message);
+      }
+    });
+
+  </script>
+</body>
+</html>

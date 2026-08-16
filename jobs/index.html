@@ -97,144 +97,455 @@
     <span>Jobs</span>
   </nav>
   <div class="container section-header loc-index-head">
-    <p class="eyebrow">Guard portal · two tiers</p>
-    <h1>Jobs system data flow</h1>
-    <p class="lead">Tier 1 is the working core: sign-in, guard-only access, KYC, availability and super-admin delegation. Tier 2 — public roster and homepage search — waits until 10 verified guards are live.</p>
+    <p class="eyebrow">NSW Operatives Portal</p>
+    <h1>Active Security Guard Jobs NSW</h1>
+    <p class="lead">Browse active rosters and shifts across New South Wales. Only verified NSW Class 1 operatives matching Schedule D subclasses may apply.</p>
   </div>
 
-  <section class="container dfd-legend" aria-label="How to read the diagram">
-    <span class="dfd-pill dfd-pill-actor">Person</span>
-    <span class="dfd-pill dfd-pill-sys">System</span>
-    <span class="dfd-pill dfd-pill-store">Store</span>
-    <span class="dfd-pill dfd-pill-t1">Tier 1 — build now</span>
-    <span class="dfd-pill dfd-pill-t2">Tier 2 — after 10 verified guards</span>
-  </section>
+  <style>
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+    .filter-btn {
+      background: #10182b;
+      border: 1px solid rgba(243, 238, 230, 0.15);
+      color: #9aa3b5;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .filter-btn:hover, .filter-btn.is-active {
+      background: #c22712;
+      color: #f3eee6;
+      border-color: #c22712;
+      box-shadow: 0 4px 12px rgba(194, 39, 18, 0.3);
+    }
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .job-card {
+      background: rgba(16, 24, 43, 0.85);
+      border: 1px solid rgba(243, 238, 230, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .job-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #c22712;
+      opacity: 0.8;
+    }
+    .job-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(194, 39, 18, 0.4);
+      box-shadow: 0 12px 30px rgba(7, 11, 20, 0.5);
+    }
+    .job-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+    .job-title {
+      font-size: 1.25rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      color: #f3eee6;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .subclass-chip {
+      background: rgba(194, 39, 18, 0.15);
+      border: 1px solid rgba(194, 39, 18, 0.3);
+      color: #ff523b;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: monospace;
+      white-space: nowrap;
+    }
+    .job-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+      font-size: 0.9rem;
+      color: #9aa3b5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .job-meta li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .job-meta li strong {
+      color: #f3eee6;
+    }
+    .job-description {
+      font-size: 0.85rem;
+      color: #9aa3b5;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+    .job-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .job-actions .btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.75rem;
+      font-size: 0.85rem;
+    }
+    .compliance-section {
+      background: rgba(16, 24, 43, 0.5);
+      border: 1px solid rgba(243, 238, 230, 0.05);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .compliance-section summary {
+      color: #f3eee6;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      outline: none;
+    }
+    .compliance-section[open] summary {
+      border-bottom: 1px solid rgba(243, 238, 230, 0.1);
+      margin-bottom: 1rem;
+    }
+  </style>
 
-  <figure class="container dfd" aria-label="OnGuard jobs data flow diagram">
-    <svg viewBox="0 0 1100 980" role="img" aria-labelledby="dfd-title dfd-desc">
-      <title id="dfd-title">OnGuard Protection guard jobs data flow</title>
-      <desc id="dfd-desc">Clients send job requests to super admin. Guards sign in with Firebase, pass guard-only verification and KYC, then manage availability. Super admin searches verified guards and delegates tasks. Public search is phase two.</desc>
-      <defs>
-        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#c22712"/>
-        </marker>
-        <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa3b5"/>
-        </marker>
-      </defs>
+  <div class="container">
+    <div class="filter-bar" role="tablist" aria-label="Filter jobs by subclass">
+      <button class="filter-btn is-active" role="tab" aria-selected="true" onclick="filterJobs('all', this)">All Subclasses</button>
+      <button class="filter-btn" role="tab" aria-selected="false" onclick="filterJobs('1A', this)">1A Static / Patrol</button>
+      <button class="filter-btn" role="tab" aria-selected="false" onclick="filterJobs('1B', this)">1B Bodyguard</button>
+      <button class="filter-btn" role="tab" aria-selected="false" onclick="filterJobs('1C', this)">1C Cash-in-Transit</button>
+      <button class="filter-btn" role="tab" aria-selected="false" onclick="filterJobs('1D', this)">1D Dog Handler</button>
+      <button class="filter-btn" role="tab" aria-selected="false" onclick="filterJobs('1E', this)">1E Monitoring</button>
+      <button class="filter-btn" role="tab" aria-selected="false" onclick="filterJobs('1F', this)">1F Armed Guard</button>
+    </div>
 
-      <text x="20" y="28" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">TIER 1 — CORE (authentication, KYC, availability, delegation)</text>
+    <div class="jobs-grid" id="jobs-container">
+      <!-- 1A Concierge -->
+      <div class="job-card" data-subclass="1A">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">Corporate Security Officer / Concierge</h3>
+            <span class="subclass-chip">Class 1A</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Sydney CBD, NSW</li>
+            <li><strong>Wage:</strong> $32.50 - $45.00 / hr</li>
+            <li><strong>Shifts:</strong> Ongoing Nights / Full-time</li>
+          </ul>
+          <p class="job-description">High-end corporate lobby security, access screening, concierge services, and regular safety patrols. Requires active NSW Class 1A security licence and excellent customer service skills.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1A" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
 
-      <rect x="20" y="48" width="160" height="64" rx="8" fill="#122556" stroke="#f3eee6"/>
-      <text x="100" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">CLIENT</text>
-      <text x="100" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">quote / job request</text>
+      <!-- 1A Crowd Controller -->
+      <div class="job-card" data-subclass="1A">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">Venue Crowd Controller</h3>
+            <span class="subclass-chip">Class 1A</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Darling Harbour, NSW</li>
+            <li><strong>Wage:</strong> $42.00 - $55.00 / hr</li>
+            <li><strong>Shifts:</strong> Weekend Nights / Casual</li>
+          </ul>
+          <p class="job-description">Venue crowd control, ID checking, licensing compliance, and incident management at a major hospitality venue. Requires current First Aid (HLTAID011) and active NSW Class 1A licence.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1A&firstaid=true" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
 
-      <rect x="260" y="48" width="200" height="64" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="360" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">SUPER ADMIN</text>
-      <text x="360" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">search · delegate tasks</text>
+      <!-- 1B Bodyguard -->
+      <div class="job-card" data-subclass="1B">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">Close Personal Protection Officer</h3>
+            <span class="subclass-chip">Class 1B</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Double Bay, NSW</li>
+            <li><strong>Wage:</strong> $65.00 - $90.00 / hr</li>
+            <li><strong>Shifts:</strong> On-call / Contract</li>
+          </ul>
+          <p class="job-description">Close personal protection and security detail for corporate VIPs and visiting dignitaries. High levels of discretion and advanced defensive training required. Must hold current NSW 1B bodyguard license.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1B" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
 
-      <rect x="540" y="48" width="200" height="64" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="640" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">JOB STORE</text>
-      <text x="640" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">shifts · status · site brief</text>
+      <!-- 1C Cash-in-Transit -->
+      <div class="job-card" data-subclass="1C">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">Cash-In-Transit (CIT) Armed Escort</h3>
+            <span class="subclass-chip">Class 1C</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Parramatta, NSW</li>
+            <li><strong>Wage:</strong> $45.00 - $58.00 / hr</li>
+            <li><strong>Shifts:</strong> Day shifts / Part-time</li>
+          </ul>
+          <p class="job-description">Secure transit of cash and high-value physical assets via armored vehicle. Roster enforces armed carrying protocols. Requires active NSW 1C (Cash-in-Transit) and 1F (Armed Guard) licences with handgun certifications.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1C" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
 
-      <rect x="820" y="48" width="260" height="64" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="950" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">NOTIFICATIONS</text>
-      <text x="950" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">push / email / SMS to guard</text>
+      <!-- 1D Dog Handler -->
+      <div class="job-card" data-subclass="1D">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">K9 Security Patrol Handler</h3>
+            <span class="subclass-chip">Class 1D</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Penrith, NSW</li>
+            <li><strong>Wage:</strong> $48.00 - $65.00 / hr</li>
+            <li><strong>Shifts:</strong> Night Shifts / Ongoing</li>
+          </ul>
+          <p class="job-description">Perimeter guarding and access deterrents at a secure logistics hub using trained security canine teams. Must hold NSW Class 1D dog handler license and own fully certified security dog.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1D" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
 
-      <line x1="180" y1="80" x2="260" y2="80" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
-      <line x1="460" y1="80" x2="540" y2="80" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
-      <line x1="740" y1="80" x2="820" y2="80" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
+      <!-- 1E Monitoring centre -->
+      <div class="job-card" data-subclass="1E">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">Monitoring Centre Operator</h3>
+            <span class="subclass-chip">Class 1E</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Mascot, NSW</li>
+            <li><strong>Wage:</strong> $34.00 - $46.00 / hr</li>
+            <li><strong>Shifts:</strong> 24/7 Roster / Full-time</li>
+          </ul>
+          <p class="job-description">Remote CCTV feed monitoring, response dispatch management, and virtual access gate control at our central alarm monitoring facility. Must hold active NSW 1E monitoring centre operator licence.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1E" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
 
-      <rect x="20" y="170" width="160" height="64" rx="8" fill="#122556" stroke="#f3eee6"/>
-      <text x="100" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">GUARD</text>
-      <text x="100" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">applicant / officer</text>
+      <!-- 1F Armed Guard -->
+      <div class="job-card" data-subclass="1F">
+        <div>
+          <div class="job-card-header">
+            <h3 class="job-title">Armed Security Guard</h3>
+            <span class="subclass-chip">Class 1F</span>
+          </div>
+          <ul class="job-meta">
+            <li><strong>Location:</strong> Sydney CBD, NSW</li>
+            <li><strong>Wage:</strong> $46.00 - $60.00 / hr</li>
+            <li><strong>Shifts:</strong> Day shifts / Full-time</li>
+          </ul>
+          <p class="job-description">High-visibility armed deterrence inside a premium financial headquarters. Focus on asset protection and incident response. Must hold current NSW 1F armed guard licence and appropriate firearms permit.</p>
+        </div>
+        <div class="job-actions">
+          <a href="../platform/index.html?apply=true&role=1F" class="btn btn-primary">Apply Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      <rect x="260" y="170" width="200" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="360" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">FIREBASE AUTH</text>
-      <text x="360" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">Google · email · phone</text>
-      <text x="360" y="234" text-anchor="middle" fill="#9aa3b5" font-size="11">session token</text>
+  <script>
+    function filterJobs(subclass, btn) {
+      // Update active button state
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
 
-      <rect x="540" y="170" width="200" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="640" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">GUARD GATE</text>
-      <text x="640" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">verified guard only</text>
-      <text x="640" y="234" text-anchor="middle" fill="#9aa3b5" font-size="11">else force logout</text>
+      // Filter cards
+      const cards = document.querySelectorAll('.job-card');
+      cards.forEach(card => {
+        if (subclass === 'all' || card.getAttribute('data-subclass') === subclass) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
 
-      <rect x="820" y="170" width="260" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="950" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">KYC INTAKE</text>
-      <text x="950" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">licence front + back</text>
-      <text x="950" y="234" text-anchor="middle" fill="#9aa3b5" font-size="11">NSW classes · mobile · email</text>
+  <details class="container compliance-section">
+    <summary>View Technical Data Flow Diagram (OG-LEG-2026-001)</summary>
+    <p style="color: #9aa3b5; margin-bottom: 1.5rem; font-size: 0.9rem;">The following diagram illustrates the two-tier authentication, KYC intake, and role-mapping flow mandated by OnGuard Legal Pack OG-LEG-2026-001.</p>
+    <figure class="dfd" aria-label="OnGuard jobs data flow diagram" style="border: none; padding: 0;">
+      <svg viewBox="0 0 1100 980" role="img" aria-labelledby="dfd-title dfd-desc">
+        <title id="dfd-title">OnGuard Protection guard jobs data flow</title>
+        <desc id="dfd-desc">Clients send job requests to super admin. Guards sign in with Firebase, pass guard-only verification and KYC, then manage availability. Super admin searches verified guards and delegates tasks. Public search is phase two.</desc>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#c22712"/>
+          </marker>
+          <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa3b5"/>
+          </marker>
+        </defs>
 
-      <line x1="180" y1="202" x2="260" y2="202" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
-      <line x1="460" y1="214" x2="540" y2="214" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
-      <line x1="740" y1="214" x2="820" y2="214" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="20" y="28" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">TIER 1 — CORE (authentication, KYC, availability, delegation)</text>
 
-      <rect x="20" y="320" width="240" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="140" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">KYC STORE</text>
-      <text x="140" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">encrypted images + classes</text>
-      <text x="140" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">approval state</text>
+        <rect x="20" y="48" width="160" height="64" rx="8" fill="#122556" stroke="#f3eee6"/>
+        <text x="100" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">CLIENT</text>
+        <text x="100" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">quote / job request</text>
 
-      <rect x="300" y="320" width="240" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="420" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">BANK VAULT</text>
-      <text x="420" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">BSB + account (encrypted)</text>
-      <text x="420" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">payroll use only</text>
+        <rect x="260" y="48" width="200" height="64" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="360" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">SUPER ADMIN</text>
+        <text x="360" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">search · delegate tasks</text>
 
-      <rect x="580" y="320" width="240" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="700" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">SUPER API</text>
-      <text x="700" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">fund / SuperStream</text>
-      <text x="700" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">or USI if own fund</text>
+        <rect x="540" y="48" width="200" height="64" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="640" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">JOB STORE</text>
+        <text x="640" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">shifts · status · site brief</text>
 
-      <rect x="860" y="320" width="220" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
-      <text x="970" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">GUARD ADMIN</text>
-      <text x="970" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">week-by-week availability</text>
-      <text x="970" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">profile / short bio</text>
+        <rect x="820" y="48" width="260" height="64" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="950" y="76" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">NOTIFICATIONS</text>
+        <text x="950" y="94" text-anchor="middle" fill="#9aa3b5" font-size="11">push / email / SMS to guard</text>
 
-      <line x1="950" y1="258" x2="140" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
-      <line x1="950" y1="258" x2="420" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
-      <line x1="950" y1="258" x2="700" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
-      <line x1="740" y1="258" x2="970" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <line x1="180" y1="80" x2="260" y2="80" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="460" y1="80" x2="540" y2="80" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="740" y1="80" x2="820" y2="80" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
 
-      <line x1="970" y1="408" x2="950" y2="112" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
-      <line x1="360" y1="112" x2="360" y2="160" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <line x1="420" y1="408" x2="360" y2="408" stroke="#9aa3b5" stroke-width="1.5"/>
-      <line x1="360" y1="408" x2="360" y2="258" stroke="#9aa3b5" stroke-width="1.5" marker-end="url(#arrow2)"/>
+        <rect x="20" y="170" width="160" height="64" rx="8" fill="#122556" stroke="#f3eee6"/>
+        <text x="100" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">GUARD</text>
+        <text x="100" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">applicant / officer</text>
 
-      <text x="20" y="460" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">TIER 2 — AFTER 10 VERIFIED GUARDS (not built in the first release)</text>
+        <rect x="260" y="170" width="200" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="360" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">FIREBASE AUTH</text>
+        <text x="360" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">Google · email · phone</text>
+        <text x="360" y="234" text-anchor="middle" fill="#9aa3b5" font-size="11">session token</text>
 
-      <rect x="20" y="480" width="320" height="80" rx="8" fill="#070b14" stroke="#9aa3b5" stroke-dasharray="6 4"/>
-      <text x="180" y="510" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">HOMEPAGE SEARCH</text>
-      <text x="180" y="530" text-anchor="middle" fill="#9aa3b5" font-size="11">location · time · experience</text>
-      <text x="180" y="546" text-anchor="middle" fill="#9aa3b5" font-size="11">clients filter available guards</text>
+        <rect x="540" y="170" width="200" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="640" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">GUARD GATE</text>
+        <text x="640" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">verified guard only</text>
+        <text x="640" y="234" text-anchor="middle" fill="#9aa3b5" font-size="11">else force logout</text>
 
-      <rect x="390" y="480" width="320" height="80" rx="8" fill="#070b14" stroke="#9aa3b5" stroke-dasharray="6 4"/>
-      <text x="550" y="510" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">PUBLIC ROSTER</text>
-      <text x="550" y="530" text-anchor="middle" fill="#9aa3b5" font-size="11">verified guards only</text>
-      <text x="550" y="546" text-anchor="middle" fill="#9aa3b5" font-size="11">bio · licences · availability</text>
+        <rect x="820" y="170" width="260" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="950" y="198" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">KYC INTAKE</text>
+        <text x="950" y="216" text-anchor="middle" fill="#9aa3b5" font-size="11">licence front + back</text>
+        <text x="950" y="234" text-anchor="middle" fill="#9aa3b5" font-size="11">NSW classes · mobile · email</text>
 
-      <rect x="760" y="480" width="320" height="80" rx="8" fill="#070b14" stroke="#9aa3b5" stroke-dasharray="6 4"/>
-      <text x="920" y="510" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">CLIENT BOOKING</text>
-      <text x="920" y="530" text-anchor="middle" fill="#9aa3b5" font-size="11">request → super admin</text>
-      <text x="920" y="546" text-anchor="middle" fill="#9aa3b5" font-size="11">then same Tier 1 delegation</text>
+        <line x1="180" y1="202" x2="260" y2="202" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="460" y1="214" x2="540" y2="214" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="740" y1="214" x2="820" y2="214" stroke="#c22712" stroke-width="2" marker-end="url(#arrow)"/>
 
-      <line x1="180" y1="560" x2="180" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <line x1="180" y1="620" x2="550" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <line x1="550" y1="560" x2="550" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <line x1="920" y1="560" x2="920" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <line x1="550" y1="620" x2="920" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <line x1="640" y1="620" x2="640" y2="112" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow2)"/>
+        <rect x="20" y="320" width="240" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="140" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">KYC STORE</text>
+        <text x="140" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">encrypted images + classes</text>
+        <text x="140" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">approval state</text>
 
-      <text x="20" y="670" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">NSW LICENCE CLASSES CAPTURED AT KYC</text>
-      <text x="20" y="694" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">1A Unarmed · 1B Bodyguard · 1C Crowd controller · 1D Dog handler · 1E Cash-in-transit · 1F Armed</text>
-      <text x="20" y="716" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">2A Consultant · 2B Seller · 2C Equipment specialist · 2D Locksmith · plus any current Class 2 subclass on the card</text>
+        <rect x="300" y="320" width="240" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="420" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">BANK VAULT</text>
+        <text x="420" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">BSB + account (encrypted)</text>
+        <text x="420" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">payroll use only</text>
 
-      <text x="20" y="756" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">HARD RULES</text>
-      <text x="20" y="780" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">1. Non-guards are signed out immediately after auth. No KYC form, no admin panel.</text>
-      <text x="20" y="802" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">2. Bank BSB/account and licence images never appear in sitemaps, search, or the public roster.</text>
-      <text x="20" y="824" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">3. Super: call a SuperStream / fund-lookup API; if the guard has their own fund they enter the USI instead.</text>
-      <text x="20" y="846" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">4. Super admin sees only successfully registered (KYC-approved) guards, with search, then assigns jobs.</text>
-      <text x="20" y="868" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">5. Homepage search and public roster stay off until the verified-guard count is greater than 10.</text>
-    </svg>
-    <figcaption>Data moves left to right for a new guard, and right to left when a client job is delegated. Dashed lines are Tier 2.</figcaption>
-  </figure>
+        <rect x="580" y="320" width="240" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="700" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">SUPER API</text>
+        <text x="700" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">fund / SuperStream</text>
+        <text x="700" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">or USI if own fund</text>
+
+        <rect x="860" y="320" width="220" height="88" rx="8" fill="#10182b" stroke="#c22712"/>
+        <text x="970" y="348" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">GUARD ADMIN</text>
+        <text x="970" y="366" text-anchor="middle" fill="#9aa3b5" font-size="11">week-by-week availability</text>
+        <text x="970" y="384" text-anchor="middle" fill="#9aa3b5" font-size="11">profile / short bio</text>
+
+        <line x1="950" y1="258" x2="140" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <line x1="950" y1="258" x2="420" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <line x1="950" y1="258" x2="700" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <line x1="740" y1="258" x2="970" y2="320" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <line x1="970" y1="408" x2="950" y2="112" stroke="#c22712" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <line x1="360" y1="112" x2="360" y2="160" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <line x1="420" y1="408" x2="360" y2="408" stroke="#9aa3b5" stroke-width="1.5"/>
+        <line x1="360" y1="408" x2="360" y2="258" stroke="#9aa3b5" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+        <text x="20" y="460" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">TIER 2 — AFTER 10 VERIFIED GUARDS (not built in the first release)</text>
+
+        <rect x="20" y="480" width="320" height="80" rx="8" fill="#070b14" stroke="#9aa3b5" stroke-dasharray="6 4"/>
+        <text x="180" y="510" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">HOMEPAGE SEARCH</text>
+        <text x="180" y="530" text-anchor="middle" fill="#9aa3b5" font-size="11">location · time · experience</text>
+        <text x="180" y="546" text-anchor="middle" fill="#9aa3b5" font-size="11">clients filter available guards</text>
+
+        <rect x="390" y="480" width="320" height="80" rx="8" fill="#070b14" stroke="#9aa3b5" stroke-dasharray="6 4"/>
+        <text x="550" y="510" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">PUBLIC ROSTER</text>
+        <text x="550" y="530" text-anchor="middle" fill="#9aa3b5" font-size="11">verified guards only</text>
+        <text x="550" y="546" text-anchor="middle" fill="#9aa3b5" font-size="11">bio · licences · availability</text>
+
+        <rect x="760" y="480" width="320" height="80" rx="8" fill="#070b14" stroke="#9aa3b5" stroke-dasharray="6 4"/>
+        <text x="920" y="510" text-anchor="middle" fill="#f3eee6" font-size="14" font-family="Barlow Condensed, sans-serif">CLIENT BOOKING</text>
+        <text x="920" y="530" text-anchor="middle" fill="#9aa3b5" font-size="11">request → super admin</text>
+        <text x="920" y="546" text-anchor="middle" fill="#9aa3b5" font-size="11">then same Tier 1 delegation</text>
+
+        <line x1="180" y1="560" x2="180" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <line x1="180" y1="620" x2="550" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <line x1="550" y1="560" x2="550" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <line x1="920" y1="560" x2="920" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <line x1="550" y1="620" x2="920" y2="620" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <line x1="640" y1="620" x2="640" y2="112" stroke="#9aa3b5" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow2)"/>
+
+        <text x="20" y="670" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">NSW LICENCE CLASSES CAPTURED AT KYC</text>
+        <text x="20" y="694" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">1A Unarmed · 1B Bodyguard · 1C Crowd controller · 1D Dog handler · 1E Cash-in-transit · 1F Armed</text>
+        <text x="20" y="716" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">2A Consultant · 2B Seller · 2C Equipment specialist · 2D Locksmith · plus any current Class 2 subclass on the card</text>
+
+        <text x="20" y="756" fill="#9aa3b5" font-size="13" font-family="Barlow, sans-serif">HARD RULES</text>
+        <text x="20" y="780" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">1. Non-guards are signed out immediately after auth. No KYC form, no admin panel.</text>
+        <text x="20" y="802" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">2. Bank BSB/account and licence images never appear in sitemaps, search, or the public roster.</text>
+        <text x="20" y="824" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">3. Super: call a SuperStream / fund-lookup API; if the guard has their own fund they enter the USI instead.</text>
+        <text x="20" y="846" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">4. Super admin sees only successfully registered (KYC-approved) guards, with search, then assigns jobs.</text>
+        <text x="20" y="868" fill="#f3eee6" font-size="13" font-family="Barlow, sans-serif">5. Homepage search and public roster stay off until the verified-guard count is greater than 10.</text>
+      </svg>
+    </figure>
+  </details>
 
   <article class="container prose reveal">
     <h2>Tier 1 — what we build first</h2>
