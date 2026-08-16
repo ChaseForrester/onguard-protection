@@ -37,6 +37,15 @@ HERO_META = {
 }
 INDEX_ROBOTS = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 NOINDEX_ROBOTS = "noindex, follow"
+GA_MEASUREMENT_ID = "G-BCCYLJFLXP"
+GTAG = f'''<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_MEASUREMENT_ID}');
+</script>'''
 
 SERVICES = [
     {
@@ -573,6 +582,7 @@ def head(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  {GTAG}
   <title>{title}</title>
   <meta name="description" content="{description}">
   <meta name="robots" content="{robots}">
