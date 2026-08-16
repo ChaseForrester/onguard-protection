@@ -554,7 +554,8 @@ def head(
   <link rel="alternate" href="{canonical}" hreflang="x-default">
   <link rel="alternate" type="text/markdown" href="{prefix}llms.txt" title="LLM instructions">
   <link rel="icon" href="{prefix}assets/img/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="icon" href="{prefix}assets/img/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="icon" href="{prefix}assets/img/favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="icon" href="{prefix}assets/img/favicon-16.png" type="image/png" sizes="16x16">
   <link rel="apple-touch-icon" href="{prefix}assets/img/apple-touch-icon.png" sizes="180x180">
   <link rel="manifest" href="{prefix}site.webmanifest">
   <meta property="og:type" content="website">
@@ -599,7 +600,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
     <div class="container">
       <nav class="main-nav" aria-label="Primary">
         <a href="{home}" class="logo">
-          <img src="{prefix}assets/img/logo-header.webp" width="56" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
+          <img src="{prefix}assets/brand/onguard-lockup-480.webp" width="220" height="90" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
         </a>
         <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <span></span><span></span><span></span>
@@ -622,14 +623,17 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
   <footer class="site-footer" id="contact">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="{prefix}assets/img/logo-72.webp" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
+        <img src="{prefix}assets/brand/onguard-lockup-480.webp" width="220" height="90" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
         <p>We don’t just show up. We stand guard. Licensed NSW security from Sydney to the Hunter, South Coast and Canberra.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/ogprotection/" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Facebook">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            <img src="{prefix}assets/brand/icon-facebook.svg" width="22" height="22" alt="Facebook">
           </a>
           <a href="https://www.instagram.com/onguard_protection/" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Instagram">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <img src="{prefix}assets/brand/icon-instagram.svg" width="22" height="22" alt="Instagram">
+          </a>
+          <a href="https://www.google.com/search?q=OnGuard+Protection+NSW+security" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Google">
+            <img src="{prefix}assets/brand/icon-google.svg" width="22" height="22" alt="Google">
           </a>
         </div>
         <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
@@ -821,8 +825,8 @@ def org_schema() -> dict:
         "@id": f"{SITE}/#business",
         "name": "OnGuard Protection",
         "url": SITE,
-        "image": f"{SITE}/assets/logo.jpg",
-        "logo": f"{SITE}/assets/logo.jpg",
+        "image": f"{SITE}/assets/brand/onguard-lockup.png",
+        "logo": f"{SITE}/assets/brand/onguard-mark.png",
         "telephone": TEL,
         "email": EMAIL,
         "priceRange": "$$",
@@ -1340,9 +1344,11 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
                 "lang": "en-AU",
                 "icons": [
                     {"src": "assets/img/favicon-32.png", "sizes": "32x32", "type": "image/png"},
-                    {"src": "assets/img/favicon-48.png", "sizes": "48x48", "type": "image/png"},
+                    {"src": "assets/img/favicon-64.png", "sizes": "64x64", "type": "image/png"},
+                    {"src": "assets/img/favicon-128.png", "sizes": "128x128", "type": "image/png"},
                     {"src": "assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
                     {"src": "assets/img/favicon-192.png", "sizes": "192x192", "type": "image/png"},
+                    {"src": "assets/img/favicon-512.png", "sizes": "512x512", "type": "image/png"},
                 ],
             },
             indent=2,

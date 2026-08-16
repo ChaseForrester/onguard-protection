@@ -241,8 +241,8 @@ h3 {
 }
 
 .site-header.scrolled .logo img {
-    height: 48px;
-    max-height: 48px;
+    height: 44px;
+    max-height: 44px;
 }
 
 .main-nav {
@@ -253,13 +253,13 @@ h3 {
 }
 
 .logo img {
-    height: 56px;
+    height: 52px;
     width: auto;
-    max-height: 56px;
-    max-width: 168px;
+    max-height: 52px;
+    max-width: 220px;
     object-fit: contain;
-    background: #fff;
-    padding: 3px;
+    background: transparent;
+    padding: 0;
 }
 
 .nav-links {
@@ -711,6 +711,13 @@ h3 {
     min-width: 180px;
 }
 
+.licence-stamp .stamp-mark {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    margin-bottom: 0.4rem;
+}
+
 .licence-stamp span,
 .licence-stamp a {
     display: block;
@@ -902,13 +909,13 @@ h3 {
 
 .site-footer img.footer-logo {
     display: block;
-    width: 72px !important;
-    height: 72px !important;
-    max-width: 72px !important;
-    max-height: 72px !important;
+    width: auto !important;
+    height: 52px !important;
+    max-width: 240px !important;
+    max-height: 52px !important;
     object-fit: contain;
-    background: #fff;
-    padding: 4px;
+    background: transparent;
+    padding: 0;
     margin-bottom: 1rem;
 }
 
@@ -939,11 +946,19 @@ h3 {
     display: grid;
     place-items: center;
     border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 8px;
+}
+
+.social-links a img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
 }
 
 .social-links a:hover {
-    background: var(--red);
-    border-color: var(--red);
+    transform: translateY(-2px);
+    border-color: #fff;
 }
 
 .footer-brand .tech-aid-badge {
@@ -1632,7 +1647,8 @@ h3 {
     }
 
     .logo img {
-        height: 46px;
+        height: 40px;
+        max-width: 168px;
     }
 
     .page-hero {
