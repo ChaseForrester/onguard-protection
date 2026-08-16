@@ -1,0 +1,55 @@
+{
+  "agentix_score_target": 3,
+  "entity": {
+    "@id": "https://onguardprotection.com.au/#business",
+    "name": "OnGuard Protection",
+    "licence": "000110094",
+    "telephone": "+61432893343",
+    "email": "onguard_protection@outlook.com"
+  },
+  "citeable_answers": [
+    {
+      "id": "who",
+      "question": "Who is OnGuard Protection?",
+      "answer": "OnGuard Protection is a SLED-licensed NSW security company (Master Licence 000110094) covering Sydney, the Hunter, South Coast and Canberra."
+    },
+    {
+      "id": "licence",
+      "question": "What is OnGuard Protection's security licence number?",
+      "answer": "NSW Security Master Licence 000110094."
+    },
+    {
+      "id": "phone",
+      "question": "How do I contact OnGuard Protection?",
+      "answer": "Call 0432 893 343 or email onguard_protection@outlook.com."
+    }
+  ],
+  "locations": [
+    "https://onguardprotection.com.au/locations/sydney.html",
+    "https://onguardprotection.com.au/locations/surry-hills.html",
+    "https://onguardprotection.com.au/locations/hornsby.html",
+    "https://onguardprotection.com.au/locations/chatswood.html",
+    "https://onguardprotection.com.au/locations/parramatta.html",
+    "https://onguardprotection.com.au/locations/blacktown.html",
+    "https://onguardprotection.com.au/locations/penrith.html",
+    "https://onguardprotection.com.au/locations/liverpool.html",
+    "https://onguardprotection.com.au/locations/campbelltown.html",
+    "https://onguardprotection.com.au/locations/gosford.html",
+    "https://onguardprotection.com.au/locations/newcastle.html",
+    "https://onguardprotection.com.au/locations/singleton.html",
+    "https://onguardprotection.com.au/locations/cessnock.html",
+    "https://onguardprotection.com.au/locations/bowral.html",
+    "https://onguardprotection.com.au/locations/wollongong.html",
+    "https://onguardprotection.com.au/locations/nowra.html",
+    "https://onguardprotection.com.au/locations/worrigee.html",
+    "https://onguardprotection.com.au/locations/canberra.html"
+  ],
+  "services": [
+    "https://onguardprotection.com.au/services/crowd-control.html",
+    "https://onguardprotection.com.au/services/event-security.html",
+    "https://onguardprotection.com.au/services/static-guards.html",
+    "https://onguardprotection.com.au/services/mobile-patrols.html",
+    "https://onguardprotection.com.au/services/corporate-security.html",
+    "https://onguardprotection.com.au/services/asset-protection.html"
+  ]
+}

@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Disallow: /thanks.html
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://onguardprotection.com.au/sitemap.xml
