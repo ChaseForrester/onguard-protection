@@ -132,7 +132,11 @@ def audit_file(path: Path) -> dict:
 def main() -> None:
     pages = [ROOT / "index.html"]
     pages += sorted((ROOT / "locations").glob("*.html"))
+    pages += sorted((ROOT / "locations").glob("*/*.html"))
     pages += sorted((ROOT / "services").glob("*.html"))
+    legal = ROOT / "legal" / "index.html"
+    if legal.exists():
+        pages.append(legal)
     results = []
     for page in pages:
         if page.name in SKIP:

@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 from datetime import date
 from pathlib import Path
+from xml.sax.saxutils import escape as xml_escape
 
 ROOT = Path(__file__).resolve().parent
 SITE = "https://onguardprotection.com.au"
@@ -14,6 +15,25 @@ TEL = "+61432893343"
 EMAIL = "admin@ogprotection.com.au"
 LICENCE = "000110094"
 TODAY = date.today().isoformat()
+HOME_TITLE = "OnGuard Protection | Licensed & Insured Security Guards NSW"
+OG_IMAGE = "assets/social/og-cover.jpg"
+OG_W = 1792
+OG_H = 1008
+OG_ALT = (
+    "OnGuard Protection — licensed and fully insured NSW security. "
+    "Festival and venue control, access screening and K9 perimeter patrol. Free quote."
+)
+HERO_META = {
+    "work-nowra": (1440, 1080, "OnGuard Protection event security officers at the Nowra Annual Rodeo, South Coast NSW"),
+    "work-worrigee": (1170, 1169, "OnGuard Protection team providing licensed security at Worrigee Equestrian Common Rodeo"),
+    "work-singleton": (720, 405, "OnGuard Protection venue security at the Singleton Rodeo After Party, Imperial Hotel"),
+    "work-poster": (1539, 1925, "OnGuard Protection NSW coverage poster listing Sydney, Hunter Valley, Newcastle and Canberra"),
+    "work-k9": (367, 411, "OnGuard Protection Class 1D dog handler standing a night static post at a NSW industrial gate"),
+    "work-festival": (370, 417, "OnGuard Protection Class 1A officers running crowd control on a live NSW festival barrier"),
+    "work-screening": (368, 415, "OnGuard Protection officer conducting a bag search at a licensed NSW event entry"),
+}
+INDEX_ROBOTS = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+NOINDEX_ROBOTS = "noindex, follow"
 
 SERVICES = [
     {
@@ -520,6 +540,15 @@ def img_tag(
 </picture>'''
 
 
+def og_mime(path: str) -> str:
+    lower = path.lower()
+    if lower.endswith(".png"):
+        return "image/png"
+    if lower.endswith(".webp"):
+        return "image/webp"
+    return "image/jpeg"
+
+
 def head(
     title: str,
     description: str,
@@ -531,9 +560,11 @@ def head(
     og_alt: str,
     json_ld: list[dict],
     extra: str = "",
+    robots: str = INDEX_ROBOTS,
 ) -> str:
     prefix = "../" * depth
     og_abs = f"{SITE}/{og_image}"
+    googlebot = "noindex, follow" if "noindex" in robots else "index, follow"
     return f'''<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -541,8 +572,8 @@ def head(
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{title}</title>
   <meta name="description" content="{description}">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow">
+  <meta name="robots" content="{robots}">
+  <meta name="googlebot" content="{googlebot}">
   <meta name="author" content="OnGuard Protection">
   <meta name="geo.region" content="AU-NSW">
   <meta name="geo.placename" content="Sydney">
@@ -558,6 +589,7 @@ def head(
   <link rel="icon" href="{prefix}assets/img/favicon-16.png" type="image/png" sizes="16x16">
   <link rel="apple-touch-icon" href="{prefix}assets/img/apple-touch-icon.png" sizes="180x180">
   <link rel="manifest" href="{prefix}site.webmanifest">
+  <link rel="sitemap" type="application/xml" href="{prefix}sitemap.xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="OnGuard Protection">
   <meta property="og:locale" content="en_AU">
@@ -566,7 +598,7 @@ def head(
   <meta property="og:url" content="{canonical}">
   <meta property="og:image" content="{og_abs}">
   <meta property="og:image:secure_url" content="{og_abs}">
-  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:type" content="{og_mime(og_image)}">
   <meta property="og:image:width" content="{og_w}">
   <meta property="og:image:height" content="{og_h}">
   <meta property="og:image:alt" content="{og_alt}">
@@ -827,7 +859,7 @@ def org_schema() -> dict:
         "@id": f"{SITE}/#business",
         "name": "OnGuard Protection",
         "url": SITE,
-        "image": f"{SITE}/assets/brand/onguard-lockup.png",
+        "image": [f"{SITE}/{OG_IMAGE}", f"{SITE}/assets/brand/onguard-lockup.png"],
         "logo": f"{SITE}/assets/brand/onguard-mark.png",
         "telephone": TEL,
         "email": EMAIL,
@@ -861,16 +893,7 @@ def write_location(loc: dict) -> None:
     depth = 1
     url = f"{SITE}/locations/{loc['slug']}.html"
     hero = loc["hero"]
-    hero_meta = {
-        "work-nowra": (1440, 1080, "OnGuard Protection event security officers at the Nowra Annual Rodeo, South Coast NSW"),
-        "work-worrigee": (1170, 1169, "OnGuard Protection team providing licensed security at Worrigee Equestrian Common Rodeo"),
-        "work-singleton": (720, 405, "OnGuard Protection venue security at the Singleton Rodeo After Party, Imperial Hotel"),
-        "work-poster": (1539, 1925, "OnGuard Protection NSW coverage poster listing Sydney, Hunter Valley, Newcastle and Canberra"),
-        "work-k9": (367, 411, "OnGuard Protection Class 1D dog handler standing a night static post at a NSW industrial gate"),
-        "work-festival": (370, 417, "OnGuard Protection Class 1A officers running crowd control on a live NSW festival barrier"),
-        "work-screening": (368, 415, "OnGuard Protection officer conducting a bag search at a licensed NSW event entry"),
-    }
-    w, h, alt = hero_meta[hero]
+    w, h, alt = HERO_META[hero]
     title = f"Security Guards {loc['name']} {loc['state']} {loc['postcode']} | OnGuard Protection"
     desc = f"SLED-licensed security guards in {loc['name']} {loc['state']} {loc['postcode']}. Crowd control, static guards, mobile patrols and event security. Master Licence {LICENCE}. Call {PHONE}."
     if len(desc) > 160:
@@ -947,11 +970,11 @@ def write_location(loc: dict) -> None:
         nearby_html += f'<li><a href="{n["slug"]}.html">Security guards {n["name"]} {n["state"]}</a></li>'
     svc_html = ""
     for svc in SERVICES:
-        svc_html += f'<li><a href="../services/{svc["slug"]}.html">{svc["name"]} in {loc["name"]}</a></li>'
+        svc_html += f'<li><a href="{loc["slug"]}/{svc["slug"]}.html">{svc["name"]} in {loc["name"]}</a></li>'
     proof = f'<p class="proof-callout">{loc["proof"]}</p>' if loc["proof"] else ""
     nav, footer = chrome(depth, "locations")
     extra = f'<link rel="preload" as="image" href="../assets/img/{hero}-800.webp" type="image/webp">'
-    html = f'''{head(title, desc, url, depth, f"assets/{hero}.jpg", w, h, alt, [org_schema(), crumbs, faq, speakable, local], extra)}
+    html = f'''{head(title, desc, url, depth, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema(), crumbs, faq, speakable, local], extra)}
 <body class="inner-page">
 {nav}
 <main id="main">
@@ -1043,14 +1066,14 @@ def write_service(svc: dict) -> None:
         "image": f"{SITE}/assets/{svc['img']}.jpg",
     }
     loc_links = "".join(
-        f'<li><a href="../locations/{loc["slug"]}.html">{svc["short"]} in {loc["name"]}</a></li>'
+        f'<li><a href="../locations/{loc["slug"]}/{svc["slug"]}.html">{svc["short"]} in {loc["name"]}</a></li>'
         for loc in LOCATIONS
     )
     bullets = "".join(f"<li>{b}</li>" for b in svc["bullets"])
     faq_html = "".join(f"<details><summary>{q}</summary><p class='answer-block'>{a}</p></details>" for q, a in svc["faq"])
     nav, footer = chrome(depth)
     extra = f'<link rel="preload" as="image" href="../assets/img/{svc["img"]}-800.webp" type="image/webp">'
-    html = f'''{head(title, desc, url, depth, f"assets/{svc['img']}.jpg", svc["img_w"], svc["img_h"], svc["alt"], [org_schema(), crumbs, faq, service], extra)}
+    html = f'''{head(title, desc, url, depth, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema(), crumbs, faq, service], extra)}
 <body class="inner-page">
 {nav}
 <main id="main">
@@ -1096,6 +1119,150 @@ def write_service(svc: dict) -> None:
     out.write_text(html, encoding="utf-8")
 
 
+def write_combo(loc: dict, svc: dict) -> None:
+    depth = 2
+    url = f"{SITE}/locations/{loc['slug']}/{svc['slug']}.html"
+    title = f"{svc['short']} {loc['name']} {loc['state']} {loc['postcode']} | OnGuard Protection"
+    desc = (
+        f"SLED-licensed {svc['short'].lower()} in {loc['name']} {loc['state']} {loc['postcode']}. "
+        f"{loc['need']} Master Licence {LICENCE}. Call {PHONE}."
+    )
+    if len(desc) > 160:
+        desc = desc[:157] + "..."
+    if len(desc) < 120:
+        desc = (
+            f"SLED-licensed {svc['short'].lower()} for {loc['industries']} in {loc['name']} "
+            f"{loc['state']} {loc['postcode']}. Master Licence {LICENCE}. Call {PHONE}."
+        )
+        if len(desc) > 160:
+            desc = desc[:157] + "..."
+    crumbs = {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{SITE}/"},
+            {"@type": "ListItem", "position": 2, "name": "Locations", "item": f"{SITE}/locations/"},
+            {"@type": "ListItem", "position": 3, "name": loc["name"], "item": f"{SITE}/locations/{loc['slug']}.html"},
+            {"@type": "ListItem", "position": 4, "name": svc["short"], "item": url},
+        ],
+    }
+    faq = {
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": f"Do you provide {svc['short'].lower()} in {loc['name']}?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": f"Yes. OnGuard Protection deploys licensed {svc['short'].lower()} in {loc['name']} {loc['state']} under Master Licence {LICENCE}.",
+                },
+            },
+            {
+                "@type": "Question",
+                "name": loc["faq_local"],
+                "acceptedAnswer": {"@type": "Answer", "text": loc["faq_ans"]},
+            },
+            {"@type": "Question", "name": svc["faq"][0][0], "acceptedAnswer": {"@type": "Answer", "text": svc["faq"][0][1]}},
+        ],
+    }
+    service = {
+        "@type": "Service",
+        "name": f"{svc['name']} — {loc['name']}",
+        "serviceType": svc["keyword"],
+        "provider": {"@id": f"{SITE}/#business"},
+        "areaServed": {
+            "@type": "City",
+            "name": loc["name"],
+            "containedInPlace": {
+                "@type": "State",
+                "name": "New South Wales" if loc["state"] == "NSW" else "Australian Capital Territory",
+            },
+            "geo": {"@type": "GeoCoordinates", "latitude": loc["lat"], "longitude": loc["lng"]},
+        },
+        "url": url,
+        "image": f"{SITE}/{OG_IMAGE}",
+    }
+    other_svc = "".join(
+        f'<li><a href="{other["slug"]}.html">{other["name"]} in {loc["name"]}</a></li>'
+        for other in SERVICES
+        if other["slug"] != svc["slug"]
+    )
+    nearby_html = ""
+    for slug in loc["nearby"]:
+        n = loc_by_slug(slug)
+        nearby_html += f'<li><a href="../{n["slug"]}/{svc["slug"]}.html">{svc["short"]} in {n["name"]}</a></li>'
+    bullets = "".join(f"<li>{b}</li>" for b in svc["bullets"])
+    proof = f'<p class="proof-callout">{loc["proof"]}</p>' if loc["proof"] else ""
+    nav, footer = chrome(depth, "locations")
+    extra = f'<link rel="preload" as="image" href="../../assets/img/{svc["img"]}-800.webp" type="image/webp">'
+    w, h, alt = HERO_META[svc["img"]] if svc["img"] in HERO_META else (svc["img_w"], svc["img_h"], svc["alt"])
+    html = f'''{head(title, desc, url, depth, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema(), crumbs, faq, service], extra)}
+<body class="inner-page">
+{nav}
+<main id="main">
+  <nav class="crumbs container" aria-label="Breadcrumb">
+    <a href="../../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="../index.html">Locations</a>
+    <span aria-hidden="true">/</span>
+    <a href="../{loc["slug"]}.html">{loc["name"]}</a>
+    <span aria-hidden="true">/</span>
+    <span>{svc["short"]}</span>
+  </nav>
+  <header class="page-hero">
+    <div class="page-hero-media">
+      {img_tag(svc["img"], svc["alt"], svc["img_w"], svc["img_h"], depth, eager=True, sizes="100vw")}
+    </div>
+    <div class="container page-hero-copy hero-in">
+      <p class="eyebrow">{loc["region"]} · {svc["keyword"]}</p>
+      <h1>{svc["short"]} in {loc["name"]} {loc["state"]}</h1>
+      <p class="lead">{loc["angle"]} {svc["lead"]}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#quote">Quote {svc["short"].lower()} in {loc["name"]}</a>
+        <a class="btn btn-outline" href="tel:{TEL}">Call {PHONE}</a>
+      </div>
+    </div>
+  </header>
+  <article class="container prose reveal">
+    <p class="answer-block"><strong>OnGuard Protection provides SLED-licensed {svc["short"].lower()} in {loc["name"]} {loc["state"]} {loc["postcode"]}.</strong> Master Licence {LICENCE}.</p>
+    {proof}
+    <h2>{svc["name"]} for {loc["industries"]}</h2>
+    <p>{loc["unique"]}</p>
+    <p>{svc["body"]}</p>
+    <h2>What {loc["name"]} sites usually need</h2>
+    <p>{loc["need"]}</p>
+    <h2>What you get</h2>
+    <ul>{bullets}</ul>
+    <section class="faq">
+      <h2>Questions about {svc["short"].lower()} in {loc["name"]}</h2>
+      <details open>
+        <summary>Do you provide {svc["short"].lower()} in {loc["name"]}?</summary>
+        <p class="answer-block">Yes. Licensed {svc["short"].lower()} in {loc["name"]} {loc["state"]} under Master Licence {LICENCE}. Call {PHONE}.</p>
+      </details>
+      <details>
+        <summary>{loc["faq_local"]}</summary>
+        <p class="answer-block">{loc["faq_ans"]}</p>
+      </details>
+      <details>
+        <summary>{svc["faq"][0][0]}</summary>
+        <p class="answer-block">{svc["faq"][0][1]}</p>
+      </details>
+    </section>
+    <h2>Other {loc["name"]} services</h2>
+    <ul class="link-list">{other_svc}</ul>
+    <p><a href="../{loc["slug"]}.html">All security services in {loc["name"]}</a> · <a href="../../services/{svc["slug"]}.html">{svc["name"]} across NSW</a></p>
+    <h2>{svc["short"]} nearby</h2>
+    <ul class="link-list">{nearby_html}</ul>
+  </article>
+  {quote_form(prefill_suburb=loc["name"], prefill_service=svc["name"])}
+</main>
+{footer}
+</body>
+</html>'''
+    out = ROOT / "locations" / loc["slug"] / f"{svc['slug']}.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html, encoding="utf-8")
+
+
 def write_locations_index() -> None:
     depth = 1
     url = f"{SITE}/locations/"
@@ -1120,7 +1287,7 @@ def write_locations_index() -> None:
     nav, footer = chrome(depth, "locations")
     title = "NSW & ACT Security Guard Locations | OnGuard Protection"
     desc = "Find SLED-licensed OnGuard Protection security guards by suburb — Sydney, Hornsby, Newcastle, Nowra, Singleton, Canberra and the full NSW corridor. ML 000110094."
-    html = f'''{head(title, desc, url, depth, "assets/work-nowra.jpg", 1440, 1080, "OnGuard Protection event security at Nowra Annual Rodeo representing NSW coverage", [org_schema(), item_list])}
+    html = f'''{head(title, desc, url, depth, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema(), item_list])}
 <body class="inner-page">
 {nav}
 <main id="main">
@@ -1132,7 +1299,7 @@ def write_locations_index() -> None:
   <div class="container section-header loc-index-head">
     <p class="eyebrow">Suburb coverage</p>
     <h1>Security guards by suburb — NSW &amp; ACT</h1>
-    <p class="lead">Eighteen crawlable location pages. Each one is a real coverage suburb or a job we have already stood.</p>
+    <p class="lead">Eighteen coverage suburbs, each with dedicated service pages. Real towns we roster — not a generated list.</p>
   </div>
   <div class="container loc-grid">{cards}</div>
   {quote_form()}
@@ -1147,7 +1314,7 @@ def write_thanks() -> None:
     nav, footer = chrome(0)
     title = "Brief received | OnGuard Protection"
     desc = "Your OnGuard Protection security brief has been sent. We reply on 0432 893 343 and admin@ogprotection.com.au."
-    html = f'''{head(title, desc, f"{SITE}/thanks.html", 0, "assets/logo.jpg", 1024, 1024, "OnGuard Protection logo", [org_schema()])}
+    html = f'''{head(title, desc, f"{SITE}/thanks.html", 0, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema()], robots=NOINDEX_ROBOTS)}
 <body class="inner-page">
 {nav}
 <main id="main" class="container prose thanks-page">
@@ -1164,7 +1331,7 @@ def write_thanks() -> None:
 
 def write_404() -> None:
     nav, footer = chrome(0)
-    html = f'''{head("Page not found | OnGuard Protection", "That page is not on OnGuard Protection. Browse NSW suburb security pages or request a quote.", f"{SITE}/404.html", 0, "assets/logo.jpg", 1024, 1024, "OnGuard Protection logo", [org_schema()])}
+    html = f'''{head("Page not found | OnGuard Protection", "That page is not on OnGuard Protection. Browse NSW suburb security pages or request a quote.", f"{SITE}/404.html", 0, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema()], robots=NOINDEX_ROBOTS)}
 <body class="inner-page">
 {nav}
 <main id="main" class="container prose thanks-page">
@@ -1177,86 +1344,189 @@ def write_404() -> None:
     (ROOT / "404.html").write_text(html, encoding="utf-8")
 
 
-def write_tech() -> None:
-    loc_urls = "\n".join(
-        f'''  <url>
-    <loc>{SITE}/locations/{loc["slug"]}.html</loc>
-    <lastmod>{TODAY}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>'''
-        for loc in LOCATIONS
-    )
-    svc_urls = "\n".join(
-        f'''  <url>
-    <loc>{SITE}/services/{svc["slug"]}.html</loc>
-    <lastmod>{TODAY}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>'''
-        for svc in SERVICES
-    )
-    images = [
-        ("assets/logo.jpg", "OnGuard Protection logo — NSW SLED licensed security company", 1024, 1024),
-        ("assets/work-nowra.jpg", "OnGuard Protection event security at the Nowra Annual Rodeo", 1440, 1080),
-        ("assets/work-worrigee.jpg", "OnGuard Protection team at Worrigee Equestrian Common Rodeo", 1170, 1169),
-        ("assets/work-singleton.jpg", "OnGuard Protection at Singleton Rodeo After Party, Imperial Hotel", 720, 405),
-        ("assets/work-poster.jpg", "OnGuard Protection NSW and ACT services and coverage poster", 1539, 1925),
-        ("assets/work-k9.jpg", "OnGuard Protection dog handler on a NSW industrial night static", 367, 411),
-        ("assets/work-festival.jpg", "OnGuard Protection crowd control at a NSW festival", 370, 417),
-        ("assets/work-screening.jpg", "OnGuard Protection bag search at a NSW event entry", 368, 415),
+def write_url_entry(
+    loc: str,
+    *,
+    changefreq: str = "weekly",
+    priority: str = "0.8",
+    images: list[tuple[str, str]] | None = None,
+) -> str:
+    parts = [
+        "  <url>",
+        f"    <loc>{xml_escape(loc)}</loc>",
+        f"    <lastmod>{TODAY}</lastmod>",
+        f"    <changefreq>{xml_escape(changefreq)}</changefreq>",
+        f"    <priority>{priority}</priority>",
     ]
-    img_xml = "\n".join(
-        f'''  <url>
-    <loc>{SITE}/</loc>
-    <image:image>
-      <image:loc>{SITE}/{path}</image:loc>
-      <image:title>{title}</image:title>
-      <image:caption>{title}</image:caption>
-    </image:image>
-  </url>'''
-        for path, title, _w, _h in images
+    for img_path, img_title in images or []:
+        parts.extend(
+            [
+                "    <image:image>",
+                f"      <image:loc>{xml_escape(SITE + '/' + img_path)}</image:loc>",
+                f"      <image:title>{xml_escape(img_title)}</image:title>",
+                f"      <image:caption>{xml_escape(img_title)}</image:caption>",
+                "    </image:image>",
+            ]
+        )
+    parts.append("  </url>")
+    return "\n".join(parts)
+
+
+def write_urlset(path: Path, entries: list[str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
+        + "\n".join(entries)
+        + "\n</urlset>\n"
     )
-    sitemap = f'''<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url>
-    <loc>{SITE}/</loc>
-    <lastmod>{TODAY}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>{SITE}/legal/</loc>
-    <lastmod>{TODAY}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>{SITE}/legal/OnGuard-Protection-Legal-Compliance-Pack.pdf</loc>
-    <lastmod>{TODAY}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>{SITE}/locations/</loc>
-    <lastmod>{TODAY}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-{loc_urls}
-{svc_urls}
-{img_xml}
-</urlset>
-'''
-    (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    path.write_text(xml, encoding="utf-8")
+
+
+def write_sitemap_index(children: list[str]) -> None:
+    body = "\n".join(
+        "  <sitemap>\n"
+        f"    <loc>{xml_escape(SITE + '/' + child)}</loc>\n"
+        f"    <lastmod>{TODAY}</lastmod>\n"
+        "  </sitemap>"
+        for child in children
+    )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + body
+        + "\n</sitemapindex>\n"
+    )
+    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+
+
+def write_sitemaps() -> list[str]:
+    """Write a sitemap index plus one child sitemap per real URL group.
+
+    Each indexable URL appears in exactly one child sitemap. 404, thanks,
+    and noindex pages are omitted. Images are attached to the page they
+    actually appear on so the homepage is not listed repeatedly.
+    """
+    out_dir = ROOT / "sitemaps"
+    if out_dir.exists():
+        for old in out_dir.glob("*.xml"):
+            old.unlink()
+    out_dir.mkdir(exist_ok=True)
+
+    children: list[str] = []
+
+    def add(name: str, entries: list[str]) -> None:
+        rel = f"sitemaps/{name}.xml"
+        write_urlset(ROOT / rel, entries)
+        children.append(rel)
+
+    add(
+        "core-home",
+        [
+            write_url_entry(
+                f"{SITE}/",
+                changefreq="weekly",
+                priority="1.0",
+                images=[
+                    (OG_IMAGE, OG_ALT),
+                    ("assets/brand/onguard-lockup.png", "OnGuard Protection logo — NSW SLED licensed security company"),
+                    ("assets/work-nowra.jpg", "OnGuard Protection event security at the Nowra Annual Rodeo"),
+                    ("assets/work-worrigee.jpg", "OnGuard Protection team at Worrigee Equestrian Common Rodeo"),
+                    ("assets/work-singleton.jpg", "OnGuard Protection at Singleton Rodeo After Party, Imperial Hotel"),
+                    ("assets/work-poster.jpg", "OnGuard Protection NSW and ACT services and coverage poster"),
+                    ("assets/work-k9.jpg", "OnGuard Protection dog handler on a NSW industrial night static"),
+                    ("assets/work-festival.jpg", "OnGuard Protection crowd control at a NSW festival"),
+                    ("assets/work-screening.jpg", "OnGuard Protection bag search at a NSW event entry"),
+                ],
+            )
+        ],
+    )
+    add(
+        "core-locations-index",
+        [write_url_entry(f"{SITE}/locations/", changefreq="weekly", priority="0.9", images=[(OG_IMAGE, OG_ALT)])],
+    )
+    add(
+        "legal-page",
+        [write_url_entry(f"{SITE}/legal/", changefreq="monthly", priority="0.7", images=[(OG_IMAGE, OG_ALT)])],
+    )
+    add(
+        "legal-pdf",
+        [
+            write_url_entry(
+                f"{SITE}/legal/OnGuard-Protection-Legal-Compliance-Pack.pdf",
+                changefreq="monthly",
+                priority="0.6",
+            )
+        ],
+    )
+
+    for svc in SERVICES:
+        add(
+            f"service-{svc['slug']}",
+            [
+                write_url_entry(
+                    f"{SITE}/services/{svc['slug']}.html",
+                    changefreq="weekly",
+                    priority="0.85",
+                    images=[
+                        (OG_IMAGE, OG_ALT),
+                        (f"assets/{svc['img']}.jpg", svc["alt"]),
+                    ],
+                )
+            ],
+        )
+
+    for loc in LOCATIONS:
+        hero = loc["hero"]
+        _w, _h, hero_alt = HERO_META[hero]
+        add(
+            f"location-{loc['slug']}",
+            [
+                write_url_entry(
+                    f"{SITE}/locations/{loc['slug']}.html",
+                    changefreq="weekly",
+                    priority="0.8",
+                    images=[
+                        (OG_IMAGE, OG_ALT),
+                        (f"assets/{hero}.jpg", hero_alt),
+                    ],
+                )
+            ],
+        )
+        for svc in SERVICES:
+            add(
+                f"location-{loc['slug']}-{svc['slug']}",
+                [
+                    write_url_entry(
+                        f"{SITE}/locations/{loc['slug']}/{svc['slug']}.html",
+                        changefreq="weekly",
+                        priority="0.7",
+                        images=[
+                            (OG_IMAGE, OG_ALT),
+                            (f"assets/{svc['img']}.jpg", svc["alt"]),
+                        ],
+                    )
+                ],
+            )
+
+    write_sitemap_index(children)
+    return children
+
+
+def write_tech() -> None:
+    children = write_sitemaps()
+    sitemap_lines = "\n".join(f"Sitemap: {SITE}/{child}" for child in children)
 
     robots = f'''User-agent: *
 Allow: /
+Allow: /sitemaps/
 Disallow: /thanks.html
+Disallow: /404.html
 
 User-agent: Googlebot
 Allow: /
+Allow: /sitemaps/
 
 User-agent: GPTBot
 Allow: /
@@ -1274,6 +1544,7 @@ User-agent: Google-Extended
 Allow: /
 
 Sitemap: {SITE}/sitemap.xml
+{sitemap_lines}
 # LLM crawl map
 # {SITE}/llms.txt
 '''
@@ -1302,7 +1573,7 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
 - [Corporate security]({SITE}/services/corporate-security.html): Concierge and lobby control
 - [Asset protection]({SITE}/services/asset-protection.html): Plant and compound protection
 - [Verify licence](https://verify.licence.nsw.gov.au/home/Security): NSW SLED public register for Master Licence {LICENCE}
-- [Sitemap]({SITE}/sitemap.xml): Machine-readable page list
+- [Sitemap index]({SITE}/sitemap.xml): Master sitemap index for every indexable page
 
 ## Optional
 
@@ -1340,6 +1611,10 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
         ],
         "locations": [f"{SITE}/locations/{l['slug']}.html" for l in LOCATIONS],
         "services": [f"{SITE}/services/{s['slug']}.html" for s in SERVICES],
+        "location_services": [
+            f"{SITE}/locations/{l['slug']}/{s['slug']}.html" for l in LOCATIONS for s in SERVICES
+        ],
+        "sitemap_index": f"{SITE}/sitemap.xml",
     }
     (ROOT / "agentix.json").write_text(json.dumps(agentix, indent=2), encoding="utf-8")
 
@@ -1374,16 +1649,97 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
     )
 
 
+def url_to_path(url: str) -> Path | None:
+    if not url.startswith(SITE + "/"):
+        return None
+    rel = url[len(SITE) + 1 :]
+    if rel == "":
+        return ROOT / "index.html"
+    if rel.endswith("/"):
+        candidate = ROOT / rel / "index.html"
+        if candidate.exists():
+            return candidate
+        return ROOT / rel.rstrip("/")
+    return ROOT / rel
+
+
+def validate_sitemaps() -> None:
+    import xml.etree.ElementTree as ET
+
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    index_path = ROOT / "sitemap.xml"
+    tree = ET.parse(index_path)
+    root = tree.getroot()
+    if not root.tag.endswith("sitemapindex"):
+        raise SystemExit("sitemap.xml must be a sitemapindex")
+    child_locs = [el.text or "" for el in root.findall("sm:sitemap/sm:loc", ns)]
+    if not child_locs:
+        raise SystemExit("sitemap index has no children")
+    if len(child_locs) != len(set(child_locs)):
+        raise SystemExit("duplicate child sitemap listed in index")
+
+    seen: list[str] = []
+    errors: list[str] = []
+    for loc in child_locs:
+        if not loc.startswith(f"{SITE}/sitemaps/") or not loc.endswith(".xml"):
+            errors.append(f"child sitemap outside /sitemaps/: {loc}")
+            continue
+        rel = loc[len(SITE) + 1 :]
+        path = ROOT / rel
+        if not path.is_file():
+            errors.append(f"missing child sitemap file: {rel}")
+            continue
+        child = ET.parse(path).getroot()
+        if not child.tag.endswith("urlset"):
+            errors.append(f"{rel} is not a urlset")
+            continue
+        urls = [el.text or "" for el in child.findall("sm:url/sm:loc", ns)]
+        if not urls:
+            errors.append(f"{rel} has no URLs")
+        for url in urls:
+            if not url.startswith(SITE + "/"):
+                errors.append(f"off-site URL in {rel}: {url}")
+            if url in seen:
+                errors.append(f"duplicate URL {url}")
+            seen.append(url)
+            if any(bad in url for bad in ("thanks.html", "404.html")):
+                errors.append(f"noindex URL listed: {url}")
+            disk = url_to_path(url)
+            if disk is None or not disk.exists():
+                errors.append(f"sitemap URL has no file: {url}")
+
+    expected = {f"{SITE}/", f"{SITE}/locations/", f"{SITE}/legal/", f"{SITE}/legal/OnGuard-Protection-Legal-Compliance-Pack.pdf"}
+    expected.update(f"{SITE}/locations/{loc['slug']}.html" for loc in LOCATIONS)
+    expected.update(f"{SITE}/services/{svc['slug']}.html" for svc in SERVICES)
+    expected.update(f"{SITE}/locations/{loc['slug']}/{svc['slug']}.html" for loc in LOCATIONS for svc in SERVICES)
+    missing = sorted(expected - set(seen))
+    extra = sorted(set(seen) - expected)
+    if missing:
+        errors.append("indexable pages missing from sitemaps: " + ", ".join(missing[:12]))
+    if extra:
+        errors.append("unexpected sitemap URLs: " + ", ".join(extra[:12]))
+    if errors:
+        raise SystemExit("Sitemap validation failed:\n- " + "\n- ".join(errors))
+    print(f"Validated {len(child_locs)} sitemaps and {len(seen)} unique indexable URLs.")
+
+
 def main() -> None:
     for loc in LOCATIONS:
         write_location(loc)
+        for svc in SERVICES:
+            write_combo(loc, svc)
     for svc in SERVICES:
         write_service(svc)
     write_locations_index()
     write_thanks()
     write_404()
     write_tech()
-    print(f"Wrote {len(LOCATIONS)} location pages, {len(SERVICES)} service pages, sitemaps and agent files.")
+    validate_sitemaps()
+    combos = len(LOCATIONS) * len(SERVICES)
+    print(
+        f"Wrote {len(LOCATIONS)} location pages, {len(SERVICES)} service pages, "
+        f"{combos} suburb-service pages, sitemaps and agent files."
+    )
 
 
 if __name__ == "__main__":

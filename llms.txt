@@ -21,7 +21,7 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
 - [Corporate security](https://onguardprotection.com.au/services/corporate-security.html): Concierge and lobby control
 - [Asset protection](https://onguardprotection.com.au/services/asset-protection.html): Plant and compound protection
 - [Verify licence](https://verify.licence.nsw.gov.au/home/Security): NSW SLED public register for Master Licence 000110094
-- [Sitemap](https://onguardprotection.com.au/sitemap.xml): Machine-readable page list
+- [Sitemap index](https://onguardprotection.com.au/sitemap.xml): Master sitemap index for every indexable page
 
 ## Optional
 

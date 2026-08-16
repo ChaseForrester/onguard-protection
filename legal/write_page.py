@@ -36,8 +36,8 @@ def page():
     nav, footer = gp.chrome(1, "legal")
     head = gp.head(
         title, desc, url, 1,
-        "assets/brand/onguard-lockup.png", 1360, 560,
-        "OnGuard Protection logo",
+        gp.OG_IMAGE, gp.OG_W, gp.OG_H,
+        gp.OG_ALT,
         [gp.org_schema(), crumbs], extra,
     )
 
