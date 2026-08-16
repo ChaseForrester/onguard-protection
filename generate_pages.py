@@ -662,7 +662,10 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
       </a>
     </div>
     <div class="container footer-bottom">
-      <p>© {date.today().year} OnGuard Protection. All rights reserved.</p>
+      <div class="footer-legal">
+        <p>© {date.today().year} OnGuard Protection. All rights reserved.</p>
+        <p>NSW Security Industry Act 1997 · SLED licensed</p>
+      </div>
       <div class="footer-credits">
         <span>Developed by <a href="https://www.linkedin.com/in/chaseforrester/" target="_blank" rel="noopener noreferrer">Chase Forrester</a></span>
         <span class="footer-credits__sep" aria-hidden="true">·</span>
@@ -671,7 +674,6 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <span>Powered by <strong>Tech Aid Australia</strong></span>
         </a>
       </div>
-      <p>NSW Security Industry Act 1997 · SLED licensed</p>
     </div>
   </footer>
   <div class="mobile-cta">
