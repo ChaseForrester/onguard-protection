@@ -612,6 +612,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
             <li><a href="{home}#services">Services</a></li>
             <li><a href="{loc_idx}"{" class='active'" if current=="locations" else ""}>Suburbs</a></li>
             <li><a href="{home}#about">About</a></li>
+            <li><a href="{prefix}legal/index.html"{" class='active'" if current=="legal" else ""}>Legal</a></li>
             <li><a href="#quote">Contact</a></li>
           </ul>
           <a href="#quote" class="btn btn-primary">Get a quote</a>
@@ -658,6 +659,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <li>Master Licence {LICENCE}</li>
           <li><a href="https://verify.licence.nsw.gov.au/home/Security" target="_blank" rel="noopener noreferrer">Verify on SLED register</a></li>
           <li><a href="{prefix}locations/index.html">Suburb coverage</a></li>
+          <li><a href="{prefix}legal/index.html">Legal &amp; compliance</a></li>
         </ul>
       </div>
     </div>
@@ -1225,6 +1227,18 @@ def write_tech() -> None:
     <lastmod>{TODAY}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>{SITE}/legal/</loc>
+    <lastmod>{TODAY}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>{SITE}/legal/OnGuard-Protection-Legal-Compliance-Pack.pdf</loc>
+    <lastmod>{TODAY}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>{SITE}/locations/</loc>
