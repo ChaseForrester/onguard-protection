@@ -60,18 +60,16 @@ async function userDoc(uid: string) {
     return snap.exists ? snap.data() : null;
 }
 
-/** Blocking: every new account starts as kyc_required, NSW only, never verified. */
-export const beforeCreate = beforeUserCreated(async (event) => {
-    const uid = event.data.uid;
-    const email = event.data.email || null;
-    const phone = event.data.phoneNumber || null;
+async function ensureApplicantDoc(event: { data?: { uid?: string; email?: string; phoneNumber?: string; displayName?: string } }) {
+    const uid = event.data?.uid;
+    if (!uid) throw new HttpsError("invalid-argument", "Missing user id.");
     await db.collection("users").doc(uid).set({
         uid,
         role: "applicant",
         accessState: "kyc_required",
-        email,
-        phone,
-        displayName: event.data.displayName || null,
+        email: event.data?.email || null,
+        phone: event.data?.phoneNumber || null,
+        displayName: event.data?.displayName || null,
         jurisdiction: "NSW",
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -80,7 +78,13 @@ export const beforeCreate = beforeUserCreated(async (event) => {
         verifiedByUid: null,
         rejectedReason: null,
         claimsVersion: Date.now(),
-    });
+    }, { merge: true });
+    return uid;
+}
+
+/** Blocking: every new account starts as kyc_required, NSW only, never verified. */
+export const beforeCreate = beforeUserCreated({ region: "us-east1" }, async (event) => {
+    await ensureApplicantDoc(event);
     return {
         customClaims: {
             role: "applicant",
@@ -100,29 +104,36 @@ export const beforeCreate = beforeUserCreated(async (event) => {
  * verified / kyc_required / kyc_pending / superadmin → allow (client route-gates).
  * Anyone else → deny (force-logout equivalent at the identity layer).
  */
-export const beforeSignIn = beforeUserSignedIn(async (event) => {
-    const uid = event.data.uid;
-    const doc = await userDoc(uid);
-    const claims = event.data.customClaims || {};
+export const beforeSignIn = beforeUserSignedIn({ region: "us-east1" }, async (event) => {
+    const user = event.data;
+    if (!user?.uid) throw new HttpsError("invalid-argument", "Missing user.");
+    const uid = user.uid;
+    let doc = await userDoc(uid);
+    const claims = user.customClaims || {};
     if (claims.superadmin === true) {
         return { sessionClaims: { ...claims, verified: true, accessState: "verified", role: "superadmin" } };
     }
-    const state: AccessState = (doc?.accessState as AccessState) || "unverified";
-    if (state === "rejected" || state === "blocked" || state === "unverified") {
+    if (!doc) {
+        await ensureApplicantDoc(event);
+        doc = await userDoc(uid);
+    }
+    const state: AccessState = (doc?.accessState as AccessState) || "kyc_required";
+    if (state === "rejected" || state === "blocked") {
         throw new HttpsError("permission-denied", "Access restricted to verified NSW Class 1 operatives (OG-LEG-2026-001).");
     }
-    if (state !== "kyc_required" && state !== "kyc_pending" && state !== "verified") {
-        throw new HttpsError("permission-denied", "Session denied.");
-    }
+    const accessState: AccessState =
+        state === "verified" || state === "kyc_pending" || state === "kyc_required"
+            ? state
+            : "kyc_required";
     await db.collection("users").doc(uid).set(
-        { lastAuthAt: admin.firestore.FieldValue.serverTimestamp() },
+        { lastAuthAt: admin.firestore.FieldValue.serverTimestamp(), accessState },
         { merge: true },
     );
     return {
         sessionClaims: {
-            role: state === "verified" ? "guard" : "applicant",
-            verified: state === "verified",
-            accessState: state,
+            role: accessState === "verified" ? "guard" : "applicant",
+            verified: accessState === "verified",
+            accessState,
             jurisdiction: "NSW",
             legalPack: LEGAL_PACK,
         },

@@ -113,6 +113,13 @@
             <div class="auth-alt">
                 <button type="button" id="phone-signin-btn" class="btn btn-ghost">Sign in with mobile number</button>
             </div>
+            <div id="phone-panel" class="phone-panel" hidden>
+                <label for="phone-number">Mobile
+                    <input type="tel" id="phone-number" inputmode="tel" autocomplete="tel" placeholder="0432 893 343">
+                </label>
+                <div id="recaptcha-visible"></div>
+                <button type="button" id="phone-send-btn" class="btn btn-primary">Send SMS code</button>
+            </div>
 
             <p id="auth-error" class="auth-error" hidden></p>
             <p id="auth-status" class="auth-status" hidden></p>

@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from xml.sax.saxutils import escape as xml_escape
+
 import generate_pages as gp
 
 BLOGS = [
@@ -703,6 +705,10 @@ INDUSTRIES = [
     },
 ]
 
+for _ind in INDUSTRIES:
+    _ind["hero"] = f"industry-{_ind['slug']}"
+    gp.HERO_META[_ind["hero"]] = (1600, 900, f"{_ind['name']} — NSW security brief")
+
 
 def _hero(stem: str) -> tuple[int, int, str]:
     return gp.HERO_META.get(stem, (gp.OG_W, gp.OG_H, gp.OG_ALT))
@@ -834,11 +840,18 @@ def write_industries_index() -> None:
     url = f"{gp.SITE}/industries/"
     cards = ""
     for ind in INDUSTRIES:
+        w, h, alt = _hero(ind["hero"])
+        search = " ".join([ind["name"], ind["lead"], ind["desc"]]).lower()
         cards += f'''
-        <article class="loc-card reveal">
+        <article class="loc-card loc-card-photo reveal" data-search="{xml_escape(search)}">
           <a href="{ind["slug"]}.html">
-            <h2>{ind["name"]}</h2>
-            <p>{ind["lead"]}</p>
+            <div class="loc-card-media">
+              {gp.img_tag(ind["hero"], alt, w, h, 1, sizes="(max-width: 700px) 100vw, 360px")}
+            </div>
+            <div class="loc-card-body">
+              <h2>{ind["name"]}</h2>
+              <p>{ind["lead"]}</p>
+            </div>
           </a>
         </article>'''
     item_list = {
@@ -865,6 +878,11 @@ def write_industries_index() -> None:
     <p class="eyebrow">Sectors</p>
     <h1>Security briefed to the industry</h1>
     <p class="lead">The licence is the same. The post is not. Pick the sector that matches the risk.</p>
+    <form class="place-search" role="search" action="index.html" method="get">
+      <label for="place-search">Search an industry</label>
+      <input type="search" id="place-search" name="q" placeholder="Construction, events, retail…">
+    </form>
+    <p class="place-search-empty" id="place-search-empty" hidden>No industry matches that search. Try construction, venues or patrols.</p>
   </div>
   <div class="container loc-grid">{cards}</div>
   {gp.share_bar(url, title)}

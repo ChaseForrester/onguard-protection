@@ -527,6 +527,14 @@ LOCATIONS = [
     },
 ]
 
+for _loc in LOCATIONS:
+    _loc["hero"] = f"town-{_loc['slug']}"
+    HERO_META[_loc["hero"]] = (
+        1600,
+        900,
+        f"{_loc['name']} {_loc['state']} — {_loc['region']}",
+    )
+
 
 def asset(name: str, depth: int) -> str:
     return f"{'../' * depth}assets/{name}"
@@ -1337,12 +1345,20 @@ def write_locations_index() -> None:
     url = f"{SITE}/locations/"
     cards = ""
     for loc in LOCATIONS:
+        stem = loc["hero"]
+        w, h, alt = HERO_META[stem]
+        search = " ".join([loc["name"], loc["region"], loc["state"], loc["postcode"], loc["angle"]]).lower()
         cards += f'''
-        <article class="loc-card reveal">
+        <article class="loc-card loc-card-photo reveal" data-search="{xml_escape(search)}">
           <a href="{loc["slug"]}.html">
-            <h2>Security guards {loc["name"]}</h2>
-            <p>{loc["region"]} · {loc["state"]} {loc["postcode"]}</p>
-            <p>{loc["angle"]}</p>
+            <div class="loc-card-media">
+              {img_tag(stem, alt, w, h, 1, sizes="(max-width: 700px) 100vw, 360px")}
+            </div>
+            <div class="loc-card-body">
+              <h2>Security guards {loc["name"]}</h2>
+              <p>{loc["region"]} · {loc["state"]} {loc["postcode"]}</p>
+              <p>{loc["angle"]}</p>
+            </div>
           </a>
         </article>'''
     item_list = {
@@ -1369,6 +1385,11 @@ def write_locations_index() -> None:
     <p class="eyebrow">Suburb coverage</p>
     <h1>Security guards by suburb — NSW &amp; ACT</h1>
     <p class="lead">Eighteen coverage suburbs, each with dedicated service pages. Real towns we roster — not a generated list.</p>
+    <form class="place-search" role="search" action="index.html" method="get">
+      <label for="place-search">Search a suburb or postcode</label>
+      <input type="search" id="place-search" name="q" placeholder="Sydney, Nowra, 2541…" autocomplete="off">
+    </form>
+    <p class="place-search-empty" id="place-search-empty" hidden>No suburb matches that search. Try a nearby town or call 0432 893 343.</p>
   </div>
   <div class="container loc-grid">{cards}</div>
   {quote_form()}

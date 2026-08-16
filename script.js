@@ -140,7 +140,29 @@ document.addEventListener("DOMContentLoaded", () => {
     initWizard();
     initReveals();
     initCountUp();
+    initPlaceSearch();
 });
+
+function initPlaceSearch() {
+    const input = document.getElementById("place-search");
+    if (!input) return;
+    const cards = [...document.querySelectorAll("[data-search]")];
+    const empty = document.getElementById("place-search-empty");
+    const apply = () => {
+        const q = input.value.trim().toLowerCase();
+        let shown = 0;
+        cards.forEach((card) => {
+            const match = !q || (card.dataset.search || "").includes(q);
+            card.hidden = !match;
+            if (match) shown += 1;
+        });
+        if (empty) empty.hidden = shown > 0;
+    };
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("q") && !input.value) input.value = params.get("q") || "";
+    input.addEventListener("input", apply);
+    apply();
+}
 
 function initReveals() {
     const items = document.querySelectorAll(".reveal");

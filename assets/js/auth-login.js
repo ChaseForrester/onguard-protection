@@ -52,16 +52,36 @@ function showStatus(message) {
 }
 
 function friendlyAuthError(err) {
-    const code = err?.code || "";
+    const code = String(err?.code || "");
+    const message = String(err?.message || "");
+    if (code.includes("-47") || message.includes("-47") || message.includes("error-code:-47")) {
+        return "Google sign-in hit a server block. Try again in a moment. If it repeats, use email or the apply form.";
+    }
     if (code === "auth/popup-closed-by-user") return "Google sign-in was cancelled.";
     if (code === "auth/popup-blocked") return "Your browser blocked the Google popup. Allow popups and try again.";
     if (code === "auth/unauthorized-domain") return "This domain is not authorised in Firebase Auth yet.";
+    if (code === "auth/operation-not-allowed") return "That sign-in method is not enabled yet in Firebase.";
     if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
         return "Email or password is not correct.";
     }
     if (code === "auth/too-many-requests") return "Too many attempts. Wait a moment and try again.";
-    if (code === "auth/invalid-phone-number") return "Use international format, for example +61432893343.";
+    if (code === "auth/invalid-phone-number") return "Enter an Australian mobile, for example 0432 893 343.";
+    if (code === "auth/missing-phone-number") return "Enter your mobile number first.";
+    if (code === "auth/captcha-check-failed" || code === "auth/invalid-app-credential") {
+        return "Phone verification could not start. Complete the reCAPTCHA and try again.";
+    }
+    if (code === "auth/quota-exceeded") return "SMS quota is exhausted. Use Google or email, or apply without signing in.";
+    if (code === "auth/argument-error") return "Sign-in could not start. Refresh the page and try again.";
     return err?.message || "Sign-in failed.";
+}
+
+function toE164(raw) {
+    const digits = String(raw || "").replace(/[^\d+]/g, "");
+    if (digits.startsWith("+")) return digits;
+    if (digits.startsWith("61") && digits.length >= 11) return `+${digits}`;
+    if (digits.startsWith("0") && digits.length === 10) return `+61${digits.slice(1)}`;
+    if (digits.length === 9) return `+61${digits}`;
+    return digits;
 }
 
 async function routeSignedInUser(user) {
@@ -124,20 +144,44 @@ emailForm?.addEventListener("submit", async (event) => {
     }
 });
 
-phoneBtn?.addEventListener("click", async () => {
-    const phoneNumber = window.prompt("Enter your mobile in international format (e.g. +61432893343):");
-    if (!phoneNumber) return;
+const phonePanel = document.getElementById("phone-panel");
+const phoneInput = document.getElementById("phone-number");
+const phoneSend = document.getElementById("phone-send-btn");
+
+phoneBtn?.addEventListener("click", () => {
+    if (phonePanel) phonePanel.hidden = !phonePanel.hidden;
+    if (phonePanel && !phonePanel.hidden) phoneInput?.focus();
+});
+
+async function ensureRecaptcha() {
+    if (recaptchaVerifier) return recaptchaVerifier;
+    const host = document.getElementById("recaptcha-visible") || document.getElementById("recaptcha-container");
+    if (!host) throw new Error("reCAPTCHA container missing");
+    recaptchaVerifier = new RecaptchaVerifier(auth, host, { size: "normal" });
+    await recaptchaVerifier.render();
+    return recaptchaVerifier;
+}
+
+phoneSend?.addEventListener("click", async () => {
+    const phoneNumber = toE164(phoneInput?.value || "");
+    if (!phoneNumber.startsWith("+61") || phoneNumber.length < 12) {
+        showError("Enter an Australian mobile, for example 0432 893 343.");
+        return;
+    }
     showError("");
+    phoneSend.disabled = true;
     try {
-        if (!recaptchaVerifier) {
-            recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", { size: "invisible" });
-        }
-        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+        const verifier = await ensureRecaptcha();
+        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, verifier);
         smsModal?.classList.add("is-active");
         smsInput?.focus();
         showStatus("SMS code sent.");
     } catch (err) {
+        try { recaptchaVerifier?.clear(); } catch { /* ignore */ }
+        recaptchaVerifier = null;
         showError(friendlyAuthError(err));
+    } finally {
+        phoneSend.disabled = false;
     }
 });
 
