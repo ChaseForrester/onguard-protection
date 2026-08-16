@@ -601,7 +601,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
     <div class="container">
       <nav class="main-nav" aria-label="Primary">
         <a href="{home}" class="logo">
-          <img src="{prefix}assets/img/logo-800.jpg" width="1024" height="1024" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
+          <img src="{prefix}assets/img/logo-800.jpg" width="168" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
         </a>
         <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <span></span><span></span><span></span>
@@ -624,7 +624,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
   <footer class="site-footer" id="contact">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="{prefix}assets/img/logo-800.jpg" width="1024" height="1024" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
+        <img src="{prefix}assets/img/logo-800.jpg" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
         <p>We don’t just show up. We stand guard. Licensed NSW security from Sydney to the Hunter, South Coast and Canberra.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/ogprotection/" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Facebook">
