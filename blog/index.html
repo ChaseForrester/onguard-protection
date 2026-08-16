@@ -61,7 +61,10 @@
     <div class="container top-bar-content">
       <p class="top-bar-live"><span class="pulse" aria-hidden="true"></span> 24/7 NSW response</p>
       <p class="top-bar-licence">SLED Master Licence 000110094 <a href="https://verify.licence.nsw.gov.au/home/Security" target="_blank" rel="noopener noreferrer">Verify</a></p>
-      <a class="top-bar-phone" href="tel:+61432893343">0432 893 343</a>
+      <div class="top-bar-end">
+        <a class="top-bar-admin" href="../super/">Staff</a>
+        <a class="top-bar-phone" href="tel:+61432893343">0432 893 343</a>
+      </div>
     </div>
   </div>
   <header class="site-header">
@@ -76,16 +79,30 @@
         <div class="nav-links" id="site-nav">
           <ul class="nav-list">
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../index.html#operations">On the ground</a></li>
-            <li><a href="../index.html#services">Services</a></li>
-            <li><a href="../locations/index.html">Suburbs</a></li>
-            <li><a href="../blog/index.html" class='active'>Blog</a></li>
+            <li class="has-sub">
+              <button type="button" class="nav-sub-toggle" aria-expanded="false" aria-controls="nav-services">Services</button>
+              <ul class="nav-sub" id="nav-services">
+              <li><a href="../services/crowd-control.html">Crowd control</a></li>
+              <li><a href="../services/event-security.html">Event security</a></li>
+              <li><a href="../services/static-guards.html">Static guards</a></li>
+              <li><a href="../services/mobile-patrols.html">Mobile patrols</a></li>
+              <li><a href="../services/corporate-security.html">Corporate security</a></li>
+              <li><a href="../services/asset-protection.html">Asset protection</a></li>
+                <li><a href="../index.html#services">All services</a></li>
+              </ul>
+            </li>
+            <li><a href="../locations/index.html">Locations</a></li>
             <li><a href="../industries/index.html">Industries</a></li>
+            <li><a href="../blog/index.html" class='active'>Blog</a></li>
             <li><a href="../jobs/index.html">Jobs</a></li>
-            <li><a href="../legal/index.html">Legal</a></li>
-            <li><a href="#quote">Contact</a></li>
           </ul>
-          <a href="#quote" class="btn btn-primary">Get a quote</a>
+          <div class="nav-actions">
+            <a href="../login/" class="btn btn-login">
+              <img src="../assets/brand/icon-google.svg" width="16" height="16" alt="">
+              Guard login
+            </a>
+            <a href="../index.html#quote" class="btn btn-primary">Get a quote</a>
+          </div>
         </div>
       </nav>
     </div>
@@ -546,6 +563,7 @@
           <li><a href="../blog/index.html">Security guides</a></li>
           <li><a href="../industries/index.html">Industries</a></li>
           <li><a href="../jobs/index.html">Guard jobs portal</a></li>
+          <li><a href="../login/">Guard login</a></li>
           <li><a href="../legal/index.html">Legal &amp; compliance</a></li>
         </ul>
       </div>

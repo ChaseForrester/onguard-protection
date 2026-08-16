@@ -27,7 +27,31 @@ document.addEventListener("DOMContentLoaded", () => {
     navItems.forEach((item) => {
         item.addEventListener("click", closeMenu);
     });
-    navLinks?.querySelector(".btn")?.addEventListener("click", closeMenu);
+    navLinks?.querySelectorAll(".nav-actions a")?.forEach((btn) => {
+        btn.addEventListener("click", closeMenu);
+    });
+
+    const subToggles = document.querySelectorAll(".nav-sub-toggle");
+    const closeSubs = () => {
+        document.querySelectorAll(".has-sub.is-open").forEach((item) => {
+            item.classList.remove("is-open");
+            item.querySelector(".nav-sub-toggle")?.setAttribute("aria-expanded", "false");
+        });
+    };
+    subToggles.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const item = btn.closest(".has-sub");
+            const open = !item.classList.contains("is-open");
+            closeSubs();
+            item.classList.toggle("is-open", open);
+            btn.setAttribute("aria-expanded", String(open));
+        });
+    });
+    document.addEventListener("click", (event) => {
+        if (!event.target.closest(".has-sub")) closeSubs();
+    });
 
     const sections = [...document.querySelectorAll("main section[id]")];
     let sectionTops = [];
@@ -101,6 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (event.key === "Escape") {
                 if (!lightbox.hidden) closeLightbox();
                 closeMenu();
+                closeSubs();
+            }
+        });
+    } else {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeMenu();
+                closeSubs();
             }
         });
     }

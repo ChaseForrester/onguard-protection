@@ -3,6 +3,9 @@ Allow: /
 Allow: /sitemaps/
 Disallow: /thanks.html
 Disallow: /404.html
+Disallow: /login/
+Disallow: /super/
+Disallow: /platform/
 
 User-agent: Googlebot
 Allow: /

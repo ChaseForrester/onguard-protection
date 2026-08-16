@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BCCYLJFLXP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-BCCYLJFLXP');
+    </script>
+    <title>Super Admin login | OnGuard Protection</title>
+    <meta name="description" content="Restricted Super Admin login for OnGuard Protection operations.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#070b14">
+    <link rel="canonical" href="https://www.ogprotection.com.au/super/">
+    <link rel="icon" href="../assets/img/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png" sizes="180x180">
+    <link rel="preload" href="../assets/fonts/barlowcond-800.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../assets/fonts/fonts.css">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="inner-page" data-auth-mode="super">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <p class="top-bar-live"><span class="pulse" aria-hidden="true"></span> Restricted access</p>
+            <p class="top-bar-licence">OG-LEG-2026-001 · ML 000110094</p>
+            <div class="top-bar-end">
+                <a class="top-bar-admin" href="./">Staff</a>
+                <a class="top-bar-phone" href="tel:+61432893343">0432 893 343</a>
+            </div>
+        </div>
+    </div>
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav" aria-label="Primary">
+                <a href="../index.html" class="logo">
+                    <img src="../assets/brand/onguard-nav-560.webp"
+                        srcset="../assets/brand/onguard-nav-560.webp 560w, ../assets/brand/onguard-nav.webp 2048w"
+                        sizes="200px" width="560" height="229"
+                        alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
+                </a>
+                <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false"
+                    aria-controls="site-nav">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="nav-links" id="site-nav">
+                    <ul class="nav-list">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../jobs/index.html">Jobs</a></li>
+                        <li><a href="../login/">Guard login</a></li>
+                    </ul>
+                    <div class="nav-actions">
+                        <a href="./" class="btn btn-login active">Super Admin</a>
+                        <a href="../index.html#quote" class="btn btn-primary">Get a quote</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="auth-page auth-page--super">
+        <section class="auth-card" aria-labelledby="admin-title">
+            <img src="../assets/brand/onguard-lockup-480.webp" alt="OnGuard Protection" class="auth-logo" width="168"
+                height="69">
+            <p class="auth-kicker">Operations console</p>
+            <h1 id="admin-title">Super Admin login</h1>
+            <p class="auth-lead">Restricted to the OnGuard Super Admin claim. Any other Google or email account is
+                signed out immediately.</p>
+
+            <button type="button" id="google-signin-btn" class="btn btn-google">
+                <img src="../assets/brand/icon-google.svg" width="18" height="18" alt="">
+                Continue with Google
+            </button>
+
+            <div class="auth-divider"><span>or staff email</span></div>
+
+            <form id="email-login-form" class="auth-form">
+                <label for="login-email">Admin email
+                    <input type="email" id="login-email" name="email" autocomplete="username" required>
+                </label>
+                <label for="login-password">Password
+                    <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+                </label>
+                <button type="submit" class="btn btn-primary">Sign in as Super Admin</button>
+            </form>
+
+            <p id="auth-error" class="auth-error" hidden></p>
+            <p id="auth-status" class="auth-status" hidden></p>
+
+            <p class="auth-foot">
+                Guards use the <a href="../login/">Google guard login</a>. This page does not create accounts.
+            </p>
+        </section>
+    </main>
+
+    <script src="../script.js" defer></script>
+    <script type="module" src="../assets/js/auth-login.js"></script>
+</body>
+
+</html>

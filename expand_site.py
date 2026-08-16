@@ -948,6 +948,9 @@ def write_industry(ind: dict) -> None:
 
 
 def write_jobs_dfd() -> None:
+    jobs_path = gp.ROOT / "jobs" / "index.html"
+    if jobs_path.exists() and "job-card" in jobs_path.read_text(encoding="utf-8"):
+        return
     depth = 1
     url = f"{gp.SITE}/jobs/"
     title = "Guard jobs portal & data flow | OnGuard Protection"

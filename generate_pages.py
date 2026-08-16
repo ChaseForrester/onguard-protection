@@ -632,13 +632,24 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
     prefix = "../" * depth
     home = f"{prefix}index.html"
     loc_idx = f"{prefix}locations/index.html"
+    quote = f"{home}#quote"
+    on = lambda name: " class='active'" if current == name else ""
+    svc_open = ""
+    svc_btn = " active" if current == "services" else ""
+    svc_items = "\n".join(
+        f'              <li><a href="{prefix}services/{svc["slug"]}.html">{svc["short"]}</a></li>'
+        for svc in SERVICES
+    )
     nav = f'''
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="top-bar">
     <div class="container top-bar-content">
       <p class="top-bar-live"><span class="pulse" aria-hidden="true"></span> 24/7 NSW response</p>
       <p class="top-bar-licence">SLED Master Licence {LICENCE} <a href="https://verify.licence.nsw.gov.au/home/Security" target="_blank" rel="noopener noreferrer">Verify</a></p>
-      <a class="top-bar-phone" href="tel:{TEL}">{PHONE}</a>
+      <div class="top-bar-end">
+        <a class="top-bar-admin" href="{prefix}super/">Staff</a>
+        <a class="top-bar-phone" href="tel:{TEL}">{PHONE}</a>
+      </div>
     </div>
   </div>
   <header class="site-header">
@@ -652,17 +663,26 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
         </button>
         <div class="nav-links" id="site-nav">
           <ul class="nav-list">
-            <li><a href="{home}"{" class='active'" if current=="home" else ""}>Home</a></li>
-            <li><a href="{home}#operations">On the ground</a></li>
-            <li><a href="{home}#services">Services</a></li>
-            <li><a href="{loc_idx}"{" class='active'" if current=="locations" else ""}>Suburbs</a></li>
-            <li><a href="{prefix}blog/index.html"{" class='active'" if current=="blog" else ""}>Blog</a></li>
-            <li><a href="{prefix}industries/index.html"{" class='active'" if current=="industries" else ""}>Industries</a></li>
-            <li><a href="{prefix}jobs/index.html"{" class='active'" if current=="jobs" else ""}>Jobs</a></li>
-            <li><a href="{prefix}legal/index.html"{" class='active'" if current=="legal" else ""}>Legal</a></li>
-            <li><a href="#quote">Contact</a></li>
+            <li><a href="{home}"{on("home")}>Home</a></li>
+            <li class="has-sub{svc_open}">
+              <button type="button" class="nav-sub-toggle{svc_btn}" aria-expanded="{'true' if current == 'services' else 'false'}" aria-controls="nav-services">Services</button>
+              <ul class="nav-sub" id="nav-services">
+{svc_items}
+                <li><a href="{home}#services">All services</a></li>
+              </ul>
+            </li>
+            <li><a href="{loc_idx}"{on("locations")}>Locations</a></li>
+            <li><a href="{prefix}industries/index.html"{on("industries")}>Industries</a></li>
+            <li><a href="{prefix}blog/index.html"{on("blog")}>Blog</a></li>
+            <li><a href="{prefix}jobs/index.html"{on("jobs")}>Jobs</a></li>
           </ul>
-          <a href="#quote" class="btn btn-primary">Get a quote</a>
+          <div class="nav-actions">
+            <a href="{prefix}login/" class="btn btn-login{' active' if current=='login' else ''}">
+              <img src="{prefix}assets/brand/icon-google.svg" width="16" height="16" alt="">
+              Guard login
+            </a>
+            <a href="{quote}" class="btn btn-primary">Get a quote</a>
+          </div>
         </div>
       </nav>
     </div>
@@ -709,6 +729,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <li><a href="{prefix}blog/index.html">Security guides</a></li>
           <li><a href="{prefix}industries/index.html">Industries</a></li>
           <li><a href="{prefix}jobs/index.html">Guard jobs portal</a></li>
+          <li><a href="{prefix}login/">Guard login</a></li>
           <li><a href="{prefix}legal/index.html">Legal &amp; compliance</a></li>
         </ul>
       </div>
@@ -1116,7 +1137,7 @@ def write_service(svc: dict) -> None:
     )
     bullets = "".join(f"<li>{b}</li>" for b in svc["bullets"])
     faq_html = "".join(f"<details><summary>{q}</summary><p class='answer-block'>{a}</p></details>" for q, a in svc["faq"])
-    nav, footer = chrome(depth)
+    nav, footer = chrome(depth, "services")
     extra = f'<link rel="preload" as="image" href="../assets/img/{svc["img"]}-800.webp" type="image/webp">'
     html = f'''{head(title, desc, url, depth, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema(), crumbs, faq, service], extra)}
 <body class="inner-page">
@@ -1584,6 +1605,9 @@ Allow: /
 Allow: /sitemaps/
 Disallow: /thanks.html
 Disallow: /404.html
+Disallow: /login/
+Disallow: /super/
+Disallow: /platform/
 
 User-agent: Googlebot
 Allow: /

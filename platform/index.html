@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-AU">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -57,7 +58,7 @@
       margin-bottom: 2rem;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
+
     .glass-panel::before {
       content: '';
       position: absolute;
@@ -79,8 +80,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Auth View specific CSS */
@@ -102,14 +110,15 @@
       color: var(--text-muted);
       font-size: 0.85rem;
     }
-    
-    .auth-divider::before, .auth-divider::after {
+
+    .auth-divider::before,
+    .auth-divider::after {
       content: '';
       flex: 1;
       height: 1px;
       background: var(--border-color);
     }
-    
+
     .auth-divider span {
       padding: 0 1rem;
     }
@@ -225,10 +234,29 @@
       font-family: 'Barlow Condensed', sans-serif;
     }
 
-    .badge-pending { background: rgba(255, 179, 0, 0.15); border: 1px solid rgba(255, 179, 0, 0.3); color: var(--warning); }
-    .badge-verified { background: rgba(0, 230, 118, 0.15); border: 1px solid rgba(0, 230, 118, 0.3); color: var(--success); }
-    .badge-rejected { background: rgba(194, 39, 18, 0.15); border: 1px solid rgba(194, 39, 18, 0.3); color: #ff523b; }
-    .badge-blocked { background: #000; border: 1px solid #333; color: #ff0000; }
+    .badge-pending {
+      background: rgba(255, 179, 0, 0.15);
+      border: 1px solid rgba(255, 179, 0, 0.3);
+      color: var(--warning);
+    }
+
+    .badge-verified {
+      background: rgba(0, 230, 118, 0.15);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: var(--success);
+    }
+
+    .badge-rejected {
+      background: rgba(194, 39, 18, 0.15);
+      border: 1px solid rgba(194, 39, 18, 0.3);
+      color: #ff523b;
+    }
+
+    .badge-blocked {
+      background: #000;
+      border: 1px solid #333;
+      color: #ff0000;
+    }
 
     /* Dashboard Header Layout */
     .dashboard-header {
@@ -291,7 +319,8 @@
       white-space: nowrap;
     }
 
-    .tab-btn:hover, .tab-btn.is-active {
+    .tab-btn:hover,
+    .tab-btn.is-active {
       color: var(--text-main);
       background: rgba(243, 238, 230, 0.05);
     }
@@ -366,7 +395,7 @@
       align-items: center;
       margin-bottom: 1.5rem;
     }
-    
+
     .day-row {
       display: flex;
       justify-content: space-between;
@@ -451,7 +480,8 @@
       text-align: left;
     }
 
-    .data-table th, .data-table td {
+    .data-table th,
+    .data-table td {
       padding: 1rem;
       border-bottom: 1px solid var(--border-color);
     }
@@ -514,7 +544,7 @@
       max-width: 440px;
       width: 100%;
       box-sizing: border-box;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
       position: relative;
     }
 
@@ -542,7 +572,7 @@
       border-left: 4px solid var(--primary);
       padding: 1rem 1.5rem;
       border-radius: 6px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -551,8 +581,15 @@
     }
 
     @keyframes toastIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
 
     .toast-close {
@@ -569,12 +606,17 @@
     }
   </style>
 </head>
+
 <body class="inner-page">
   <div class="top-bar">
     <div class="container top-bar-content">
       <p class="top-bar-live"><span class="pulse" aria-hidden="true"></span> 24/7 NSW response</p>
-      <p class="top-bar-licence">SLED Master Licence 000110094 <a href="https://verify.licence.nsw.gov.au/home/Security" target="_blank" rel="noopener noreferrer">Verify</a></p>
-      <a class="top-bar-phone" href="tel:+61432893343">0432 893 343</a>
+      <p class="top-bar-licence">SLED Master Licence 000110094 <a href="https://verify.licence.nsw.gov.au/home/Security"
+          target="_blank" rel="noopener noreferrer">Verify</a></p>
+      <div class="top-bar-end">
+        <a class="top-bar-admin" href="../super/">Staff</a>
+        <a class="top-bar-phone" href="tel:+61432893343">0432 893 343</a>
+      </div>
     </div>
   </div>
 
@@ -582,13 +624,28 @@
     <div class="container">
       <nav class="main-nav" aria-label="Primary">
         <a href="../index.html" class="logo">
-          <img src="../assets/brand/onguard-nav-560.webp" srcset="../assets/brand/onguard-nav-560.webp 560w, ../assets/brand/onguard-nav.webp 2048w" sizes="200px" width="560" height="229" alt="OnGuard Protection logo — NSW SLED licensed security" decoding="async">
+          <img src="../assets/brand/onguard-nav-560.webp"
+            srcset="../assets/brand/onguard-nav-560.webp 560w, ../assets/brand/onguard-nav.webp 2048w" sizes="200px"
+            width="560" height="229" alt="OnGuard Protection logo — NSW SLED licensed security" decoding="async">
         </a>
-        <div class="nav-links">
+        <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false"
+          aria-controls="site-nav">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="site-nav">
           <ul class="nav-list">
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../jobs/index.html">Guard Jobs Portal</a></li>
+            <li><a href="../jobs/index.html">Jobs</a></li>
+            <li><a href="../login/">Guard login</a></li>
+            <li><a href="../super/">Super Admin</a></li>
           </ul>
+          <div class="nav-actions">
+            <a href="../login/" class="btn btn-login">
+              <img src="../assets/brand/icon-google.svg" width="16" height="16" alt="">
+              Guard login
+            </a>
+            <a href="../index.html#quote" class="btn btn-primary">Get a quote</a>
+          </div>
         </div>
       </nav>
     </div>
@@ -596,14 +653,30 @@
 
   <main id="main">
     <div class="portal-container">
-      
+
       <!-- 1. AUTHENTICATION VIEW -->
       <div id="view-auth" class="portal-view is-active">
         <div class="glass-panel auth-box">
           <img src="../assets/brand/onguard-lockup-480.webp" alt="OnGuard Protection" class="auth-logo">
           <h2>Security Operatives Portal</h2>
-          <p class="lead" style="font-size:0.95rem; margin-bottom:2rem;">Restricted to SLED licensed NSW Class 1 security guards. All access audited under OG-LEG-2026-001.</p>
-          
+          <p class="lead" style="font-size:0.95rem; margin-bottom:2rem;">Restricted to SLED licensed NSW Class 1
+            security guards. All access audited under OG-LEG-2026-001.</p>
+
+          <div class="auth-providers">
+            <button type="button" id="google-signin-btn" class="btn btn-google"
+              style="width:100%; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
+              <img src="../assets/brand/icon-google.svg" width="18" height="18" alt="">
+              Continue with Google
+            </button>
+            <button type="button" id="phone-signin-btn" class="btn btn-ghost" style="width:100%;">
+              Sign in with mobile number
+            </button>
+          </div>
+
+          <div class="auth-divider">
+            <span>or email</span>
+          </div>
+
           <form id="email-login-form">
             <div class="form-group">
               <label for="login-email">Email Address</label>
@@ -613,9 +686,11 @@
               <label for="login-password">Password</label>
               <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">Sign In with Email</button>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">Sign In
+              with Email</button>
             <p style="font-size:0.85rem; margin-top:1rem; color:var(--text-muted);">
-              Don't have an account? <a href="#" onclick="toggleAuthMode(false); return false;" style="color:var(--primary-hover); font-weight:600;">Sign Up</a>
+              Don't have an account? <a href="#" onclick="toggleAuthMode(false); return false;"
+                style="color:var(--primary-hover); font-weight:600;">Sign Up</a>
             </p>
           </form>
 
@@ -630,27 +705,16 @@
             </div>
             <div class="form-group">
               <label for="signup-password">Password</label>
-              <input type="password" id="signup-password" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+              <input type="password" id="signup-password" class="form-control" placeholder="Minimum 6 characters"
+                minlength="6" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">Create Account</button>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; margin-top:0.5rem;">Create
+              Account</button>
             <p style="font-size:0.85rem; margin-top:1rem; color:var(--text-muted);">
-              Already registered? <a href="#" onclick="toggleAuthMode(true); return false;" style="color:var(--primary-hover); font-weight:600;">Sign In</a>
+              Already registered? <a href="#" onclick="toggleAuthMode(true); return false;"
+                style="color:var(--primary-hover); font-weight:600;">Sign In</a>
             </p>
           </form>
-
-          <div class="auth-divider">
-            <span>or use alternative sign in</span>
-          </div>
-
-          <div class="auth-providers">
-            <button type="button" id="google-signin-btn" class="btn btn-ghost" style="width:100%; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
-              <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.47h4.84c-.21 1.12-.84 2.07-1.79 2.7v2.24h2.9c1.7-1.57 2.69-3.88 2.69-6.57zm-8.64 8.8c2.43 0 4.47-.8 5.96-2.18l-2.9-2.24c-.8.54-1.84.87-3.06.87-2.35 0-4.34-1.58-5.05-3.71h-3v2.32C3.12 15.65 6.3 18 9 18z" fill="#4285F4"/><path d="M3.95 10.74c-.18-.54-.28-1.12-.28-1.74s.1-1.2.28-1.74V4.94h-3a9 9 0 0 0 0 8.12l3-2.32zm5.05-7.07c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.84 11.43 0 9 0 6.3 0 3.12 2.35 1.96 4.94l3 2.32c.71-2.13 2.7-3.71 5.04-3.71z" fill="#EA4335"/></svg>
-              Sign In with Google
-            </button>
-            <button type="button" id="phone-signin-btn" class="btn btn-ghost" style="width:100%;">
-              📞 Sign In with Mobile Number
-            </button>
-          </div>
         </div>
       </div>
 
@@ -659,11 +723,13 @@
         <div class="glass-panel">
           <h2>Mandatory NSW Class 1 KYC Onboarding</h2>
           <p class="lead">Complete your KYC profile. All entries are audited under NSW SLED compliance codes.</p>
-          
+
           <form id="kyc-submit-form">
             <!-- Section 1: Licence & Identity -->
-            <h3 style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2rem; font-family:'Barlow Condensed', sans-serif;">1. Physical NSW Security Licence</h3>
-            
+            <h3
+              style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2rem; font-family:'Barlow Condensed', sans-serif;">
+              1. Physical NSW Security Licence</h3>
+
             <div class="form-row">
               <div class="form-group">
                 <label for="kyc-licence-number">Licence Number</label>
@@ -727,19 +793,23 @@
             <div class="form-row" style="margin-top:1.5rem;">
               <div class="form-group">
                 <label for="kyc-file-front">Licence Front Image (JPG/PNG)</label>
-                <input type="file" id="kyc-file-front" class="form-control" accept="image/jpeg,image/png,image/webp" required>
+                <input type="file" id="kyc-file-front" class="form-control" accept="image/jpeg,image/png,image/webp"
+                  required>
                 <span class="field-hint">Max file size 8MB</span>
               </div>
               <div class="form-group">
                 <label for="kyc-file-back">Licence Back Image (JPG/PNG)</label>
-                <input type="file" id="kyc-file-back" class="form-control" accept="image/jpeg,image/png,image/webp" required>
+                <input type="file" id="kyc-file-back" class="form-control" accept="image/jpeg,image/png,image/webp"
+                  required>
                 <span class="field-hint">Max file size 8MB</span>
               </div>
             </div>
 
             <!-- Section 2: Contact & Payroll -->
-            <h3 style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2.5rem; font-family:'Barlow Condensed', sans-serif;">2. Contact details & Superannuation</h3>
-            
+            <h3
+              style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2.5rem; font-family:'Barlow Condensed', sans-serif;">
+              2. Contact details & Superannuation</h3>
+
             <div class="form-row">
               <div class="form-group">
                 <label for="kyc-mobile">Mobile Number (Authentication mirror)</label>
@@ -759,22 +829,26 @@
               </div>
               <div class="form-group">
                 <label for="kyc-super-usi">Super USI or Fund Name</label>
-                <input type="text" id="kyc-super-usi" class="form-control" placeholder="e.g. 16457520308001 (or AustralianSuper)" required>
+                <input type="text" id="kyc-super-usi" class="form-control"
+                  placeholder="e.g. 16457520308001 (or AustralianSuper)" required>
               </div>
             </div>
 
             <!-- Section 3: Bank details -->
-            <h3 style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2.5rem; font-family:'Barlow Condensed', sans-serif;">3. Payroll Bank Account</h3>
-            
+            <h3
+              style="border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-top:2.5rem; font-family:'Barlow Condensed', sans-serif;">
+              3. Payroll Bank Account</h3>
+
             <div class="form-group">
               <label for="kyc-bank-name">Account Name</label>
               <input type="text" id="kyc-bank-name" class="form-control" placeholder="e.g. Johnathan Doe" required>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group">
                 <label for="kyc-bank-bsb">BSB Number (6 Digits)</label>
-                <input type="text" id="kyc-bank-bsb" class="form-control" placeholder="e.g. 062900" maxlength="6" pattern="\d{6}" required>
+                <input type="text" id="kyc-bank-bsb" class="form-control" placeholder="e.g. 062900" maxlength="6"
+                  pattern="\d{6}" required>
               </div>
               <div class="form-group">
                 <label for="kyc-bank-account">Account Number</label>
@@ -782,7 +856,8 @@
               </div>
             </div>
 
-            <button type="submit" id="kyc-submit-btn" class="btn btn-primary" style="margin-top:2rem; width:100%; padding:1rem;">Submit KYC Application</button>
+            <button type="submit" id="kyc-submit-btn" class="btn btn-primary"
+              style="margin-top:2rem; width:100%; padding:1rem;">Submit KYC Application</button>
           </form>
         </div>
       </div>
@@ -790,10 +865,14 @@
       <!-- 3. KYC PENDING STATE -->
       <div id="view-pending" class="portal-view">
         <div class="glass-panel" style="text-align:center; padding:4rem 2rem;">
-          <div class="badge badge-pending" style="font-size:1.25rem; margin-bottom:1.5rem; padding:0.5rem 1.5rem;">KYC Review Pending</div>
+          <div class="badge badge-pending" style="font-size:1.25rem; margin-bottom:1.5rem; padding:0.5rem 1.5rem;">KYC
+            Review Pending</div>
           <h2>Application Under Review</h2>
-          <p class="lead" style="max-width:600px; margin: 1rem auto 2rem auto;">Your NSW Class 1 licence and payroll credentials have been submitted and are currently awaiting super admin validation. Non-verified users are restricted from platform scheduling.</p>
-          <p style="color:var(--text-muted); font-size:0.9rem;">Master Licence context: 000110094. Ref: OG-LEG-2026-001</p>
+          <p class="lead" style="max-width:600px; margin: 1rem auto 2rem auto;">Your NSW Class 1 licence and payroll
+            credentials have been submitted and are currently awaiting super admin validation. Non-verified users are
+            restricted from platform scheduling.</p>
+          <p style="color:var(--text-muted); font-size:0.9rem;">Master Licence context: 000110094. Ref: OG-LEG-2026-001
+          </p>
           <button class="btn btn-ghost" onclick="triggerSignOut()" style="margin-top:1.5rem;">Sign Out</button>
         </div>
       </div>
@@ -801,10 +880,13 @@
       <!-- 4. ACCOUNT DENIED / REJECTED VIEW -->
       <div id="view-rejected" class="portal-view">
         <div class="glass-panel" style="text-align:center; padding:4rem 2rem;">
-          <div class="badge badge-rejected" style="font-size:1.25rem; margin-bottom:1.5rem; padding:0.5rem 1.5rem;">Access Denied</div>
+          <div class="badge badge-rejected" style="font-size:1.25rem; margin-bottom:1.5rem; padding:0.5rem 1.5rem;">
+            Access Denied</div>
           <h2>Verification Unsuccessful</h2>
-          <p class="lead" style="max-width:600px; margin: 1rem auto; color:#ff523b;" id="rejected-reason-text">Your licence details could not be validated or did not meet NSW SLED requirements.</p>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:2rem;">Access is limited exclusively to valid NSW Class 1 operatives under OnGuard Legal Pack OG-LEG-2026-001.</p>
+          <p class="lead" style="max-width:600px; margin: 1rem auto; color:#ff523b;" id="rejected-reason-text">Your
+            licence details could not be validated or did not meet NSW SLED requirements.</p>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:2rem;">Access is limited exclusively to
+            valid NSW Class 1 operatives under OnGuard Legal Pack OG-LEG-2026-001.</p>
           <button class="btn btn-ghost" onclick="triggerSignOut()">Return to Login</button>
         </div>
       </div>
@@ -821,15 +903,18 @@
           <div class="user-pill">
             <span class="badge badge-verified">Verified</span>
             <span class="user-pill-email" id="guard-user-email">guard@domain.com</span>
-            <button class="btn btn-ghost btn-small" onclick="triggerSignOut()" style="padding:0.25rem 0.6rem; font-size:0.75rem;">Sign Out</button>
+            <button class="btn btn-ghost btn-small" onclick="triggerSignOut()"
+              style="padding:0.25rem 0.6rem; font-size:0.75rem;">Sign Out</button>
           </div>
         </div>
 
         <div class="nav-tabs" role="tablist">
           <button class="tab-btn is-active" role="tab" onclick="switchGuardTab('shifts', this)">Assigned Shifts</button>
-          <button class="tab-btn" role="tab" onclick="switchGuardTab('availability', this)">Availability Planner</button>
+          <button class="tab-btn" role="tab" onclick="switchGuardTab('availability', this)">Availability
+            Planner</button>
           <button class="tab-btn" role="tab" onclick="switchGuardTab('profile', this)">My Credentials</button>
-          <button class="tab-btn" role="tab" onclick="switchGuardTab('notifications', this)">Alerts (<span id="guard-alerts-count">0</span>)</button>
+          <button class="tab-btn" role="tab" onclick="switchGuardTab('notifications', this)">Alerts (<span
+              id="guard-alerts-count">0</span>)</button>
         </div>
 
         <!-- Guard Tabs Content -->
@@ -852,17 +937,20 @@
                 <div class="week-header">
                   <h3 style="margin:0; font-family:'Barlow Condensed', sans-serif;">Week Availability Scheduler</h3>
                   <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <label for="avail-week-select" style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Mon Start Date:</label>
-                    <input type="date" id="avail-week-select" class="form-control" style="width:160px; padding:0.4rem;" required>
+                    <label for="avail-week-select"
+                      style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Mon Start Date:</label>
+                    <input type="date" id="avail-week-select" class="form-control" style="width:160px; padding:0.4rem;"
+                      required>
                   </div>
                 </div>
-                
+
                 <form id="guard-availability-form">
                   <div class="day-row">
                     <span class="day-name">Monday</span>
                     <div class="time-windows" id="avail-windows-mon">
                       <div class="time-window-inputs">
-                        <input type="time" name="mon_start_0" value="08:00"> to <input type="time" name="mon_end_0" value="16:00">
+                        <input type="time" name="mon_start_0" value="08:00"> to <input type="time" name="mon_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
@@ -870,7 +958,8 @@
                     <span class="day-name">Tuesday</span>
                     <div class="time-windows" id="avail-windows-tue">
                       <div class="time-window-inputs">
-                        <input type="time" name="tue_start_0" value="08:00"> to <input type="time" name="tue_end_0" value="16:00">
+                        <input type="time" name="tue_start_0" value="08:00"> to <input type="time" name="tue_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
@@ -878,7 +967,8 @@
                     <span class="day-name">Wednesday</span>
                     <div class="time-windows" id="avail-windows-wed">
                       <div class="time-window-inputs">
-                        <input type="time" name="wed_start_0" value="08:00"> to <input type="time" name="wed_end_0" value="16:00">
+                        <input type="time" name="wed_start_0" value="08:00"> to <input type="time" name="wed_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
@@ -886,7 +976,8 @@
                     <span class="day-name">Thursday</span>
                     <div class="time-windows" id="avail-windows-thu">
                       <div class="time-window-inputs">
-                        <input type="time" name="thu_start_0" value="08:00"> to <input type="time" name="thu_end_0" value="16:00">
+                        <input type="time" name="thu_start_0" value="08:00"> to <input type="time" name="thu_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
@@ -894,7 +985,8 @@
                     <span class="day-name">Friday</span>
                     <div class="time-windows" id="avail-windows-fri">
                       <div class="time-window-inputs">
-                        <input type="time" name="fri_start_0" value="08:00"> to <input type="time" name="fri_end_0" value="16:00">
+                        <input type="time" name="fri_start_0" value="08:00"> to <input type="time" name="fri_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
@@ -902,7 +994,8 @@
                     <span class="day-name">Saturday</span>
                     <div class="time-windows" id="avail-windows-sat">
                       <div class="time-window-inputs">
-                        <input type="time" name="sat_start_0" value="08:00"> to <input type="time" name="sat_end_0" value="16:00">
+                        <input type="time" name="sat_start_0" value="08:00"> to <input type="time" name="sat_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
@@ -910,16 +1003,19 @@
                     <span class="day-name">Sunday</span>
                     <div class="time-windows" id="avail-windows-sun">
                       <div class="time-window-inputs">
-                        <input type="time" name="sun_start_0" value="08:00"> to <input type="time" name="sun_end_0" value="16:00">
+                        <input type="time" name="sun_start_0" value="08:00"> to <input type="time" name="sun_end_0"
+                          value="16:00">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group" style="margin-top:1.5rem;">
                     <label for="avail-notes">Notes / Specific Limits</label>
-                    <input type="text" id="avail-notes" class="form-control" placeholder="e.g. Unavailability on Wed morning">
+                    <input type="text" id="avail-notes" class="form-control"
+                      placeholder="e.g. Unavailability on Wed morning">
                   </div>
-                  <button type="submit" class="btn btn-primary" style="margin-top:1rem; width:100%;">Save Availability Week</button>
+                  <button type="submit" class="btn btn-primary" style="margin-top:1rem; width:100%;">Save Availability
+                    Week</button>
                 </form>
               </div>
             </div>
@@ -956,7 +1052,8 @@
                   <label>First Aid Expiry Date</label>
                   <input type="text" id="guard-profile-firstaid" class="form-control" readonly>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="saveGuardProfileName()" style="width:100%;">Update Display Name</button>
+                <button type="button" class="btn btn-primary" onclick="saveGuardProfileName()"
+                  style="width:100%;">Update Display Name</button>
               </div>
             </div>
 
@@ -975,8 +1072,11 @@
           <div>
             <div class="glass-panel">
               <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Licence Compliance</h3>
-              <p style="font-size:0.9rem; color:var(--text-muted);">Your compliance stats under <strong>OG-LEG-2026-001</strong>:</p>
-              <ul style="padding-left:1.25rem; font-size:0.9rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.5rem;">
+              <p style="font-size:0.9rem; color:var(--text-muted);">Your compliance stats under
+                <strong>OG-LEG-2026-001</strong>:
+              </p>
+              <ul
+                style="padding-left:1.25rem; font-size:0.9rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.5rem;">
                 <li>Jurisdiction: <strong>NSW Only</strong> (No cross-border shifts authorized)</li>
                 <li>Master Licence: <strong>000110094</strong></li>
                 <li>First-Aid Roster Flag: <strong id="compliance-fa-status">Not Supplied</strong></li>
@@ -991,12 +1091,14 @@
         <div class="dashboard-header">
           <div>
             <h1>Super Admin Operations CRM</h1>
-            <p class="lead" style="margin: 0.25rem 0 0 0; font-size:0.95rem;">Full system overrides, KYC approvals, and guard allocations</p>
+            <p class="lead" style="margin: 0.25rem 0 0 0; font-size:0.95rem;">Full system overrides, KYC approvals, and
+              guard allocations</p>
           </div>
           <div class="user-pill">
             <span class="badge" style="background:var(--primary); color:var(--text-main);">Super Admin</span>
             <span class="user-pill-email" id="admin-user-email">admin@ogprotection.com.au</span>
-            <button class="btn btn-ghost btn-small" onclick="triggerSignOut()" style="padding:0.25rem 0.6rem; font-size:0.75rem;">Sign Out</button>
+            <button class="btn btn-ghost btn-small" onclick="triggerSignOut()"
+              style="padding:0.25rem 0.6rem; font-size:0.75rem;">Sign Out</button>
           </div>
         </div>
 
@@ -1021,7 +1123,8 @@
         </div>
 
         <div class="nav-tabs" role="tablist">
-          <button class="tab-btn is-active" role="tab" onclick="switchAdminTab('kyc-queue', this)">KYC Queue (<span id="admin-kyc-badge">0</span>)</button>
+          <button class="tab-btn is-active" role="tab" onclick="switchAdminTab('kyc-queue', this)">KYC Queue (<span
+              id="admin-kyc-badge">0</span>)</button>
           <button class="tab-btn" role="tab" onclick="switchAdminTab('directory', this)">Guard Directory</button>
           <button class="tab-btn" role="tab" onclick="switchAdminTab('shifts-mgr', this)">Shifts Manager</button>
         </div>
@@ -1030,7 +1133,8 @@
         <!-- Tab 1: KYC Queue -->
         <div id="admin-tab-kyc-queue" class="admin-tab-panel">
           <div class="glass-panel">
-            <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Pending Guard Onboarding KYC Queue</h3>
+            <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Pending Guard Onboarding KYC Queue
+            </h3>
             <div class="table-container">
               <table class="data-table">
                 <thead>
@@ -1046,7 +1150,8 @@
                 </thead>
                 <tbody id="admin-kyc-tbody">
                   <tr>
-                    <td colspan="7" class="field-hint" style="text-align:center;">No pending KYC verification requests.</td>
+                    <td colspan="7" class="field-hint" style="text-align:center;">No pending KYC verification requests.
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -1059,7 +1164,8 @@
           <div class="glass-panel">
             <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">Approved NSW Class 1 Guards</h3>
             <div class="form-group" style="margin-bottom:1.5rem;">
-              <input type="text" id="admin-guard-search" class="form-control" placeholder="Search by name, licence number, subclass code, or phone..." oninput="triggerGuardSearch()">
+              <input type="text" id="admin-guard-search" class="form-control"
+                placeholder="Search by name, licence number, subclass code, or phone..." oninput="triggerGuardSearch()">
             </div>
             <div class="table-container">
               <table class="data-table">
@@ -1107,7 +1213,8 @@
                   </div>
                   <div class="form-group">
                     <label for="job-postcode">Postcode</label>
-                    <input type="text" id="job-postcode" class="form-control" placeholder="e.g. 2150" maxlength="4" pattern="\d{4}" required>
+                    <input type="text" id="job-postcode" class="form-control" placeholder="e.g. 2150" maxlength="4"
+                      pattern="\d{4}" required>
                   </div>
                 </div>
                 <div class="form-group">
@@ -1124,29 +1231,37 @@
                     <input type="datetime-local" id="job-finish" class="form-control" required>
                   </div>
                 </div>
-                
+
                 <div class="form-group">
                   <label>Required Activities (Roster Rule Target)</label>
                   <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" name="job-activity" value="static"> Static / Access Screening (1A)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" name="job-activity" value="crowd_control"> Crowd Control / Venue Guard (1A)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" name="job-activity" value="bodyguard"> VIP Close Protection (1B)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" name="job-activity" value="cash_in_transit"> Cash-in-Transit transit (1C)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" name="job-activity" value="dog_team"> Dog Handler Perimeter Patrol (1D)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
-                      <input type="checkbox" name="job-activity" value="monitoring_centre"> Alarm Control monitoring (1E)
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                      <input type="checkbox" name="job-activity" value="monitoring_centre"> Alarm Control monitoring
+                      (1E)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" name="job-activity" value="armed"> Armed Guard Deterrence (1F)
                     </label>
                   </div>
@@ -1155,13 +1270,16 @@
                 <div class="form-group">
                   <label>Roster Constraints & Flags</label>
                   <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" id="job-flag-fa"> Requires First Aid Certification (HLTAID011)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" id="job-flag-dog"> Requires Canine Dog handler (1D)
                     </label>
-                    <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
+                    <label
+                      style="display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; color:var(--text-muted);">
                       <input type="checkbox" id="job-flag-armed"> Requires Armed carries (1F)
                     </label>
                   </div>
@@ -1169,12 +1287,15 @@
 
                 <div class="form-group">
                   <label for="job-brief">Shift brief / Instructions</label>
-                  <textarea id="job-brief" rows="3" class="form-control" placeholder="Risk brief, attire, details..." required></textarea>
+                  <textarea id="job-brief" rows="3" class="form-control" placeholder="Risk brief, attire, details..."
+                    required></textarea>
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary" style="width:100%;">Create & Save Shift</button>
               </form>
-              <button class="btn btn-ghost" onclick="triggerSeedJobs()" style="width:100%; margin-top:1rem; border-color:var(--warning); color:var(--warning);">⚡ Seed Mock Jobs across NSW</button>
+              <button class="btn btn-ghost" onclick="triggerSeedJobs()"
+                style="width:100%; margin-top:1rem; border-color:var(--warning); color:var(--warning);">⚡ Seed Mock Jobs
+                across NSW</button>
             </div>
           </div>
         </div>
@@ -1187,7 +1308,8 @@
   <div class="modal-overlay" id="sms-modal">
     <div class="modal-card">
       <h3>Enter verification code</h3>
-      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">We sent an SMS with a 6-digit confirmation code to your mobile number. Enter it below to complete sign in.</p>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">We sent an SMS with a 6-digit
+        confirmation code to your mobile number. Enter it below to complete sign in.</p>
       <div class="form-group">
         <label for="sms-otp-code">SMS Verification Code</label>
         <input type="text" id="sms-otp-code" class="form-control" placeholder="123456" maxlength="6" pattern="\d{6}">
@@ -1203,17 +1325,18 @@
   <div class="modal-overlay" id="assign-modal">
     <div class="modal-card" style="max-width:540px;">
       <h3>Assign Guard to Shift</h3>
-      <p style="color:var(--text-muted); font-size:0.9rem;" id="assign-job-details-text">Select a verified Class 1 guard. The roster rule validates licence subclasses and first aid.</p>
-      
+      <p style="color:var(--text-muted); font-size:0.9rem;" id="assign-job-details-text">Select a verified Class 1
+        guard. The roster rule validates licence subclasses and first aid.</p>
+
       <input type="hidden" id="assign-job-id">
-      
+
       <div class="form-group" style="margin-top:1.5rem;">
         <label for="assign-guard-select">Eligible Verified Guards</label>
         <select id="assign-guard-select" class="form-control" required>
           <!-- Populated dynamically with eligible guards only -->
         </select>
       </div>
-      
+
       <div style="display:flex; gap:0.5rem; margin-top:2rem;">
         <button class="btn btn-ghost" onclick="closeAssignModal()" style="flex:1;">Close</button>
         <button class="btn btn-primary" id="assign-confirm-btn" style="flex:1;">Assign Guard</button>
@@ -1225,15 +1348,18 @@
   <div class="modal-overlay" id="reject-modal">
     <div class="modal-card">
       <h3>Reject KYC Application</h3>
-      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">Specify the reason for rejecting this guard's licence. The applicant will be logged out and see this reason.</p>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">Specify the reason for rejecting this
+        guard's licence. The applicant will be logged out and see this reason.</p>
       <input type="hidden" id="reject-guard-uid">
       <div class="form-group">
         <label for="reject-reason-input">Rejection Reason</label>
-        <input type="text" id="reject-reason-input" class="form-control" placeholder="e.g. Licence expired or invalid subclass selection" required>
+        <input type="text" id="reject-reason-input" class="form-control"
+          placeholder="e.g. Licence expired or invalid subclass selection" required>
       </div>
       <div style="display:flex; gap:0.5rem; margin-top:1.5rem;">
         <button class="btn btn-ghost" onclick="closeRejectModal()" style="flex:1;">Cancel</button>
-        <button class="btn btn-primary" id="reject-confirm-btn" style="flex:1; background:var(--primary);">Confirm Reject</button>
+        <button class="btn btn-primary" id="reject-confirm-btn" style="flex:1; background:var(--primary);">Confirm
+          Reject</button>
       </div>
     </div>
   </div>
@@ -1245,19 +1371,21 @@
   <div id="toast-container"></div>
 
   <footer class="site-footer">
-    <div class="container" style="text-align:center; padding: 2rem 0; border-top:1px solid var(--border-color); color:var(--text-muted); font-size:0.85rem;">
+    <div class="container"
+      style="text-align:center; padding: 2rem 0; border-top:1px solid var(--border-color); color:var(--text-muted); font-size:0.85rem;">
       <p>© 2026 OnGuard Protection. NSW SLED Master Licence 000110094. Built in compliance with OG-LEG-2026-001.</p>
     </div>
   </footer>
 
+  <script src="../script.js" defer></script>
   <!-- FIREBASE MODULAR SDK LOADER -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword, 
-      createUserWithEmailAndPassword, 
-      signOut, 
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut,
       onAuthStateChanged,
       GoogleAuthProvider,
       signInWithPopup,
@@ -1265,28 +1393,28 @@
       RecaptchaVerifier,
       signInWithPhoneNumber
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      setDoc, 
-      getDoc, 
-      collection, 
-      query, 
-      where, 
-      orderBy, 
-      onSnapshot, 
-      addDoc, 
-      updateDoc 
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      collection,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      addDoc,
+      updateDoc
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { 
-      getStorage, 
-      ref, 
-      uploadBytesResumable, 
-      getDownloadURL 
+    import {
+      getStorage,
+      ref,
+      uploadBytesResumable,
+      getDownloadURL
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-    import { 
-      getFunctions, 
-      httpsCallable 
+    import {
+      getFunctions,
+      httpsCallable
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js";
 
     // Firebase configuration parameters
@@ -1314,7 +1442,7 @@
     let liveVerifiedGuards = []; // Cached verified guards for matching
 
     // Toast triggers
-    window.showToast = function(message, type = "error") {
+    window.showToast = function (message, type = "error") {
       const container = document.getElementById("toast-container");
       const toast = document.createElement("div");
       toast.className = "toast";
@@ -1346,13 +1474,13 @@
     }
 
     // Toggle Login / Signup
-    window.toggleAuthMode = function(isSignIn) {
+    window.toggleAuthMode = function (isSignIn) {
       document.getElementById("email-login-form").hidden = !isSignIn;
       document.getElementById("email-signup-form").hidden = isSignIn;
     };
 
     // Trigger Sign Out
-    window.triggerSignOut = async function() {
+    window.triggerSignOut = async function () {
       try {
         await signOut(auth);
         showView("auth");
@@ -1367,7 +1495,7 @@
         currentUser = user;
         // Check for superadmin flag in claims
         const idToken = await user.getIdTokenResult(true);
-        
+
         if (idToken.claims.superadmin === true) {
           userRole = "superadmin";
           accessState = "verified";
@@ -1385,7 +1513,7 @@
             const data = docSnap.data();
             accessState = data.accessState || "unverified";
             userRole = data.role || "applicant";
-            
+
             if (accessState === "kyc_required") {
               document.getElementById("kyc-email").value = user.email || "";
               showView("kyc");
@@ -1480,7 +1608,7 @@
     document.getElementById("phone-signin-btn").addEventListener("click", async () => {
       const phoneNumber = prompt("Enter your mobile number in international format (e.g. +61432893343):");
       if (!phoneNumber) return;
-      
+
       try {
         if (!recaptchaVerifier) {
           recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
@@ -1495,7 +1623,7 @@
       }
     });
 
-    window.closeSmsModal = function() {
+    window.closeSmsModal = function () {
       document.getElementById("sms-modal").classList.remove("is-active");
     };
 
@@ -1518,7 +1646,7 @@
     document.getElementById("kyc-submit-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!currentUser) return;
-      
+
       const submitBtn = document.getElementById("kyc-submit-btn");
       submitBtn.disabled = true;
       submitBtn.textContent = "Uploading assets & credentials...";
@@ -1531,7 +1659,7 @@
       const accountNumber = document.getElementById("kyc-bank-account").value.replace(/\s/g, "");
       const accountName = document.getElementById("kyc-bank-name").value;
       const mobile = document.getElementById("kyc-mobile").value;
-      
+
       // Get subclass checkbox arrays
       const subclasses = Array.from(document.querySelectorAll('input[name="subclass"]:checked')).map(cb => cb.value);
       if (subclasses.length === 0) {
@@ -1592,7 +1720,7 @@
 
     // 6. GUARD DASHBOARD CRM LOGIC
     let guardUnsubscribeList = [];
-    window.switchGuardTab = function(tabName, btn) {
+    window.switchGuardTab = function (tabName, btn) {
       // Toggle active buttons
       const buttons = document.querySelectorAll('.nav-tabs[role="tablist"] .tab-btn');
       buttons.forEach(b => b.classList.remove('is-active'));
@@ -1618,7 +1746,7 @@
           document.getElementById("guard-profile-expiry").value = kyc.licenceExpiry || "";
           document.getElementById("guard-profile-firstaid").value = kyc.firstAidExpiry || "Not Supplied";
           document.getElementById("compliance-fa-status").textContent = kyc.firstAidExpiry ? `Expires ${kyc.firstAidExpiry}` : "Not Supplied";
-          
+
           if (kyc.bank) {
             document.getElementById("guard-profile-bsb").value = `***${kyc.bank.bsb.substring(3)}`;
             document.getElementById("guard-profile-account").value = `******${kyc.bank.accountNumber.substring(kyc.bank.accountNumber.length - 3)}`;
@@ -1634,7 +1762,7 @@
             tagsContainer.appendChild(span);
           });
         }
-        
+
         const userSnap = await getDoc(doc(db, "users", uid));
         if (userSnap.exists()) {
           document.getElementById("guard-profile-name").value = userSnap.data().displayName || "";
@@ -1657,7 +1785,7 @@
           const job = docSnap.data();
           const start = job.startAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
           const finish = job.finishAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
-          
+
           const div = document.createElement("div");
           div.className = "shift-card";
           div.innerHTML = `
@@ -1711,7 +1839,7 @@
       guardUnsubscribeList.push(unsubAlerts);
     }
 
-    window.saveGuardProfileName = async function() {
+    window.saveGuardProfileName = async function () {
       const name = document.getElementById("guard-profile-name").value;
       if (!name) return;
       try {
@@ -1725,7 +1853,7 @@
       }
     };
 
-    window.markAlertRead = async function(noteId) {
+    window.markAlertRead = async function (noteId) {
       try {
         await updateDoc(doc(db, "notifications", noteId), {
           read: true
@@ -1772,7 +1900,7 @@
 
     // 7. SUPER ADMIN CRM LOGIC
     let adminUnsubscribeList = [];
-    window.switchAdminTab = function(tabName, btn) {
+    window.switchAdminTab = function (tabName, btn) {
       const buttons = document.querySelectorAll('.nav-tabs[role="tablist"] .tab-btn');
       buttons.forEach(b => b.classList.remove('is-active'));
       btn.classList.add('is-active');
@@ -1841,7 +1969,7 @@
         liveVerifiedGuards = [];
         const tbody = document.getElementById("admin-directory-tbody");
         tbody.innerHTML = "";
-        
+
         for (const userDocSnap of snapshot.docs) {
           const user = userDocSnap.data();
           const kycSnap = await getDoc(doc(db, "kyc", user.uid));
@@ -1881,7 +2009,7 @@
           const id = docSnap.id;
           const start = job.startAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
           const finish = job.finishAt.toDate().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
-          
+
           let guardAssignedText = `<button class="btn btn-small" onclick="openAssignModal('${id}')">Assign Guard</button>`;
           if (job.status === "assigned" && job.assignedUid) {
             guardAssignedText = `assigned to <strong style="color:var(--success);">${job.assignedLicenceNumber || job.assignedUid}</strong>`;
@@ -1910,7 +2038,7 @@
     }
 
     // Approve applicant KYC
-    window.approveKyc = async function(uid) {
+    window.approveKyc = async function (uid) {
       try {
         const reviewKycFn = httpsCallable(functions, 'reviewKyc');
         await reviewKycFn({ uid, decision: 'verified', notes: 'Approved via Super Admin Console' });
@@ -1921,12 +2049,12 @@
     };
 
     // Reject applicant KYC modal controls
-    window.openRejectModal = function(uid) {
+    window.openRejectModal = function (uid) {
       document.getElementById("reject-guard-uid").value = uid;
       document.getElementById("reject-modal").classList.add("is-active");
     };
 
-    window.closeRejectModal = function() {
+    window.closeRejectModal = function () {
       document.getElementById("reject-modal").classList.remove("is-active");
     };
 
@@ -1948,7 +2076,7 @@
     });
 
     // Guard search filter logic
-    window.triggerGuardSearch = function() {
+    window.triggerGuardSearch = function () {
       const q = document.getElementById("admin-guard-search").value.toLowerCase();
       const rows = document.querySelectorAll(".guard-directory-row");
       rows.forEach(row => {
@@ -1967,7 +2095,7 @@
       const startAt = new Date(document.getElementById("job-start").value);
       const finishAt = new Date(document.getElementById("job-finish").value);
       const brief = document.getElementById("job-brief").value;
-      
+
       const requiresFirstAid = document.getElementById("job-flag-fa").checked;
       const requiresDog = document.getElementById("job-flag-dog").checked;
       const requiresArmed = document.getElementById("job-flag-armed").checked;
@@ -2008,7 +2136,7 @@
     });
 
     // Seed mock jobs across NSW helper
-    window.triggerSeedJobs = async function() {
+    window.triggerSeedJobs = async function () {
       const mockJobs = [
         {
           clientName: "Darling Harbour Entertainment Hub",
@@ -2072,9 +2200,9 @@
     };
 
     // Job Assign Modal & Matching Roster Validation
-    window.openAssignModal = function(jobId) {
+    window.openAssignModal = function (jobId) {
       document.getElementById("assign-job-id").value = jobId;
-      
+
       // Pull job data to show details and filter guards
       const jobDocRef = doc(db, "jobs", jobId);
       getDoc(jobDocRef).then(snap => {
@@ -2094,13 +2222,13 @@
           let isEligible = true;
           const held = g.kyc.subclasses || [];
           const required = job.requiredActivities || [];
-          
+
           // Roster rule: checks
           if (job.requiresDog && !held.includes("1D")) isEligible = false;
           if (job.requiresArmed && !held.includes("1F")) isEligible = false;
           if (required.includes("cash_in_transit") && !held.includes("1C")) isEligible = false;
           if (required.includes("bodyguard") && !held.includes("1B")) isEligible = false;
-          
+
           // Check general roster activity matching
           const authorisations = new Set();
           held.forEach(code => {
@@ -2118,7 +2246,7 @@
               authorisations.add("armed");
             }
           });
-          
+
           const activitiesMatch = required.every(a => authorisations.has(a));
           if (!activitiesMatch) isEligible = false;
 
@@ -2142,7 +2270,7 @@
       });
     };
 
-    window.closeAssignModal = function() {
+    window.closeAssignModal = function () {
       document.getElementById("assign-modal").classList.remove("is-active");
     };
 
@@ -2166,4 +2294,5 @@
 
   </script>
 </body>
+
 </html>
