@@ -3,8 +3,8 @@
     --navy-2: #122556;
     --ink: #070b14;
     --panel: #10182b;
-    --red: #ef4b2f;
-    --red-hot: #ff5a3c;
+    --red: #c22712;
+    --red-hot: #d63a22;
     --cream: #f3eee6;
     --muted: #9aa3b5;
     --line: rgba(243, 238, 230, 0.12);
@@ -324,7 +324,6 @@ h3 {
     height: 100%;
     object-fit: cover;
     object-position: center 30%;
-    filter: saturate(0.85) contrast(1.08);
 }
 
 .hero-overlay {
@@ -947,10 +946,8 @@ h3 {
     border-color: var(--red);
 }
 
-.footer-powered {
-    display: flex;
-    justify-content: flex-start;
-    margin: 0.4rem 0 1.4rem;
+.footer-brand .tech-aid-badge {
+    margin-top: 1.2rem;
 }
 
 .tech-aid-badge {
@@ -960,10 +957,10 @@ h3 {
     min-height: var(--tap);
     padding: 0.7rem 1.15rem 0.7rem 0.7rem;
     border-radius: 999px;
-    border: 1.5px solid rgba(62, 187, 0, 0.4);
+    border: 1.5px solid rgba(15, 107, 0, 0.45);
     background: #fff;
     text-decoration: none;
-    color: #3ebb00;
+    color: #0f6b00;
     box-shadow: 0 4px 14px rgba(62, 187, 0, 0.12);
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -971,10 +968,10 @@ h3 {
 .tech-aid-badge:hover,
 .tech-aid-badge:focus-visible {
     background: rgba(62, 187, 0, 0.08);
-    border-color: #3ebb00;
+    border-color: #0f6b00;
     box-shadow: 0 10px 28px rgba(62, 187, 0, 0.22);
     transform: translateY(-1px);
-    color: #3ebb00;
+    color: #0f6b00;
 }
 
 .tech-aid-badge__mark {
@@ -999,14 +996,14 @@ h3 {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #3ebb00;
+    color: #0f6b00;
 }
 
 .tech-aid-badge__name {
     font-size: 0.95rem;
     font-weight: 800;
     letter-spacing: 0.01em;
-    color: #3ebb00;
+    color: #0f6b00;
 }
 
 .footer-bottom {
@@ -1047,7 +1044,7 @@ h3 {
 }
 
 .footer-credits__tech-aid {
-    color: #3ebb00 !important;
+    color: #0f6b00 !important;
     font-weight: 600;
     gap: 0.4rem;
 }
@@ -1064,13 +1061,13 @@ h3 {
 
 .footer-credits__tech-aid strong {
     font-weight: 800;
-    color: #3ebb00;
+    color: #0f6b00;
 }
 
 .footer-credits__tech-aid:hover,
 .footer-credits__tech-aid:hover strong,
 .footer-credits a:hover {
-    color: #7ae04a !important;
+    color: #148a00 !important;
 }
 
 .mobile-cta {
@@ -1214,8 +1211,8 @@ h3 {
         padding-bottom: calc(8.5rem + var(--safe-b));
     }
 
-    .footer-powered {
-        justify-content: center;
+    .footer-brand .tech-aid-badge {
+        width: min(100%, 280px);
     }
 
     .footer-bottom {
@@ -1683,48 +1680,32 @@ h3 {
 }
 
 .hero-in>* {
-    animation: rise 0.7s ease both;
+    animation: rise 0.55s ease;
 }
 
 .hero-in>*:nth-child(2) {
-    animation-delay: 0.08s;
+    animation-delay: 0.06s;
 }
 
 .hero-in>*:nth-child(3) {
-    animation-delay: 0.16s;
+    animation-delay: 0.12s;
 }
 
 .hero-in>*:nth-child(4) {
-    animation-delay: 0.24s;
+    animation-delay: 0.18s;
 }
 
 .hero-in-delay {
-    animation: rise 0.8s 0.2s ease both;
+    animation: rise 0.55s 0.12s ease;
 }
 
 @keyframes rise {
     from {
-        opacity: 0;
-        transform: translateY(22px);
+        transform: translateY(14px);
     }
 
     to {
-        opacity: 1;
         transform: none;
-    }
-}
-
-.hero-media img {
-    animation: ken 22s ease-in-out infinite alternate;
-}
-
-@keyframes ken {
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(1.07);
     }
 }
 
@@ -1789,7 +1770,6 @@ textarea:focus-visible {
 
     .hero-in>*,
     .hero-in-delay,
-    .hero-media img,
     .wizard-step.is-active,
     .btn:hover::after,
     .ticker-track {

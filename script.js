@@ -34,16 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("click", closeMenu);
     });
 
-    window.addEventListener("scroll", () => {
-        if (header) header.classList.toggle("scrolled", window.scrollY > 40);
+    const sections = [...document.querySelectorAll("main section[id]")];
+    let sectionTops = [];
+    const measureSections = () => {
+        sectionTops = sections.map((section) => ({
+            id: section.id,
+            top: section.offsetTop
+        }));
+    };
+    measureSections();
+    window.addEventListener("resize", measureSections, { passive: true });
+    let ticking = false;
+    const onScroll = () => {
+        const y = window.scrollY;
+        if (header) header.classList.toggle("scrolled", y > 40);
         let current = "home";
-        document.querySelectorAll("main section[id]").forEach((section) => {
-            if (window.scrollY >= section.offsetTop - 180) current = section.id;
-        });
+        for (const section of sectionTops) {
+            if (y >= section.top - 180) current = section.id;
+        }
         navItems.forEach((item) => {
             const href = item.getAttribute("href") || "";
             item.classList.toggle("active", href === `#${current}` || href.endsWith(`#${current}`));
         });
+        ticking = false;
+    };
+    window.addEventListener("scroll", () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(onScroll);
     }, { passive: true });
 
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -159,9 +177,6 @@ function initWizard() {
         });
         updateBrief();
         updateConditional();
-        const legend = steps[n - 1].querySelector("legend");
-        if (legend) legend.focus?.();
-        steps[n - 1].scrollIntoView({ block: "nearest", behavior: "smooth" });
     };
 
     const field = (name) => form.elements[name];

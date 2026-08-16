@@ -38,10 +38,8 @@
   <meta name="twitter:description" content="SLED-licensed security guards in Singleton NSW 2330. Crowd control, static guards, mobile patrols and event security. Master Licence 000110094. Call 0432 893...">
   <meta name="twitter:image" content="https://onguardprotection.com.au/assets/work-singleton.jpg">
   <meta name="twitter:image:alt" content="OnGuard Protection venue security at the Singleton Rodeo After Party, Imperial Hotel">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" href="../assets/fonts/barlowcond-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
   <link rel="stylesheet" href="../styles.css">
   <link rel="preload" as="image" href="../assets/img/work-singleton-800.webp" type="image/webp">
   <script type="application/ld+json">[{"@type": "SecurityService", "@id": "https://onguardprotection.com.au/#business", "name": "OnGuard Protection", "url": "https://onguardprotection.com.au", "image": "https://onguardprotection.com.au/assets/logo.jpg", "logo": "https://onguardprotection.com.au/assets/logo.jpg", "telephone": "+61432893343", "email": "onguard_protection@outlook.com", "priceRange": "$$", "areaServed": [{"@type": "AdministrativeArea", "name": "New South Wales"}, {"@type": "AdministrativeArea", "name": "Australian Capital Territory"}], "address": {"@type": "PostalAddress", "addressLocality": "Sydney", "addressRegion": "NSW", "addressCountry": "AU"}, "identifier": {"@type": "PropertyValue", "name": "NSW Security Master Licence", "value": "000110094"}, "sameAs": ["https://www.facebook.com/ogprotection/", "https://www.instagram.com/onguard_protection/"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "00:00", "closes": "23:59"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://onguardprotection.com.au/"}, {"@type": "ListItem", "position": 2, "name": "Locations", "item": "https://onguardprotection.com.au/locations/"}, {"@type": "ListItem", "position": 3, "name": "Singleton", "item": "https://onguardprotection.com.au/locations/singleton.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Have you actually worked in Singleton?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Event and venue security for the Singleton Rodeo After Party at the Imperial Hotel. Ask us for the same standard on your next Hunter brief."}}, {"@type": "Question", "name": "Is OnGuard Protection licensed to work in Singleton?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. OnGuard Protection holds NSW Security Master Licence 000110094. Licensed operatives cover Singleton and the Hunter Valley."}}, {"@type": "Question", "name": "What security services are available in Singleton?", "acceptedAnswer": {"@type": "Answer", "text": "Crowd control, event security, static guards, mobile patrols, corporate concierge and asset protection in Singleton NSW."}}]}, {"@type": "WebPage", "@id": "https://onguardprotection.com.au/locations/singleton.html#webpage", "url": "https://onguardprotection.com.au/locations/singleton.html", "name": "Security Guards Singleton NSW 2330 | OnGuard Protection", "dateModified": "2026-08-17", "inLanguage": "en-AU", "speakable": {"@type": "SpeakableSpecification", "cssSelector": [".answer-block", "h1", ".lead"]}, "about": {"@id": "https://onguardprotection.com.au/#business"}, "primaryImageOfPage": {"@type": "ImageObject", "url": "https://onguardprotection.com.au/assets/work-singleton.jpg", "width": 720, "height": 405, "caption": "OnGuard Protection venue security at the Singleton Rodeo After Party, Imperial Hotel"}}, {"@type": "SecurityService", "name": "OnGuard Protection — Singleton", "url": "https://onguardprotection.com.au/locations/singleton.html", "telephone": "+61432893343", "email": "onguard_protection@outlook.com", "image": "https://onguardprotection.com.au/assets/work-singleton.jpg", "areaServed": {"@type": "City", "name": "Singleton", "containedInPlace": {"@type": "State", "name": "New South Wales"}, "geo": {"@type": "GeoCoordinates", "latitude": -32.5674, "longitude": 151.1748}}, "provider": {"@id": "https://onguardprotection.com.au/#business"}}]</script>
@@ -60,7 +58,7 @@
     <div class="container">
       <nav class="main-nav" aria-label="Primary">
         <a href="../index.html" class="logo">
-          <img src="../assets/img/logo-800.jpg" width="168" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
+          <img src="../assets/img/logo-header.webp" width="56" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
         </a>
         <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <span></span><span></span><span></span>
@@ -307,7 +305,7 @@
   <footer class="site-footer" id="contact">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="../assets/img/logo-800.jpg" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
+        <img src="../assets/img/logo-72.webp" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
         <p>We don’t just show up. We stand guard. Licensed NSW security from Sydney to the Hunter, South Coast and Canberra.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/ogprotection/" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Facebook">
@@ -317,6 +315,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
         </div>
+        <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
+          <img class="tech-aid-badge__mark" src="../assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo" width="40" height="40" decoding="async" loading="lazy">
+          <span class="tech-aid-badge__text">
+            <span class="tech-aid-badge__kicker">Powered by</span>
+            <span class="tech-aid-badge__name">Tech Aid Australia</span>
+          </span>
+        </a>
       </div>
       <div>
         <h2>Contact</h2>
@@ -334,15 +339,6 @@
           <li><a href="../locations/index.html">Suburb coverage</a></li>
         </ul>
       </div>
-    </div>
-    <div class="container footer-powered">
-      <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
-        <img class="tech-aid-badge__mark" src="../assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo" width="48" height="48" decoding="async" loading="lazy">
-        <span class="tech-aid-badge__text">
-          <span class="tech-aid-badge__kicker">Powered by</span>
-          <span class="tech-aid-badge__name">Tech Aid Australia</span>
-        </span>
-      </a>
     </div>
     <div class="container footer-bottom">
       <div class="footer-legal">

@@ -574,10 +574,8 @@ def head(
   <meta name="twitter:description" content="{description}">
   <meta name="twitter:image" content="{og_abs}">
   <meta name="twitter:image:alt" content="{og_alt}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" href="{prefix}assets/fonts/barlowcond-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{prefix}assets/fonts/fonts.css">
   <link rel="stylesheet" href="{prefix}styles.css">
   {extra}
   <script type="application/ld+json">{json.dumps(json_ld, ensure_ascii=False)}</script>
@@ -601,7 +599,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
     <div class="container">
       <nav class="main-nav" aria-label="Primary">
         <a href="{home}" class="logo">
-          <img src="{prefix}assets/img/logo-800.jpg" width="168" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
+          <img src="{prefix}assets/img/logo-header.webp" width="56" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
         </a>
         <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <span></span><span></span><span></span>
@@ -624,7 +622,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
   <footer class="site-footer" id="contact">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="{prefix}assets/img/logo-800.jpg" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
+        <img src="{prefix}assets/img/logo-72.webp" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
         <p>We don’t just show up. We stand guard. Licensed NSW security from Sydney to the Hunter, South Coast and Canberra.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/ogprotection/" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Facebook">
@@ -634,6 +632,13 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
         </div>
+        <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
+          <img class="tech-aid-badge__mark" src="{prefix}assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo" width="40" height="40" decoding="async" loading="lazy">
+          <span class="tech-aid-badge__text">
+            <span class="tech-aid-badge__kicker">Powered by</span>
+            <span class="tech-aid-badge__name">Tech Aid Australia</span>
+          </span>
+        </a>
       </div>
       <div>
         <h2>Contact</h2>
@@ -651,15 +656,6 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <li><a href="{prefix}locations/index.html">Suburb coverage</a></li>
         </ul>
       </div>
-    </div>
-    <div class="container footer-powered">
-      <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
-        <img class="tech-aid-badge__mark" src="{prefix}assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo" width="48" height="48" decoding="async" loading="lazy">
-        <span class="tech-aid-badge__text">
-          <span class="tech-aid-badge__kicker">Powered by</span>
-          <span class="tech-aid-badge__name">Tech Aid Australia</span>
-        </span>
-      </a>
     </div>
     <div class="container footer-bottom">
       <div class="footer-legal">

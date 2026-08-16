@@ -38,10 +38,8 @@
   <meta name="twitter:description" content="Front-of-house corporate security and concierge for offices, logistics and hospitality across Sydney, Parramatta, Newcastle and Canberra. Licensed and discreet.">
   <meta name="twitter:image" content="https://onguardprotection.com.au/assets/service_commercial.jpg">
   <meta name="twitter:image:alt" content="OnGuard Protection corporate security concierge at a NSW commercial lobby reception desk">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" href="../assets/fonts/barlowcond-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
   <link rel="stylesheet" href="../styles.css">
   <link rel="preload" as="image" href="../assets/img/service_commercial-800.webp" type="image/webp">
   <script type="application/ld+json">[{"@type": "SecurityService", "@id": "https://onguardprotection.com.au/#business", "name": "OnGuard Protection", "url": "https://onguardprotection.com.au", "image": "https://onguardprotection.com.au/assets/logo.jpg", "logo": "https://onguardprotection.com.au/assets/logo.jpg", "telephone": "+61432893343", "email": "onguard_protection@outlook.com", "priceRange": "$$", "areaServed": [{"@type": "AdministrativeArea", "name": "New South Wales"}, {"@type": "AdministrativeArea", "name": "Australian Capital Territory"}], "address": {"@type": "PostalAddress", "addressLocality": "Sydney", "addressRegion": "NSW", "addressCountry": "AU"}, "identifier": {"@type": "PropertyValue", "name": "NSW Security Master Licence", "value": "000110094"}, "sameAs": ["https://www.facebook.com/ogprotection/", "https://www.instagram.com/onguard_protection/"], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "00:00", "closes": "23:59"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://onguardprotection.com.au/"}, {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://onguardprotection.com.au/#services"}, {"@type": "ListItem", "position": 3, "name": "Corporate Security & Concierge", "item": "https://onguardprotection.com.au/services/corporate-security.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is concierge security actually licensed security?", "acceptedAnswer": {"@type": "Answer", "text": "If they are controlling access or performing a defined security activity in NSW, they must be licensed. Ours are."}}, {"@type": "Question", "name": "Can you match our building dress standard?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We brief uniform and tone to the site — corporate, industrial or hospitality."}}]}, {"@type": "Service", "name": "Corporate Security & Concierge", "serviceType": "corporate security NSW", "provider": {"@id": "https://onguardprotection.com.au/#business"}, "areaServed": ["NSW", "ACT"], "url": "https://onguardprotection.com.au/services/corporate-security.html", "image": "https://onguardprotection.com.au/assets/service_commercial.jpg"}]</script>
@@ -60,7 +58,7 @@
     <div class="container">
       <nav class="main-nav" aria-label="Primary">
         <a href="../index.html" class="logo">
-          <img src="../assets/img/logo-800.jpg" width="168" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
+          <img src="../assets/img/logo-header.webp" width="56" height="56" alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
         </a>
         <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <span></span><span></span><span></span>
@@ -291,7 +289,7 @@
   <footer class="site-footer" id="contact">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <img src="../assets/img/logo-800.jpg" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
+        <img src="../assets/img/logo-72.webp" width="72" height="72" alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy" decoding="async">
         <p>We don’t just show up. We stand guard. Licensed NSW security from Sydney to the Hunter, South Coast and Canberra.</p>
         <div class="social-links">
           <a href="https://www.facebook.com/ogprotection/" target="_blank" rel="noopener noreferrer" aria-label="OnGuard Protection on Facebook">
@@ -301,6 +299,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
         </div>
+        <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
+          <img class="tech-aid-badge__mark" src="../assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo" width="40" height="40" decoding="async" loading="lazy">
+          <span class="tech-aid-badge__text">
+            <span class="tech-aid-badge__kicker">Powered by</span>
+            <span class="tech-aid-badge__name">Tech Aid Australia</span>
+          </span>
+        </a>
       </div>
       <div>
         <h2>Contact</h2>
@@ -318,15 +323,6 @@
           <li><a href="../locations/index.html">Suburb coverage</a></li>
         </ul>
       </div>
-    </div>
-    <div class="container footer-powered">
-      <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
-        <img class="tech-aid-badge__mark" src="../assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo" width="48" height="48" decoding="async" loading="lazy">
-        <span class="tech-aid-badge__text">
-          <span class="tech-aid-badge__kicker">Powered by</span>
-          <span class="tech-aid-badge__name">Tech Aid Australia</span>
-        </span>
-      </a>
     </div>
     <div class="container footer-bottom">
       <div class="footer-legal">

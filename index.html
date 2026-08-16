@@ -45,16 +45,8 @@
     <meta name="twitter:image" content="https://onguardprotection.com.au/assets/work-nowra.jpg">
     <meta name="twitter:image:alt"
         content="OnGuard Protection event security team at the Nowra Annual Rodeo in New South Wales">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap"
-        rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&display=swap"
-            rel="stylesheet">
-    </noscript>
+    <link rel="preload" href="assets/fonts/barlowcond-800.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
     <link rel="preload" as="image" href="assets/img/work-nowra-800.webp" type="image/webp">
     <link rel="stylesheet" href="styles.css">
     <script type="application/ld+json">
@@ -129,7 +121,7 @@
         <div class="container">
             <nav class="main-nav" aria-label="Primary">
                 <a href="#home" class="logo">
-                    <img src="assets/img/logo-800.jpg" width="168" height="56"
+                    <img src="assets/img/logo-header.webp" width="56" height="56"
                         alt="OnGuard Protection logo — NSW SLED licensed security company" decoding="async">
                 </a>
                 <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false"
@@ -434,8 +426,7 @@
                         <source type="image/webp"
                             srcset="assets/img/work-poster-800.webp 639w, assets/img/work-poster.webp 1539w"
                             sizes="(max-width: 900px) 100vw, 50vw">
-                        <img src="assets/img/work-poster-800.jpg"
-                            srcset="assets/img/work-poster-800.jpg 639w, assets/work-poster.jpg 1539w"
+                        <img src="assets/img/work-poster-800.jpg" srcset="assets/img/work-poster-800.jpg 639w"
                             sizes="(max-width: 900px) 100vw, 50vw" width="1539" height="1925"
                             alt="OnGuard Protection services poster listing uniformed security, access control, events, patrols and NSW to ACT coverage"
                             loading="lazy" decoding="async">
@@ -496,32 +487,44 @@
                             rel="noopener noreferrer">facebook.com/ogprotection</a>.</p>
                 </div>
                 <div class="gallery-grid">
-                    <button class="gallery-item reveal" type="button" data-src="assets/work-nowra.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/img/work-nowra.webp"
                         data-caption="Nowra Annual Rodeo — event security, South Coast NSW">
-                        <img src="assets/img/work-nowra-800.jpg" width="1440" height="1080"
-                            alt="Nowra Annual Rodeo — OnGuard Protection event security on the South Coast of NSW"
-                            loading="lazy" decoding="async">
+                        <picture>
+                            <source type="image/webp" srcset="assets/img/work-nowra-800.webp">
+                            <img src="assets/img/work-nowra-800.jpg" width="800" height="600"
+                                alt="Nowra Annual Rodeo — OnGuard Protection event security on the South Coast of NSW"
+                                loading="lazy" decoding="async">
+                        </picture>
                         <span>Nowra Annual Rodeo</span>
                     </button>
-                    <button class="gallery-item reveal" type="button" data-src="assets/work-worrigee.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/img/work-worrigee.webp"
                         data-caption="Worrigee Equestrian Common Rodeo — OnGuard team on site">
-                        <img src="assets/img/work-worrigee-800.jpg" width="1170" height="1169"
-                            alt="Worrigee Equestrian Common Rodeo — OnGuard Protection team on site in NSW"
-                            loading="lazy" decoding="async">
+                        <picture>
+                            <source type="image/webp" srcset="assets/img/work-worrigee-800.webp">
+                            <img src="assets/img/work-worrigee-800.jpg" width="800" height="799"
+                                alt="Worrigee Equestrian Common Rodeo — OnGuard Protection team on site in NSW"
+                                loading="lazy" decoding="async">
+                        </picture>
                         <span>Worrigee Equestrian Common</span>
                     </button>
-                    <button class="gallery-item reveal" type="button" data-src="assets/work-singleton.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/img/work-singleton.webp"
                         data-caption="Singleton Rodeo After Party — Imperial Hotel, Hunter Valley">
-                        <img src="assets/img/work-singleton-800.jpg" width="720" height="405"
-                            alt="Singleton Rodeo After Party — OnGuard Protection at the Imperial Hotel, Hunter Valley"
-                            loading="lazy" decoding="async">
+                        <picture>
+                            <source type="image/webp" srcset="assets/img/work-singleton-800.webp">
+                            <img src="assets/img/work-singleton-800.jpg" width="800" height="450"
+                                alt="Singleton Rodeo After Party — OnGuard Protection at the Imperial Hotel, Hunter Valley"
+                                loading="lazy" decoding="async">
+                        </picture>
                         <span>Singleton · Imperial Hotel</span>
                     </button>
-                    <button class="gallery-item reveal" type="button" data-src="assets/work-poster.jpg"
+                    <button class="gallery-item reveal" type="button" data-src="assets/img/work-poster.webp"
                         data-caption="Protection you can trust — Sydney, Hunter Valley, Newcastle, Canberra">
-                        <img src="assets/img/work-poster-800.jpg" width="1539" height="1925"
-                            alt="OnGuard Protection Instagram poster showing NSW and ACT security services and coverage"
-                            loading="lazy" decoding="async">
+                        <picture>
+                            <source type="image/webp" srcset="assets/img/work-poster-800.webp">
+                            <img src="assets/img/work-poster-800.jpg" width="639" height="800"
+                                alt="OnGuard Protection Instagram poster showing NSW and ACT security services and coverage"
+                                loading="lazy" decoding="async">
+                        </picture>
                         <span>@onguard_protection</span>
                     </button>
                 </div>
@@ -717,7 +720,7 @@
     <footer class="site-footer" id="contact">
         <div class="container footer-grid">
             <div class="footer-brand">
-                <img src="assets/img/logo-800.jpg" width="72" height="72"
+                <img src="assets/img/logo-72.webp" width="72" height="72"
                     alt="OnGuard Protection logo — licensed NSW security" class="footer-logo" loading="lazy"
                     decoding="async">
                 <p>We don’t just show up. We stand guard. Licensed NSW security from Sydney to the Hunter, South Coast
@@ -740,6 +743,15 @@
                         </svg>
                     </a>
                 </div>
+                <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank"
+                    rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
+                    <img class="tech-aid-badge__mark" src="assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo"
+                        width="40" height="40" decoding="async" loading="lazy">
+                    <span class="tech-aid-badge__text">
+                        <span class="tech-aid-badge__kicker">Powered by</span>
+                        <span class="tech-aid-badge__name">Tech Aid Australia</span>
+                    </span>
+                </a>
             </div>
             <div>
                 <h3>Contact</h3>
@@ -758,17 +770,6 @@
                     <li><a href="locations/index.html">Suburb coverage</a></li>
                 </ul>
             </div>
-        </div>
-        <div class="container footer-powered">
-            <a class="tech-aid-badge" href="https://www.techaidaustralia.com.au/" target="_blank"
-                rel="noopener noreferrer" aria-label="Powered by Tech Aid Australia">
-                <img class="tech-aid-badge__mark" src="assets/img/tech-aid-logo.png" alt="Tech Aid Australia logo"
-                    width="48" height="48" decoding="async" loading="lazy">
-                <span class="tech-aid-badge__text">
-                    <span class="tech-aid-badge__kicker">Powered by</span>
-                    <span class="tech-aid-badge__name">Tech Aid Australia</span>
-                </span>
-            </a>
         </div>
         <div class="container footer-bottom">
             <div class="footer-legal">
