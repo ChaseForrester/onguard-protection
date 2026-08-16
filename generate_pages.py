@@ -9,7 +9,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape as xml_escape
 
 ROOT = Path(__file__).resolve().parent
-SITE = "https://onguardprotection.com.au"
+SITE = "https://www.ogprotection.com.au"
 PHONE = "0432 893 343"
 TEL = "+61432893343"
 EMAIL = "admin@ogprotection.com.au"
@@ -31,6 +31,7 @@ HERO_META = {
     "work-k9": (367, 411, "OnGuard Protection Class 1D dog handler standing a night static post at a NSW industrial gate"),
     "work-festival": (370, 417, "OnGuard Protection Class 1A officers running crowd control on a live NSW festival barrier"),
     "work-screening": (368, 415, "OnGuard Protection officer conducting a bag search at a licensed NSW event entry"),
+    "work-patrol": (1328, 1416, "OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist"),
 }
 INDEX_ROBOTS = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 NOINDEX_ROBOTS = "noindex, follow"
@@ -119,10 +120,10 @@ SERVICES = [
         "title": "Mobile Patrol Security NSW | Alarm Response | OnGuard Protection",
         "description": "Random and scheduled mobile patrols plus rapid alarm response for NSW commercial, retail and construction sites. SLED licensed. Call 0432 893 343.",
         "keyword": "mobile patrols NSW",
-        "img": "work-singleton",
-        "img_w": 720,
-        "img_h": 405,
-        "alt": "OnGuard Protection officers in vests covering a late Hunter Valley venue shift",
+        "img": "work-patrol",
+        "img_w": 1328,
+        "img_h": 1416,
+        "alt": "OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist",
         "lead": "Random and scheduled NSW patrols. Lock checks and rapid alarm response when no one else is on site.",
         "body": "Most break-ins happen after hours. OnGuard runs marked and unmarked mobile patrols with randomised timing so the pattern is not the product. Lock checks, external walks, alarm attendance and a written run-sheet after every visit.",
         "bullets": [
@@ -1398,7 +1399,7 @@ def write_sitemap_index(children: list[str]) -> None:
         + body
         + "\n</sitemapindex>\n"
     )
-    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+    (ROOT / "sitemap-index.xml").write_text(xml, encoding="utf-8")
 
 
 def write_sitemaps() -> list[str]:
@@ -1415,11 +1416,13 @@ def write_sitemaps() -> list[str]:
     out_dir.mkdir(exist_ok=True)
 
     children: list[str] = []
+    all_entries: list[str] = []
 
     def add(name: str, entries: list[str]) -> None:
         rel = f"sitemaps/{name}.xml"
         write_urlset(ROOT / rel, entries)
         children.append(rel)
+        all_entries.extend(entries)
 
     add(
         "core-home",
@@ -1438,6 +1441,7 @@ def write_sitemaps() -> list[str]:
                     ("assets/work-k9.jpg", "OnGuard Protection dog handler on a NSW industrial night static"),
                     ("assets/work-festival.jpg", "OnGuard Protection crowd control at a NSW festival"),
                     ("assets/work-screening.jpg", "OnGuard Protection bag search at a NSW event entry"),
+                    ("assets/work-patrol.jpg", "OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist"),
                 ],
             )
         ],
@@ -1511,12 +1515,14 @@ def write_sitemaps() -> list[str]:
             )
 
     write_sitemap_index(children)
+    # Search Console is already pointed at /sitemap.xml. A single urlset on
+    # the live host is what actually fills "discovered URLs".
+    write_urlset(ROOT / "sitemap.xml", all_entries)
     return children
 
 
 def write_tech() -> None:
-    children = write_sitemaps()
-    sitemap_lines = "\n".join(f"Sitemap: {SITE}/{child}" for child in children)
+    write_sitemaps()
 
     robots = f'''User-agent: *
 Allow: /
@@ -1544,7 +1550,7 @@ User-agent: Google-Extended
 Allow: /
 
 Sitemap: {SITE}/sitemap.xml
-{sitemap_lines}
+Sitemap: {SITE}/sitemap-index.xml
 # LLM crawl map
 # {SITE}/llms.txt
 '''
@@ -1667,11 +1673,17 @@ def validate_sitemaps() -> None:
     import xml.etree.ElementTree as ET
 
     ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-    index_path = ROOT / "sitemap.xml"
-    tree = ET.parse(index_path)
+    master = ET.parse(ROOT / "sitemap.xml").getroot()
+    if not master.tag.endswith("urlset"):
+        raise SystemExit("sitemap.xml must be a urlset of every indexable URL")
+    master_urls = [el.text or "" for el in master.findall("sm:url/sm:loc", ns)]
+    if len(master_urls) != len(set(master_urls)):
+        raise SystemExit("duplicate URL in sitemap.xml")
+
+    tree = ET.parse(ROOT / "sitemap-index.xml")
     root = tree.getroot()
     if not root.tag.endswith("sitemapindex"):
-        raise SystemExit("sitemap.xml must be a sitemapindex")
+        raise SystemExit("sitemap-index.xml must be a sitemapindex")
     child_locs = [el.text or "" for el in root.findall("sm:sitemap/sm:loc", ns)]
     if not child_locs:
         raise SystemExit("sitemap index has no children")
@@ -1718,6 +1730,11 @@ def validate_sitemaps() -> None:
         errors.append("indexable pages missing from sitemaps: " + ", ".join(missing[:12]))
     if extra:
         errors.append("unexpected sitemap URLs: " + ", ".join(extra[:12]))
+    if set(master_urls) != expected:
+        errors.append("sitemap.xml urlset does not match the full indexable set")
+    bad_host = [u for u in master_urls if not u.startswith(SITE + "/")]
+    if bad_host:
+        errors.append("sitemap.xml has off-host URLs: " + ", ".join(bad_host[:6]))
     if errors:
         raise SystemExit("Sitemap validation failed:\n- " + "\n- ".join(errors))
     print(f"Validated {len(child_locs)} sitemaps and {len(seen)} unique indexable URLs.")

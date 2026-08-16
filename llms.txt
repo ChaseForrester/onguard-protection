@@ -6,22 +6,22 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
 
 ## Docs
 
-- [Home](https://onguardprotection.com.au/): NSW licensed security overview and quote brief
-- [Suburb coverage](https://onguardprotection.com.au/locations/): Security guards by NSW and ACT suburb
-- [Sydney security guards](https://onguardprotection.com.au/locations/sydney.html): CBD and inner-Sydney coverage
-- [Nowra event security](https://onguardprotection.com.au/locations/nowra.html): Nowra Annual Rodeo and South Coast work
-- [Worrigee security](https://onguardprotection.com.au/locations/worrigee.html): Worrigee Equestrian Common
-- [Singleton security](https://onguardprotection.com.au/locations/singleton.html): Imperial Hotel after-party and Hunter Valley
-- [Newcastle security](https://onguardprotection.com.au/locations/newcastle.html): Hospitality and industrial cover
-- [Canberra security](https://onguardprotection.com.au/locations/canberra.html): ACT corridor coverage
-- [Crowd control](https://onguardprotection.com.au/services/crowd-control.html): Licensed venue and crowd controllers
-- [Event security](https://onguardprotection.com.au/services/event-security.html): Rodeos, festivals and venue operations
-- [Static guards](https://onguardprotection.com.au/services/static-guards.html): Construction and commercial posts
-- [Mobile patrols](https://onguardprotection.com.au/services/mobile-patrols.html): After-hours patrols and alarm response
-- [Corporate security](https://onguardprotection.com.au/services/corporate-security.html): Concierge and lobby control
-- [Asset protection](https://onguardprotection.com.au/services/asset-protection.html): Plant and compound protection
+- [Home](https://www.ogprotection.com.au/): NSW licensed security overview and quote brief
+- [Suburb coverage](https://www.ogprotection.com.au/locations/): Security guards by NSW and ACT suburb
+- [Sydney security guards](https://www.ogprotection.com.au/locations/sydney.html): CBD and inner-Sydney coverage
+- [Nowra event security](https://www.ogprotection.com.au/locations/nowra.html): Nowra Annual Rodeo and South Coast work
+- [Worrigee security](https://www.ogprotection.com.au/locations/worrigee.html): Worrigee Equestrian Common
+- [Singleton security](https://www.ogprotection.com.au/locations/singleton.html): Imperial Hotel after-party and Hunter Valley
+- [Newcastle security](https://www.ogprotection.com.au/locations/newcastle.html): Hospitality and industrial cover
+- [Canberra security](https://www.ogprotection.com.au/locations/canberra.html): ACT corridor coverage
+- [Crowd control](https://www.ogprotection.com.au/services/crowd-control.html): Licensed venue and crowd controllers
+- [Event security](https://www.ogprotection.com.au/services/event-security.html): Rodeos, festivals and venue operations
+- [Static guards](https://www.ogprotection.com.au/services/static-guards.html): Construction and commercial posts
+- [Mobile patrols](https://www.ogprotection.com.au/services/mobile-patrols.html): After-hours patrols and alarm response
+- [Corporate security](https://www.ogprotection.com.au/services/corporate-security.html): Concierge and lobby control
+- [Asset protection](https://www.ogprotection.com.au/services/asset-protection.html): Plant and compound protection
 - [Verify licence](https://verify.licence.nsw.gov.au/home/Security): NSW SLED public register for Master Licence 000110094
-- [Sitemap index](https://onguardprotection.com.au/sitemap.xml): Master sitemap index for every indexable page
+- [Sitemap index](https://www.ogprotection.com.au/sitemap.xml): Master sitemap index for every indexable page
 
 ## Optional
 

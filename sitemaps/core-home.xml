@@ -2,54 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://onguardprotection.com.au/</loc>
+    <loc>https://www.ogprotection.com.au/</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/social/og-cover.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/social/og-cover.jpg</image:loc>
       <image:title>OnGuard Protection — licensed and fully insured NSW security. Festival and venue control, access screening and K9 perimeter patrol. Free quote.</image:title>
       <image:caption>OnGuard Protection — licensed and fully insured NSW security. Festival and venue control, access screening and K9 perimeter patrol. Free quote.</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/brand/onguard-lockup.png</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/brand/onguard-lockup.png</image:loc>
       <image:title>OnGuard Protection logo — NSW SLED licensed security company</image:title>
       <image:caption>OnGuard Protection logo — NSW SLED licensed security company</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-nowra.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-nowra.jpg</image:loc>
       <image:title>OnGuard Protection event security at the Nowra Annual Rodeo</image:title>
       <image:caption>OnGuard Protection event security at the Nowra Annual Rodeo</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-worrigee.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-worrigee.jpg</image:loc>
       <image:title>OnGuard Protection team at Worrigee Equestrian Common Rodeo</image:title>
       <image:caption>OnGuard Protection team at Worrigee Equestrian Common Rodeo</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-singleton.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-singleton.jpg</image:loc>
       <image:title>OnGuard Protection at Singleton Rodeo After Party, Imperial Hotel</image:title>
       <image:caption>OnGuard Protection at Singleton Rodeo After Party, Imperial Hotel</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-poster.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-poster.jpg</image:loc>
       <image:title>OnGuard Protection NSW and ACT services and coverage poster</image:title>
       <image:caption>OnGuard Protection NSW and ACT services and coverage poster</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-k9.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-k9.jpg</image:loc>
       <image:title>OnGuard Protection dog handler on a NSW industrial night static</image:title>
       <image:caption>OnGuard Protection dog handler on a NSW industrial night static</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-festival.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-festival.jpg</image:loc>
       <image:title>OnGuard Protection crowd control at a NSW festival</image:title>
       <image:caption>OnGuard Protection crowd control at a NSW festival</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/work-screening.jpg</image:loc>
+      <image:loc>https://www.ogprotection.com.au/assets/work-screening.jpg</image:loc>
       <image:title>OnGuard Protection bag search at a NSW event entry</image:title>
       <image:caption>OnGuard Protection bag search at a NSW event entry</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.ogprotection.com.au/assets/work-patrol.jpg</image:loc>
+      <image:title>OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist</image:title>
+      <image:caption>OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist</image:caption>
     </image:image>
   </url>
 </urlset>
