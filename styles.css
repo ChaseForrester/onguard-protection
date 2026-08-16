@@ -241,8 +241,8 @@ h3 {
 }
 
 .site-header.scrolled .logo img {
-    height: 44px;
-    max-height: 44px;
+    height: 40px;
+    max-height: 40px;
 }
 
 .main-nav {
@@ -253,10 +253,10 @@ h3 {
 }
 
 .logo img {
-    height: 52px;
+    height: 56px;
     width: auto;
-    max-height: 52px;
-    max-width: 220px;
+    max-height: 56px;
+    max-width: 260px;
     object-fit: contain;
     background: transparent;
     padding: 0;
@@ -1647,8 +1647,8 @@ h3 {
     }
 
     .logo img {
-        height: 40px;
-        max-width: 168px;
+        height: 42px;
+        max-width: 196px;
     }
 
     .page-hero {
@@ -1812,6 +1812,43 @@ textarea:focus-visible {
     border-left: 3px solid var(--red);
     padding: 0.9rem 1rem;
     background: rgba(194, 39, 18, 0.1);
+}
+
+.legal-scope {
+    display: inline-block;
+    margin: 0 0 0.8rem;
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--red);
+    color: #f3eee6;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.legal-control {
+    width: 100%;
+    margin: 1.2rem 0 0;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.legal-control th,
+.legal-control td {
+    border: 1px solid var(--line);
+    padding: 0.45rem 0.65rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.legal-control th {
+    width: 34%;
+    color: #f3eee6;
+    background: rgba(18, 37, 86, 0.55);
+}
+
+.will-not {
+    color: #ffb4a8;
 }
 
 .legal-diagrams {

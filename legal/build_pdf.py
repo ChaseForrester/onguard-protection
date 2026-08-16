@@ -35,9 +35,10 @@ CREAM = colors.HexColor("#f3eee6")
 INK = colors.HexColor("#1a1f2e")
 MUTED = colors.HexColor("#4b5568")
 LINE = colors.HexColor("#d1d5db")
-TODAY = date.today().strftime("%d %B %Y")
+TODAY = "17 August 2026"
 DOC_ID = "OG-LEG-2026-001"
-VERSION = "1.0"
+VERSION = "1.0 (corrected & expanded 17 August 2026)"
+PREPARED = "Tech Aid Australia — ABN 33 959 110 665 (Stormy Chase Forrester)"
 
 
 class RuleBar(Flowable):
@@ -141,17 +142,19 @@ def cover_page():
         Spacer(1, 8 * mm),
         P("DOCUMENT CONTROLLED", "cover_kicker"),
         P("Legal, Liability, Refunds<br/>and Compliance Pack", "cover_title"),
-        P("Limitation of liability • Australian Consumer Law • ACCC • All States and Territories<br/>ISO alignment • Defence / military tenders • Local government procurement", "cover_sub"),
+        P("Limitation of liability • Australian Consumer Law • ACCC • New South Wales only<br/>Current SLED Class 1 / Class 2 roster rules • ISO alignment • Defence / NV clearances", "cover_sub"),
         Spacer(1, 6 * mm),
         RuleBar(color=NAVY, height=1),
         Spacer(1, 8 * mm),
     ]
     meta = [
         ["Document ID", DOC_ID],
-        ["Version", VERSION + "  —  Effective " + TODAY],
-        ["Issuer", "OnGuard Protection"],
-        ["NSW Master Licence", "000110094  (SLED — Security Industry Act 1997)"],
-        ["Classification", "Public-facing contractual instrument + tender annexure"],
+        ["Version", VERSION],
+        ["Effective", TODAY],
+        ["Issuer", "OnGuard Protection (NSW Master Licence 000110094)"],
+        ["Prepared by", PREPARED],
+        ["Scope", "New South Wales only. No interstate master-licence claim."],
+        ["Classification", "Public-facing contractual instrument + NSW tender annexure"],
         ["Governing law", "Laws of New South Wales and the Commonwealth of Australia"],
         ["Contact", "0432 893 343  •  admin@ogprotection.com.au"],
         ["Website", "https://www.ogprotection.com.au/legal/"],
@@ -184,11 +187,11 @@ def toc():
         "4.  Australian Consumer Law, ACCC and refunds",
         "5.  Limitation of liability (where the law allows)",
         "6.  Unfair contract terms and standard-form contracts",
-        "7.  Licensing — all Australian States and Territories",
-        "8.  Work health and safety, privacy and surveillance",
+        "7.  Licensing — New South Wales only (SLED)",
+        "8.  WHS, dual-PCBU, first-aid currency, privacy and surveillance",
         "9.  ISO, Australian Standards and quality alignment",
-        "10. Defence, military, PSPF, DISP and classified work",
-        "11. Commonwealth, State and local government tenders",
+        "10. Defence, NV1 / NV2, PSPF, DISP and classified work",
+        "11. Commonwealth and NSW government tenders",
         "12. Insurance, indemnities and claims procedure",
         "13. Personnel, subcontractors and modern slavery",
         "14. Confidentiality, intellectual property and records",
@@ -196,9 +199,13 @@ def toc():
         "16. Complaints, disputes and regulators",
         "17. Governing law, severance and entire agreement",
         "18. Official references and external links",
-        "Schedule A  —  State and Territory licence matrix",
+        "Schedule A  —  NSW licence architecture and individual recognition",
         "Schedule B  —  ACL remedies decision map",
-        "Schedule C  —  Tender and Defence pathway diagram",
+        "Schedule C  —  NSW tender and Defence pathway",
+        "Schedule D  —  NSW Class 1 and Class 2 roster rules (current)",
+        "Schedule E  —  NSW local government tender threshold",
+        "Schedule F  —  Tender attachment checklist",
+        "Schedule G  —  Acceptance block",
     ]
     story = [P("Contents", "h1"), RuleBar(color=NAVY, height=1), Spacer(1, 4 * mm)]
     story += [P(i, "toc") for i in items]
@@ -211,14 +218,14 @@ def body():
 
     story += [
         P("1. Status of this document and how to use it", "h1"),
-        P("This Legal, Liability, Refunds and Compliance Pack (“Pack”) is the public legal framework of OnGuard Protection (“OnGuard”, “we”, “us”). It applies to website enquiries, quotations, standing offers, purchase orders, event bookings, patrol contracts, static-guard deployments, and any invitation to tender, request for quote or panel application issued by a Commonwealth entity, a State or Territory agency, a local council, a government-owned corporation, or a Defence prime.", "body"),
-        P("The Pack has three jobs: (1) tell clients, in plain English, what the law already requires of us; (2) limit liability only to the extent Australian law permits; and (3) give evaluation panels a single annexure they can file against WHS, privacy, licensing, ISO alignment, and Defence-adjacent security questions.", "body"),
-        P("OnGuard currently holds New South Wales Security Master Licence <b>000110094</b>, issued under the <i>Security Industry Act 1997</i> (NSW) and administered by the Security Licensing &amp; Enforcement Directorate (SLED). We do not represent that we hold a master licence in every other jurisdiction unless a current licence number is stated on the relevant quote. Cross-border work is only accepted once the required licence is in force.", "body"),
+        P("This Legal, Liability, Refunds and Compliance Pack (“Pack”) is the public legal framework of OnGuard Protection (“OnGuard”, “we”, “us”). It applies to website enquiries, quotations, standing offers, purchase orders, event bookings, patrol contracts, static-guard deployments, and any invitation to tender, request for quote or panel application issued by a Commonwealth entity, a New South Wales agency, a NSW local council, a government-owned corporation, or a Defence prime <b>for work in New South Wales</b>.", "body"),
+        P("The Pack has three jobs: (1) tell clients, in plain English, what the law already requires of us; (2) limit liability only to the extent Australian law permits; and (3) give evaluation panels a single annexure they can file against NSW licensing, WHS, first-aid currency, privacy, ISO alignment, and Defence-adjacent security questions.", "body"),
+        P("OnGuard holds New South Wales Security Master Licence <b>000110094</b>, issued under the <i>Security Industry Act 1997</i> (NSW) and administered by the Security Licensing &amp; Enforcement Directorate (SLED). <b>This Pack does not claim an interstate master, firm or agent licence.</b> Mutual recognition may allow an individual operative to work in another jurisdiction where that scheme lawfully applies. It does not authorise OnGuard to carry on a security business outside NSW. Work outside NSW is declined unless a current local master/firm licence is in force and scheduled to the quote.", "body"),
         P("2. Parties, definitions and interpretation", "h1"),
         P("<b>Client</b> means the person or entity that requests or receives services. <b>Consumer</b> has the meaning in s 3 of the Australian Consumer Law and includes a person who acquires services of a kind ordinarily acquired for personal, domestic or household use or consumption, or who acquires services for an amount not exceeding the prescribed threshold (currently $100,000). <b>Services</b> means crowd control, event security, static guarding, mobile patrols, alarm response, corporate concierge, access control and asset protection, and any related labour or advice. <b>Site</b> means the premises, venue, compound or event specified in the booking. <b>Regulator</b> includes the ACCC, SLED, a State or Territory licensing authority, SafeWork / WorkSafe, the OAIC, and a Defence security authority.", "body"),
         P("Headings are for convenience only. A reference to legislation includes amendments and instruments made under it. If a provision is void, the rest of this Pack continues. Nothing in this Pack is a warranty that a particular ISO certificate, DISP membership or security clearance is currently held — those are stated, if at all, only on a signed schedule.", "body"),
         P("3. Scope of services", "h1"),
-        P("OnGuard supplies licensed security labour and site presence. We do not, unless a separate written instrument says so, supply locksmithing, firearms, cash-in-transit, private inquiry, electronic surveillance installation as a Class 2 activity, or legal or engineering advice. The Client remains responsible for site induction content that only the occupier can provide, for facilities that only the Client controls, and for directions that would require OnGuard to break the law.", "body"),
+        P("OnGuard supplies licensed security labour and site presence in New South Wales. We do not, unless a separate written instrument and the matching licence class are scheduled, supply locksmithing, firearms, cash-in-transit, private inquiry, monitoring-centre operations, or covert electronic surveillance. The Client remains responsible for site induction content that only the occupier can provide, for facilities that only the Client controls, and for directions that would require OnGuard to break the law.", "body"),
         P("A quotation is an invitation to treat unless it is stated to be a standing offer. A contract is formed when OnGuard confirms the booking in writing (including email or a signed purchase order) or first deploys personnel to the Site after a clear instruction to proceed.", "body"),
     ]
 
@@ -261,22 +268,27 @@ def body():
     ]
 
     story += [
-        P("7. Licensing — all Australian States and Territories", "h1"),
-        P("Security work is a licensed occupation in every Australian jurisdiction. A master licence (or equivalent) authorises a business to provide persons to carry on security activities. Individual officers must hold the class of licence that matches the activity (unarmed guard, crowd controller, bodyguard, cash-in-transit, and so on). OnGuard will not deploy an unlicensed person to a licensed activity.", "body"),
-        P("The table in Schedule A is the national map. OnGuard’s current issued master licence is NSW 000110094. Engagements in another State or Territory are accepted only when OnGuard holds, or has lawfully arranged under that jurisdiction’s mutual-recognition or local-licence rules, the required business authorisation, and every operative on the Site holds a current local or recognised licence.", "body"),
-        P("Clients (especially councils and agencies) may verify NSW licences on the SLED public register: https://verify.licence.nsw.gov.au/home/Security", "body"),
-        P("8. Work health and safety, privacy and surveillance", "h1"),
-        P("8.1 WHS", "h2"),
-        P("The model Work Health and Safety Acts apply in the Commonwealth, NSW, QLD, SA, TAS, ACT and NT. Victoria has the <i>Occupational Health and Safety Act 2004</i>. Western Australia has the <i>Work Health and Safety Act 2020</i>. OnGuard and the Client are typically both persons conducting a business or undertaking (PCBUs) at a Site. Each must consult, cooperate and coordinate. OnGuard officers must be inducted to Site-specific hazards. We will stop work that presents a serious and imminent risk.", "body"),
-        P("8.2 Privacy", "h2"),
+        P("7. Licensing — New South Wales only", "h1"),
+        P("Security work in NSW is licensed under the <i>Security Industry Act 1997</i> and the Security Industry Regulation. A master licence authorises the business to provide persons to carry on security activities. Each operative must hold the correct Class 1 or Class 2 subclass for the activity actually performed. OnGuard will not deploy an unlicensed person, or a person whose class does not match the activity.", "body"),
+        P("OnGuard’s issued business authority is NSW Master Licence <b>000110094</b>. Clients and evaluation panels should verify it on the SLED public register: https://verify.licence.nsw.gov.au/home/Security", "body"),
+        P("Since 1 June 2023, former unarmed-guard (old 1A) and crowd-controller (old 1C) activities sit together under the current <b>Class 1A Security Officer</b> subclass. Current 1C is cash-in-transit. Current 1D is the only subclass that authorises dog work. A Class 1A, 1B, 1C, 1E or 1F licence does not authorise security activity with a dog. Schedule D is the roster rule.", "body"),
+        P("Mutual recognition under the <i>Mutual Recognition Act 1992</i> (Cth) and automatic mutual recognition may allow an <i>individual</i> licence to travel, subject to notifications and excluded activities. It does not give OnGuard an interstate master licence. This Pack does not table a multi-state business-licence matrix as if those licences were held.", "body"),
+        P("8. Work health and safety, dual-PCBU, first-aid currency, privacy and surveillance", "h1"),
+        P("8.1 Dual-PCBU WHS (NSW)", "h2"),
+        P("The <i>Work Health and Safety Act 2011</i> (NSW) applies. OnGuard and the Client are typically both persons conducting a business or undertaking (PCBUs) at the Site (ss 5, 16). Each must consult, cooperate and coordinate (s 46). OnGuard officers must be inducted to Site-specific hazards the occupier controls. We will stop work that presents a serious and imminent risk. A worker may cease unsafe work under s 84.", "body"),
+        P("8.2 NSW roster rules", "h2"),
+        P("Every person provided to carry on a security activity holds a current NSW licence of the matching subclass (Schedule D). The original licence is worn so as to be clearly visible (s 36) — attached to outer clothing, at or above the waist, front or side. The roster records name, licence number, subclass, start and finish for every shift. A licence is not lent, hired or used by another person (s 37). Fatigue, award breaks and maximum hours are treated as WHS and Fair Work duties, not roster convenience.", "body"),
+        P("8.3 First-aid currency", "h2"),
+        P("For crowd control, event, and other 1A posts where first aid is reasonably required by the Site, the event plan or our SOP, the officer’s first-aid unit (typically HLTAID011 or the unit then specified by SLED / the approved Security Licence Course) must be current. An officer whose first-aid has expired will not be rostered onto those posts. Currency is checked before the first shift of a booking and at each scheduled refresh.", "body"),
+        P("8.4 Privacy", "h2"),
         P("If OnGuard is an APP entity under the <i>Privacy Act 1988</i> (Cth), or if a government contract applies the Australian Privacy Principles (APPs) by flow-down, we will handle personal information in accordance with the APPs: collect only what the job needs, use it for the purpose disclosed, secure it, and not disclose it except as the APPs or a law requires. Incident reports, CCTV stills we are given, and officer notes are treated as confidential operational records.", "body"),
-        P("8.3 Surveillance and listening devices", "h2"),
-        P("Covert optical or listening surveillance is tightly restricted under State and Territory surveillance-devices legislation. OnGuard does not conduct covert surveillance unless a written lawful authority exists. Body-worn cameras, if used, will be used only as the engagement and the applicable Act allow, and people will be notified where the law requires notice.", "body"),
+        P("8.5 Surveillance and listening devices", "h2"),
+        P("Covert optical or listening surveillance is restricted under the <i>Surveillance Devices Act 2007</i> (NSW). OnGuard does not conduct covert surveillance unless a written lawful authority exists. Body-worn cameras, if used, will be used only as the engagement and the Act allow, and people will be notified where the law requires notice.", "body"),
     ]
 
     story += [
         P("9. ISO, Australian Standards and quality alignment", "h1"),
-        P("Government and Defence tenders often ask for ISO. This Pack distinguishes <b>alignment</b> (we design jobs to the control set) from <b>certification</b> (a JAS-ANZ accredited body has issued a current certificate). OnGuard does not, in this Pack, claim a current ISO certificate. If a certificate is later issued, it will be scheduled to the relevant contract. Claiming a certificate we do not hold would be misleading under the ACL.", "body"),
+        P("<b>Alignment is not certification.</b> Alignment means we design jobs, SOPs, incident control and records to the control set named below. Certification means a JAS-ANZ accredited body has issued a current numbered certificate. OnGuard does not, in this Pack, claim a current ISO certificate. If a certificate is later issued, it will be scheduled and attached. Claiming a certificate we do not hold is misleading under the ACL. Evaluation panels must treat “alignment” as not certified.", "body"),
         P("Frameworks we map work to, and that evaluation panels commonly specify:", "body"),
     ]
     story.append(table(
@@ -295,27 +307,21 @@ def body():
     ))
     story += [
         Spacer(1, 3 * mm),
-        P("10. Defence, military, PSPF, DISP and classified work", "h1"),
-        P("Work for the Department of Defence, the Australian Defence Force, a Defence prime, or a classified Commonwealth program sits under a different stack: the Protective Security Policy Framework (PSPF), the Defence Security Principles Framework (DSPF), the Defence Industry Security Program (DISP), the Australian Government Information Security Manual (ISM), and the ASD Essential Eight. DISP is, in Defence’s own words, security vetting for Australian businesses. Many Defence contracts require DISP membership at a stated maturity level before a supplier may handle classified information or access a Defence Site.", "body"),
+        P("10. Defence, NV1 / NV2, PSPF, DISP and classified work", "h1"),
+        P("Work for the Department of Defence, the Australian Defence Force, a Defence prime, or a classified Commonwealth program on a NSW Site sits under the Protective Security Policy Framework (PSPF), the Defence Security Principles Framework (DSPF), the Defence Industry Security Program (DISP), the Australian Government Information Security Manual (ISM), and the ASD Essential Eight. DISP is security vetting for Australian businesses. Many Defence contracts require DISP membership at a stated maturity level before a supplier may handle classified information or access a Defence Site.", "body"),
+        P("<b>NV1, NV2 and higher clearances.</b> Classified or Defence work that requires an AGSVA Negative Vetting 1, Negative Vetting 2, Positive Vetting or any higher clearance will be declined, or delivered only through a cleared partner under a written subcontract, until OnGuard holds the named clearance and it is scheduled. We will not roster an uncleared officer onto a cleared post. We will not tick “held” on a tender form for a clearance we do not hold.", "body"),
         P("OnGuard will not pretend to hold DISP membership, a facility security clearance, or individual security clearances unless those are current and named on a signed schedule. If a tender requires them, we will either (a) already hold them and evidence them, or (b) decline or partner until the membership is in force. Submitting a Defence tender on a false security status is a security incident and a misleading representation.", "body"),
         P("Where OnGuard is a subcontractor to a DISP member, we will comply with the flow-down clauses we sign: personnel sponsorship, need-to-know, no uncleared devices, incident reporting to the prime’s security officer, and return or destruction of classified material. Officers who are not cleared will not be put on a cleared post.", "body"),
         P("Export-controlled technology, ITAR/EAR flow-down, and the <i>Defence Trade Controls Act 2012</i> are out of scope unless a schedule says otherwise. The <i>Security of Critical Infrastructure Act 2018</i> (SOCI) may apply if the Client is a responsible entity for a critical asset — in that case the Client must tell us before we start.", "body"),
-        P("11. Commonwealth, State and local government tenders", "h1"),
-        P("Commonwealth procurement is conducted under the Commonwealth Procurement Rules (CPRs) issued under the <i>Public Governance, Performance and Accountability Act 2013</i>. The core rules are value for money, non-discrimination, transparency, and (above the relevant threshold) open tender on AusTender unless an exemption applies. State and Territory regimes sit beside the CPRs. Local government is governed by each State’s Local Government Act and the council’s procurement policy — typically requiring a public tender above a dollar threshold (commonly $250,000 including GST in NSW under the Local Government Act and regulation, subject to amendment).", "body"),
-        P("OnGuard will respond to RFTs, RFQs, panels and standing offers with this Pack as Annexure A unless the buyer mandates its own deed. We will not bid a price we cannot resource with licensed labour. We will declare conflicts, prior adverse findings, and any licence condition that would affect performance. Collusive tendering is prohibited.", "body"),
-        P("Primary portals evaluation teams already know:", "body"),
+        P("11. Commonwealth and NSW government tenders", "h1"),
+        P("Commonwealth procurement for a NSW Site is conducted under the Commonwealth Procurement Rules (CPRs) issued under the <i>Public Governance, Performance and Accountability Act 2013</i>. NSW Government procurement sits under buy.nsw / eTendering. Local government in NSW is under the <i>Local Government Act 1993</i> (NSW) and the council’s procurement policy — a public tender is commonly required above $250,000 including GST, subject to amendment. Confirm the current threshold before you treat this as the award rule.", "body"),
+        P("OnGuard will respond to RFTs, RFQs, panels and standing offers with this Pack as Annexure A unless the buyer mandates its own deed. We will not bid a price we cannot resource with licensed NSW labour of the correct subclass. We will declare conflicts, prior adverse findings, and any licence condition that would affect performance. Collusive tendering is prohibited.", "body"),
+        P("Primary portals for NSW work:", "body"),
     ]
     story += bullets([
         "Commonwealth — AusTender  https://www.tenders.gov.au",
         "NSW — buy.nsw / eTendering  https://buy.nsw.gov.au",
-        "Victoria — Buying for Victoria  https://www.buyingfor.vic.gov.au",
-        "Queensland — QTenders  https://qtenders.hpw.qld.gov.au",
-        "Western Australia — Tenders WA  https://www.tenders.wa.gov.au",
-        "South Australia — SA Tenders and Contracts  https://www.tenders.sa.gov.au",
-        "Tasmania — Purchasing  https://www.purchasing.tas.gov.au",
-        "ACT — Tenders ACT  https://tenders.act.gov.au",
-        "Northern Territory — Quotations and Tenders Online  https://tendersonline.nt.gov.au",
-        "Many councils — Tenderlink, VendorPanel, or the council’s own portal.",
+        "NSW councils — Tenderlink, VendorPanel, or the council’s own portal.",
     ])
 
     story += [
@@ -323,7 +329,7 @@ def body():
         P("OnGuard maintains, and will produce certificates of currency for, public liability insurance and workers compensation as required by law in the jurisdiction of the Site. Professional indemnity or other classes are held only if stated on the certificate attached to the quote. Clients (especially councils) should not assume a limit or an insurer until they have the current certificate. OnGuard’s indemnity to the Client covers loss to the extent caused by OnGuard’s negligence or wilful default, reduced to the extent the Client or a third party caused or contributed to it. The indemnity is capped as in section 5 except where the law forbids a cap.", "body"),
         P("Notify claims immediately to 0432 893 343 and admin@ogprotection.com.au. Do not admit liability on our behalf. Preserve radio logs, CCTV the Client controls, and medical records the injured person consents to release.", "body"),
         P("13. Personnel, subcontractors and modern slavery", "h1"),
-        P("Every operative on a licensed activity holds a current licence of the correct class. We may subcontract to another master-licensed provider; we remain responsible to the Client for the subcontracted performance. The <i>Modern Slavery Act 2018</i> (Cth) reporting obligation applies to entities at or above the consolidated revenue threshold. Whether or not OnGuard is a reporting entity in a given year, we will not use bonded, trafficked or child labour, and we will not subcontract to a provider we know does.", "body"),
+        P("Every operative on a licensed activity holds a current NSW licence of the correct subclass (Schedule D). We may subcontract to another NSW master-licensed provider; we remain responsible to the Client for the subcontracted performance. The <i>Modern Slavery Act 2018</i> (Cth) reporting obligation applies to entities at or above the consolidated revenue threshold. Whether or not OnGuard is a reporting entity in a given year, we will not use bonded, trafficked or child labour, and we will not subcontract to a provider we know does.", "body"),
         P("Fair Work Act minimums, awards and casual conversion rules apply to our labour. Clients must not dictate rates that would force an award breach.", "body"),
         P("14. Confidentiality, intellectual property and records", "h1"),
         P("Each party must keep the other’s confidential information confidential, except for disclosure to insurers, lawyers, regulators, and as a court or statute requires. Run-sheets, event plans and SOPs we create remain OnGuard intellectual property. The Client receives a licence to use them for the Site and the term. We keep operational records for at least seven years, or longer if a government contract says so.", "body"),
@@ -332,7 +338,7 @@ def body():
         P("Cancellation: if the Client cancels more than 72 hours before start, no fee. Inside 72 hours, a fee not exceeding the unavoidable labour and travel we cannot redeploy — a genuine pre-estimate, not a penalty. If we cancel for a reason other than force majeure or a Client breach, the Client pays nothing for the cancelled portion and may claim an ACL remedy if one applies.", "body"),
         P("Force majeure includes flood, fire, pandemic direction, industrial action we do not control, and a government order that makes the deployment unlawful. Duties are suspended while the event continues. The ACL still applies to any failure that is not genuinely caused by the event.", "body"),
         P("16. Complaints, disputes and regulators", "h1"),
-        P("Complain first to OnGuard (section 4.3). If unresolved: the applicable civil and administrative tribunal (NCAT, VCAT, QCAT, SACAT, SAT, TASCAT, ACAT, NTCAT) for consumer and small-business disputes within jurisdiction; a court of competent jurisdiction; the ACCC or a State consumer agency for ACL conduct; SLED or the local licensing authority for licence conduct; SafeWork / WorkSafe for WHS; the OAIC for privacy. Nothing in this Pack is an arbitration clause that blocks a statutory complaint.", "body"),
+        P("Complain first to OnGuard (section 4.3). If unresolved: NCAT; a court of competent jurisdiction; the ACCC or NSW Fair Trading; SLED for licence conduct; SafeWork NSW for WHS; the OAIC for privacy. Nothing in this Pack is an arbitration clause that blocks a statutory complaint.", "body"),
         P("17. Governing law, severance and entire agreement", "h1"),
         P("This Pack is governed by the laws of New South Wales and the Commonwealth of Australia. The parties submit to the non-exclusive jurisdiction of the courts of New South Wales. If a provision is invalid, it is severed or read down. This Pack plus the accepted quote or purchase order is the entire agreement, except for any non-excludable statutory term. A waiver must be in writing. We may update this Pack on the website; the version cited on the quote is the version that applies to that booking.", "body"),
         P("18. Official references and external links", "h1"),
@@ -341,7 +347,8 @@ def body():
         P("• ACCC consumer guarantees — https://www.accc.gov.au/consumers/buying-products-and-services/consumer-rights-and-guarantees", "link"),
         P("• Competition and Consumer Act 2010 (Cth) — https://www.legislation.gov.au/C2004A00109", "link"),
         P("• NSW SLED licence register — https://verify.licence.nsw.gov.au/home/Security", "link"),
-        P("• Security Industry Act 1997 (NSW) — https://legislation.nsw.gov.au", "link"),
+        P("• Security Industry Act 1997 (NSW) — https://legislation.nsw.gov.au/view/html/inforce/current/act-1997-157", "link"),
+        P("• Work Health and Safety Act 2011 (NSW) — https://legislation.nsw.gov.au/view/html/inforce/current/act-2011-010", "link"),
         P("• Commonwealth Procurement Rules — https://www.finance.gov.au/government/procurement/commonwealth-procurement-rules", "link"),
         P("• AusTender — https://www.tenders.gov.au", "link"),
         P("• Protective Security Policy Framework — https://www.protectivesecurity.gov.au", "link"),
@@ -349,7 +356,7 @@ def body():
         P("• ASD Information Security Manual — https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/ism", "link"),
         P("• Essential Eight — https://www.cyber.gov.au/resources-business-and-government/essential-cyber-security/essential-eight", "link"),
         P("• Privacy Act / APPs — https://www.oaic.gov.au/privacy/australian-privacy-principles", "link"),
-        P("• Safe Work Australia — https://www.safeworkaustralia.gov.au", "link"),
+        P("• SafeWork NSW — https://www.safework.nsw.gov.au", "link"),
         P("• ISO 18788 overview — https://www.iso.org/standard/63380.html", "link"),
         P("• OnGuard legal page — https://www.ogprotection.com.au/legal/", "link"),
     ]
@@ -358,27 +365,24 @@ def body():
 
 def schedules():
     story = [
-        P("Schedule A — State and Territory licence matrix", "h1"),
-        P("This matrix is a procurement aid. Always confirm the current Act and the live register before award. OnGuard’s issued master licence at the date of this Pack is NSW only, unless a later schedule says otherwise.", "small"),
+        P("Schedule A — NSW licence architecture and individual recognition", "h1"),
+        P("This Pack is NSW-only. The table is the architecture of the Security Industry Act 1997 (NSW), not a claim that OnGuard holds an interstate master licence.", "small"),
         Spacer(1, 2 * mm),
     ]
     story.append(table(
-        ["Jurisdiction", "Principal Act", "Business licence", "Regulator / register"],
+        ["Instrument", "What it authorises", "OnGuard position"],
         [
-            ["New South Wales", "Security Industry Act 1997", "Master licence (OnGuard: 000110094)", "NSW Police SLED — verify.licence.nsw.gov.au"],
-            ["Victoria", "Private Security Act 2004", "Business (operator) licence", "Victoria Police LRD"],
-            ["Queensland", "Security Providers Act 1993", "Security firm licence", "Office of Fair Trading"],
-            ["Western Australia", "Security and Related Activities (Control) Act 1996", "Agent / consultant / crowd control agent", "WA Police Licensing Services"],
-            ["South Australia", "Security and Investigation Industry Act 1995", "Agent licence", "Consumer and Business Services"],
-            ["Tasmania", "Security and Investigations Agents Act 2002", "Agent licence", "CBOS / Department of Justice"],
-            ["Australian Capital Territory", "Security Industry Act 2003", "Master licence", "Access Canberra"],
-            ["Northern Territory", "Private Security Act 1995", "Crowd controller / security officer licences + crowd controller/security firm", "Licensing NT"],
+            ["NSW Master Licence 000110094", "The business may provide licensed persons to carry on security activities in NSW.", "Held. Verify on the SLED register."],
+            ["Class 1 individual licence", "The named person may perform the endorsed subclass (1A–1F).", "Rostered only if the subclass matches the activity. See Schedule D."],
+            ["Class 2 individual licence", "Consultant / seller / equipment specialist / trainer as endorsed (2A–2D).", "Only if a named holder is scheduled. Not a current product line for 2B/2C."],
+            ["Mutual recognition (individuals)", "An individual licence may travel where the Cth/State scheme lawfully applies.", "Noted for operatives only. Does not authorise OnGuard to carry on a security business outside NSW."],
+            ["Interstate master / firm / agent licence", "Would authorise the company to carry on a security business in that State.", "Not held. Not claimed. Work outside NSW is declined unless a local licence is scheduled."],
         ],
-        [32 * mm, 52 * mm, 48 * mm, 38 * mm],
+        [48 * mm, 62 * mm, 60 * mm],
     ))
     story += [
         Spacer(1, 4 * mm),
-        P("Mutual recognition under the <i>Mutual Recognition Act 1992</i> (Cth) and automatic mutual recognition arrangements may allow an individual licence to be used across borders, subject to notifications and excluded activities. They do not automatically authorise a company to carry on a security business in a second State without that State’s business/master licence if the local Act requires one.", "body"),
+        P("Mutual recognition under the <i>Mutual Recognition Act 1992</i> (Cth) and automatic mutual recognition may allow an individual licence to be used across borders, subject to notifications and excluded activities. They do not automatically authorise a company to carry on a security business in a second State without that State’s business/master licence if the local Act requires one.", "body"),
         P("Schedule B — ACL remedies decision map", "h1"),
         P("Read top to bottom. This is a plain-English map of ss 60–62 and 267–269. It is not a substitute for legal advice on a hard case.", "small"),
         Spacer(1, 2 * mm),
@@ -403,66 +407,66 @@ def schedules():
     story.append(table(
         ["Gate", "What the buyer asks", "What OnGuard tables", "Stop / go"],
         [
-            ["G1 Licensing", "Valid master licence in the jurisdiction of the Site", "NSW ML 000110094 on SLED register. Other States only with a current local licence schedule.", "STOP if the Site is outside a licensed jurisdiction."],
+            ["G1 Licensing", "Valid NSW master licence and matching individual subclass", "NSW ML 000110094 on SLED register. Schedule D class match on the roster.", "STOP if the Site is outside NSW without a scheduled local master licence."],
             ["G2 ACL / UCT", "Terms that do not void consumer or small-business rights", "This Pack, ss 4–6. No “no refunds”. s 64A limit only where lawful.", "STOP if the buyer’s own deed forces an unlawful exclusion — we will mark it up."],
             ["G3 WHS / insurance", "PCBU duties, workers compensation, public liability", "Certificates of currency + Site JHA. Dual-PCBU consult.", "STOP if the Client will not induct or will not disclose a known serious hazard."],
             ["G4 ISO / quality", "9001 / 18788 / 27001 / 45001 as specified", "Alignment statement in s 9. Certificates only if scheduled. No fake certs.", "GO on alignment. CONDITIONAL if the RFT mandates a numbered certificate we do not yet hold."],
             ["G5 Privacy / records", "APPs, information handling, seven-year records", "s 8.2 and s 14. Flow-down APPs accepted on government paper.", "GO unless the package requires a full IRAP assessment we have not scoped."],
-            ["G6 Defence / classified", "DISP, PSPF, DSPF, clearances, Essential Eight", "s 10. Honest status. No DISP claim unless current.", "STOP on classified work without the required DISP / clearance schedule."],
+            ["G6 Defence / classified", "DISP, PSPF, DSPF, NV1/NV2, Essential Eight", "s 10. Honest status. NV work declined or partnered until held.", "STOP on classified work without the required DISP / NV schedule."],
             ["G7 Price and labour", "Sustainable licensed labour, no collusion", "Award-compliant rates. Named licence classes on the roster.", "GO if the roster is licensed and the price can be staffed."],
         ],
         [22 * mm, 48 * mm, 58 * mm, 42 * mm],
     ))
     story += [
         Spacer(1, 8 * mm),
-        P("Schedule D — NSW individual licence classes we deploy against", "h1"),
-        P("NSW Class 1 licences (Security Industry Regulation). The class on the officer must match the activity. This is the roster rule, not a training brochure.", "small"),
+        P("Schedule D — NSW Class 1 and Class 2 roster rules (current post-2023)", "h1"),
+        P("Authorities are taken from ss 11–12 of the Security Industry Act 1997 (NSW) as in force after the 1 June 2023 reforms. The class on the officer must match the activity. A Class 1A, 1B, 1C, 1E or 1F licence does not authorise security activity with a dog.", "small"),
         Spacer(1, 2 * mm),
     ]
     story.append(table(
-        ["Class", "Activity", "Typical OnGuard use", "Will not deploy"],
+        ["Class", "Authority (Act)", "Typical OnGuard use", "Will not deploy"],
         [
-            ["1A", "Unarmed guard", "Static, patrol, concierge, construction gate", "Armed work"],
-            ["1B", "Bodyguard", "Close personal protection if scoped", "Unscoped VIP work"],
-            ["1C", "Crowd controller", "Venues, rodeos, events, after-parties", "An unlicensed door"],
-            ["1D", "Guard dog handler", "Only if the quote names a dog team", "Improvised animals"],
-            ["1E", "Monitoring centre", "Not a current OnGuard product line", "Claiming a 1E post we do not staff"],
-            ["1F", "Armed guard", "Not offered unless separately licensed and scheduled", "Firearms on a 1A/1C roster"],
-            ["2A / 2B / 2C", "Technician / consultant / trainer classes", "Only if a Class 2 holder is named", "Unlicensed install or training"],
+            ["1A Security Officer", "Patrol, protect or guard property while unarmed (static or mobile); and act as a crowd controller or in a similar capacity.", "Core roster: static, patrol, concierge, construction gate, venue door, floor, festival barrier, bag search, event close-out.", "Armed work. Cash-in-transit. Dog teams. A 1A on a 1C/1D/1F post."],
+            ["1B Bodyguard", "Act as a bodyguard or in a similar capacity.", "Close personal protection only if the quote names a 1B holder and the principal.", "Unscoped VIP work. A 1A standing in as a bodyguard."],
+            ["1C Cash-in-Transit Guard", "Patrol, protect or guard cash-in-transit. Armed CIT also requires 1F plus a firearms authority.", "Not a current OnGuard product line.", "Any CIT run. A 1A used as a cash escort. Claiming old “1C = crowd controller”."],
+            ["1D Guard Dog Handler", "Patrol, protect or guard any property with a dog. The only Class 1 subclass that authorises dog work.", "Named dog team on a quote: night static, compound, industrial gate. Handler holds 1D. Dog identified on the run-sheet.", "Improvised animals. A 1A walking a dog. Dog work that is not on the quote."],
+            ["1E Monitoring Centre Operator", "Patrol, protect or guard property while carrying on monitoring-centre operations.", "Not a current OnGuard product line.", "Claiming a 1E monitoring post we do not staff."],
+            ["1F Armed Guard", "Patrol, protect or guard approved classes of property while armed, and only under a firearms licence/permit under the Firearms Act 1996 (NSW).", "Not offered unless separately licensed, insured and scheduled.", "Firearms on a 1A roster. An armed 1C CIT run without 1F."],
+            ["2A Security Consultant", "Sell security methods or principles; act as a consultant by identifying and analysing security risks.", "Only if a 2A holder is named on the quote.", "Unlicensed security consulting sold as “advice from the guard”."],
+            ["2B Security Seller", "Sell, and provide advice in relation to, security equipment. Does not authorise install, maintain or repair.", "Not a current OnGuard product line.", "Selling or specifying equipment under a 1A."],
+            ["2C Security Equipment Specialist", "Sell, install, maintain, repair and service security equipment (including electronic and barrier equipment) and act as a locksmith.", "Not a current OnGuard product line.", "Locksmithing, alarm install or CCTV install under a Class 1."],
+            ["2D Security Trainer", "Provide training, assessment or instruction in relation to any security activity. Does not extend to firearms training.", "Only if a 2D holder (and, where required, an RTO) is named.", "Unlicensed “in-house training” sold as a licensed course. Firearms instruction."],
         ],
-        [24 * mm, 42 * mm, 52 * mm, 52 * mm],
+        [32 * mm, 48 * mm, 46 * mm, 44 * mm],
     ))
     story += [
-        Spacer(1, 6 * mm),
-        P("Schedule E — Indicative local government tender thresholds", "h1"),
-        P("Thresholds move. Confirm the Local Government Act, regulation and the council’s current procurement policy before you treat this as the award rule. Figures are inclusive of GST unless the council policy says otherwise.", "small"),
+        Spacer(1, 3 * mm),
+        P("Master licence 000110094 authorises the business to provide licensed persons. It is not a substitute for the individual subclass. Loss-prevention activities formerly under old 1G sit inside current 1A.", "body"),
+        P("Schedule E — NSW local government tender threshold", "h1"),
+        P("Thresholds move. Confirm the Local Government Act 1993 (NSW), the regulation and the council’s current procurement policy before you treat this as the award rule.", "small"),
         Spacer(1, 2 * mm),
     ]
     story.append(table(
-        ["Jurisdiction", "Typical public-tender trigger", "Where to confirm"],
+        ["Buyer", "Typical public-tender trigger", "Where to confirm"],
         [
-            ["NSW councils", "Often $250,000 (LG Act / regulation — confirm current figure)", "Office of Local Government + the council policy"],
-            ["Victorian councils", "Council policy under the Local Government Act 2020", "Buying for Victoria / council procurement policy"],
-            ["Queensland councils", "Council policy; sound contracting principles in the LG Act 2009", "QTenders and the council contracting plan"],
-            ["WA local governments", "Tenders required above the regulated threshold (confirm current $)", "Department of Local Government + Tenders WA"],
-            ["SA councils", "Council policy under the Local Government Act 1999", "SA Tenders and the council procurement policy"],
-            ["Tasmanian councils", "Council code / Local Government Act 1993", "purchasing.tas.gov.au and the council code"],
-            ["ACT Government", "Government Procurement Act / regulation (Territory, not a council)", "Tenders ACT"],
-            ["NT local government", "Local Government Act 2019 + council policy", "tendersonline.nt.gov.au"],
+            ["NSW councils", "Often $250,000 including GST (LG Act / regulation — confirm the current figure)", "Office of Local Government + the council procurement policy"],
+            ["NSW Government", "buy.nsw / eTendering rules for the relevant scheme", "buy.nsw.gov.au"],
+            ["Commonwealth (NSW Site)", "CPR open-tender threshold unless an exemption applies", "finance.gov.au · tenders.gov.au"],
         ],
-        [36 * mm, 78 * mm, 56 * mm],
+        [40 * mm, 74 * mm, 56 * mm],
     ))
     story += [
         Spacer(1, 6 * mm),
         P("Schedule F — How to attach this Pack to a tender", "h1"),
     ]
     story += bullets([
-        "File this PDF as Annexure A — Legal, Liability and Compliance.",
+        "File this PDF as Annexure A — Legal, Liability and Compliance (NSW).",
         "Attach the current SLED extract for Master Licence 000110094.",
         "Attach certificates of currency (public liability and workers compensation as a minimum).",
-        "If the RFT demands a numbered ISO certificate or DISP membership, either attach the current certificate or mark the requirement as a condition subsequent — do not tick “held” if it is not held.",
-        "Attach the named roster with licence class and expiry for every officer proposed for the first four weeks.",
-        "If the Site is outside NSW, attach the local master/firm licence or do not bid.",
+        "Attach the named roster for the first four weeks: officer, licence number, subclass, expiry, and first-aid expiry where the post requires it.",
+        "If the RFT demands a numbered ISO certificate, DISP membership, NV1, NV2 or a higher clearance — attach the current instrument or mark the requirement as not held / condition subsequent. Do not tick “held” if it is not held.",
+        "If a dog team is proposed — attach the 1D licence, animal identification, and the Site’s animal policy.",
+        "If the Site is outside NSW — attach the local master/firm licence or do not bid.",
     ])
     story += [
         Spacer(1, 6 * mm),
@@ -486,8 +490,8 @@ def schedules():
     story += [
         Spacer(1, 8 * mm),
         P("End of Pack", "h2"),
-        P("Issued by OnGuard Protection on " + TODAY + ". Document " + DOC_ID + ", version " + VERSION + ". Verify the NSW master licence at https://verify.licence.nsw.gov.au/home/Security. Download this file from https://www.ogprotection.com.au/legal/OnGuard-Protection-Legal-Compliance-Pack.pdf.", "body"),
-        P("© " + str(date.today().year) + " OnGuard Protection. All rights reserved. Official logos of the ACCC, ISO, the Commonwealth and State arms are not reproduced in this Pack; those marks are used by their owners. References are by citation and hyperlink only.", "small"),
+        P("Issued by OnGuard Protection on " + TODAY + ". Document " + DOC_ID + ", " + VERSION + ". Prepared by " + PREPARED + ". Verify the NSW master licence at https://verify.licence.nsw.gov.au/home/Security. Download this file from https://www.ogprotection.com.au/legal/OnGuard-Protection-Legal-Compliance-Pack.pdf.", "body"),
+        P("© 2026 OnGuard Protection. All rights reserved. Official logos of the ACCC, ISO, the Commonwealth and State arms are not reproduced in this Pack; those marks are used by their owners. References are by citation and hyperlink only.", "small"),
     ]
     return story
 
@@ -503,7 +507,7 @@ def build():
         bottomMargin=16 * mm,
         title="OnGuard Protection — Legal, Liability and Compliance Pack",
         author="OnGuard Protection",
-        subject="ACL, ACCC, licensing, ISO alignment, Defence and government tenders",
+        subject="NSW-only ACL, SLED Class 1/2 roster rules, ISO alignment, Defence and NSW tenders",
     )
     story = []
     story += cover_page()

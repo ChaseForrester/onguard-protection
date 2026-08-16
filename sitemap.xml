@@ -212,33 +212,25 @@
   <url>
     <loc>https://onguardprotection.com.au/</loc>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/service_static.jpg</image:loc>
-      <image:title>OnGuard Protection static security guard on a NSW site</image:title>
-      <image:caption>OnGuard Protection static security guard on a NSW site</image:caption>
+      <image:loc>https://onguardprotection.com.au/assets/work-k9.jpg</image:loc>
+      <image:title>OnGuard Protection dog handler on a NSW industrial night static</image:title>
+      <image:caption>OnGuard Protection dog handler on a NSW industrial night static</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://onguardprotection.com.au/</loc>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/service_patrol.jpg</image:loc>
-      <image:title>OnGuard Protection mobile patrol at a NSW industrial site</image:title>
-      <image:caption>OnGuard Protection mobile patrol at a NSW industrial site</image:caption>
+      <image:loc>https://onguardprotection.com.au/assets/work-festival.jpg</image:loc>
+      <image:title>OnGuard Protection crowd control at a NSW festival</image:title>
+      <image:caption>OnGuard Protection crowd control at a NSW festival</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://onguardprotection.com.au/</loc>
     <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/service_commercial.jpg</image:loc>
-      <image:title>OnGuard Protection corporate security concierge in NSW</image:title>
-      <image:caption>OnGuard Protection corporate security concierge in NSW</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://onguardprotection.com.au/</loc>
-    <image:image>
-      <image:loc>https://onguardprotection.com.au/assets/service_event.jpg</image:loc>
-      <image:title>OnGuard Protection event and asset protection deployment in NSW</image:title>
-      <image:caption>OnGuard Protection event and asset protection deployment in NSW</image:caption>
+      <image:loc>https://onguardprotection.com.au/assets/work-screening.jpg</image:loc>
+      <image:title>OnGuard Protection bag search at a NSW event entry</image:title>
+      <image:caption>OnGuard Protection bag search at a NSW event entry</image:caption>
     </image:image>
   </url>
 </urlset>
