@@ -1344,6 +1344,7 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
                     {"src": "assets/img/favicon-32.png", "sizes": "32x32", "type": "image/png"},
                     {"src": "assets/img/favicon-48.png", "sizes": "48x48", "type": "image/png"},
                     {"src": "assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
+                    {"src": "assets/img/favicon-192.png", "sizes": "192x192", "type": "image/png"},
                 ],
             },
             indent=2,
