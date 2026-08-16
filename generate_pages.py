@@ -56,10 +56,10 @@ SERVICES = [
         "title": "Crowd Control & Venue Security NSW | OnGuard Protection",
         "description": "SLED-licensed crowd control for pubs, clubs, rodeos and functions across Sydney, the Hunter and Canberra. Master Licence 000110094.",
         "keyword": "crowd control NSW",
-        "img": "work-festival",
-        "img_w": 370,
-        "img_h": 417,
-        "alt": "OnGuard Protection Class 1A officers running crowd control on a live NSW festival barrier",
+        "img": "industry-hospitality",
+        "img_w": 1600,
+        "img_h": 900,
+        "alt": "Night entrance of a NSW licensed venue — the door OnGuard crowd controllers hold",
         "lead": "Entry, floor and close-out covered by licensed controllers who keep venues open and incidents closed.",
         "body": "OnGuard Protection deploys SLED-licensed crowd controllers for hotels, RSLs, festivals, rodeos and private functions. We brief the door, hold the floor and close the night without turning your venue into a fight. Radio comms, incident logs and a visible uniformed presence are standard.",
         "bullets": [
@@ -81,10 +81,10 @@ SERVICES = [
         "title": "Event Security NSW | Rodeos, Festivals & Venues | OnGuard",
         "description": "Event security for NSW rodeos, festivals and venues. Briefings, radio comms and licensed presence. Proven at Nowra, Worrigee and Singleton. ML 000110094.",
         "keyword": "event security NSW",
-        "img": "work-nowra",
-        "img_w": 1440,
-        "img_h": 1080,
-        "alt": "OnGuard Protection event security team in vests at the Nowra Annual Rodeo",
+        "img": "industry-events",
+        "img_w": 1600,
+        "img_h": 900,
+        "alt": "NSW rodeo and festival ground at dusk — the event sites OnGuard stands",
         "lead": "Full event plans — briefings, radio, medical liaison and a presence the crowd can see.",
         "body": "We have stood event security at the Nowra Annual Rodeo, Worrigee Equestrian Common and the Singleton Rodeo After Party at the Imperial Hotel. Same method every time: a written brief, licensed operators, and a radio net that actually works when the crowd peaks.",
         "bullets": [
@@ -106,10 +106,10 @@ SERVICES = [
         "title": "Static Security Guards NSW | OnGuard Protection",
         "description": "Uniformed static security guards for construction, retail and commercial NSW sites. Access control that holds. Master Licence 000110094.",
         "keyword": "static security guards NSW",
-        "img": "work-worrigee",
-        "img_w": 1170,
-        "img_h": 1169,
-        "alt": "OnGuard Protection uniformed officers standing a static post at Worrigee",
+        "img": "industry-construction",
+        "img_w": 1600,
+        "img_h": 900,
+        "alt": "NSW construction compound at night — a static gate post after hours",
         "lead": "Uniformed guards on construction, retail, commercial and residential sites.",
         "body": "A static post only works if the person on it is licensed, briefed and still awake at 03:00. OnGuard stands construction gates, loading docks, retail floors and residential concierge desks across NSW. Access control, visitor logs and after-hours lockdown are the job — not extras.",
         "bullets": [
@@ -131,10 +131,10 @@ SERVICES = [
         "title": "Mobile Patrol Security NSW | Alarm Response | OnGuard Protection",
         "description": "Random and scheduled mobile patrols plus rapid alarm response for NSW commercial, retail and construction sites. SLED licensed. Call 0432 893 343.",
         "keyword": "mobile patrols NSW",
-        "img": "work-tiguan",
-        "img_w": 890,
-        "img_h": 795,
-        "alt": "OnGuard Protection marked VW Tiguan patrol vehicle, plates OGPROT, Master Licence 000110094",
+        "img": "industry-logistics",
+        "img_w": 1600,
+        "img_h": 900,
+        "alt": "Floodlit NSW warehouse yard after hours — mobile patrol and alarm response ground",
         "lead": "Random and scheduled NSW patrols. Lock checks and rapid alarm response when no one else is on site.",
         "body": "Most break-ins happen after hours. OnGuard runs marked and unmarked mobile patrols with randomised timing so the pattern is not the product. Lock checks, external walks, alarm attendance and a written run-sheet after every visit.",
         "bullets": [
@@ -156,10 +156,10 @@ SERVICES = [
         "title": "Corporate Security & Concierge NSW | OnGuard Protection",
         "description": "Front-of-house corporate security and concierge for offices, logistics and hospitality across Sydney, Parramatta, Newcastle and Canberra. Licensed and discreet.",
         "keyword": "corporate security NSW",
-        "img": "work-screening",
-        "img_w": 368,
-        "img_h": 415,
-        "alt": "OnGuard Protection officer in a high-vis vest screening a patron at a NSW venue",
+        "img": "industry-corporate",
+        "img_w": 1600,
+        "img_h": 900,
+        "alt": "Sydney office lobby after hours — corporate concierge and access control",
         "lead": "Front-of-house presence that looks like hospitality and acts like security.",
         "body": "Corporate sites need someone who can greet a client and still stop an unauthorised walk-in. OnGuard places licensed concierge and corporate officers in offices, logistics hubs and hospitality foyers. Discreet, uniformed, and trained for the unexpected.",
         "bullets": [
@@ -181,10 +181,10 @@ SERVICES = [
         "title": "Asset Protection & Site Defence NSW | OnGuard Protection",
         "description": "High-value plant, compounds and sensitive site protection across NSW and the ACT. Custom security when a generic guard post is not enough. ML 000110094.",
         "keyword": "asset protection security NSW",
-        "img": "work-k9",
-        "img_w": 367,
-        "img_h": 411,
-        "alt": "OnGuard Protection dog team in vest protecting a high-value NSW compound",
+        "img": "industry-industrial",
+        "img_w": 1600,
+        "img_h": 900,
+        "alt": "High-value NSW industrial plant at night — layered static and patrol protection",
         "lead": "High-value plant, compounds and sensitive sites. Custom solutions, not a generic post.",
         "body": "When the asset is plant, copper, vehicles or a restricted compound, the job is prevention plus a response plan. OnGuard builds site-specific protection for construction compounds, logistics yards and sensitive facilities along the Sydney to Canberra corridor.",
         "bullets": [
@@ -673,7 +673,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <ul class="nav-list">
             <li><a href="{home}"{on("home")}>Home</a></li>
             <li class="has-sub{svc_open}">
-              <button type="button" class="nav-sub-toggle{svc_btn}" aria-expanded="{'true' if current == 'services' else 'false'}" aria-controls="nav-services">Services</button>
+              <button type="button" class="nav-sub-toggle{svc_btn}" aria-expanded="false" aria-controls="nav-services">Services</button>
               <ul class="nav-sub" id="nav-services">
 {svc_items}
                 <li><a href="{home}#services">All services</a></li>
@@ -1141,15 +1141,26 @@ def write_service(svc: dict) -> None:
         "image": f"{SITE}/assets/{svc['img']}.jpg",
     }
     loc_links = "".join(
-        f'<li><a href="../locations/{loc["slug"]}/{svc["slug"]}.html">{svc["short"]} in {loc["name"]}</a></li>'
+        f'<a class="suburb-chip" href="../locations/{loc["slug"]}/{svc["slug"]}.html">{loc["name"]}<span>{loc["state"]} {loc["postcode"]}</span></a>'
         for loc in LOCATIONS
     )
     bullets = "".join(f"<li>{b}</li>" for b in svc["bullets"])
-    faq_html = "".join(f"<details><summary>{q}</summary><p class='answer-block'>{a}</p></details>" for q, a in svc["faq"])
+    faq_html = "".join(
+        f'<details><summary>{q}</summary><p class="answer-block">{a}</p></details>'
+        for q, a in svc["faq"]
+    )
+    switcher = "".join(
+        '<a href="{slug}.html"{current}>{short}</a>'.format(
+            slug=other["slug"],
+            short=other["short"],
+            current=' class="is-current"' if other["slug"] == svc["slug"] else "",
+        )
+        for other in SERVICES
+    )
     nav, footer = chrome(depth, "services")
     extra = f'<link rel="preload" as="image" href="../assets/img/{svc["img"]}-800.webp" type="image/webp">'
     html = f'''{head(title, desc, url, depth, OG_IMAGE, OG_W, OG_H, OG_ALT, [org_schema(), crumbs, faq, service], extra)}
-<body class="inner-page">
+<body class="inner-page service-page">
 {nav}
 <main id="main">
   <nav class="crumbs container" aria-label="Breadcrumb">
@@ -1158,6 +1169,9 @@ def write_service(svc: dict) -> None:
     <a href="../index.html#services">Services</a>
     <span aria-hidden="true">/</span>
     <span>{svc["name"]}</span>
+  </nav>
+  <nav class="svc-switcher container" aria-label="All services">
+    {switcher}
   </nav>
   <header class="page-hero">
     <div class="page-hero-media">
@@ -1173,18 +1187,31 @@ def write_service(svc: dict) -> None:
       </div>
     </div>
   </header>
-  <article class="container prose reveal">
-    <p class="answer-block">{svc["body"]}</p>
-    <h2>What you get</h2>
-    <ul>{bullets}</ul>
-    <section class="faq">
-      <h2>Questions about {svc["short"].lower()}</h2>
-      {faq_html}
-    </section>
-    <h2>{svc["short"]} by suburb</h2>
-    <ul class="link-list cols">{loc_links}</ul>
-    {share_bar(url, title)}
-  </article>
+  <div class="container service-layout">
+    <article class="prose reveal">
+      <p class="answer-block">{svc["body"]}</p>
+      <h2>What you get</h2>
+      <ul class="check-list">{bullets}</ul>
+      <section class="faq">
+        <h2>Questions about {svc["short"].lower()}</h2>
+        {faq_html}
+      </section>
+      <h2>{svc["short"]} by suburb</h2>
+      <p class="muted-line">Same licence. Local brief. Pick the town.</p>
+      <div class="suburb-chip-grid">{loc_links}</div>
+      {share_bar(url, title)}
+    </article>
+    <aside class="service-aside">
+      <div class="service-aside-card">
+        <p class="eyebrow">Stand this post</p>
+        <h2>Need {svc["short"].lower()}?</h2>
+        <p>Tell us the suburb and the hours. Same-day reply on most briefs.</p>
+        <a class="btn btn-primary" href="#quote">Start a quote</a>
+        <a class="btn btn-ghost" href="tel:{TEL}">Call {PHONE}</a>
+        <p class="form-note">Master Licence {LICENCE} · NSW Class 1 only</p>
+      </div>
+    </aside>
+  </div>
   {quote_form(prefill_service=svc["name"])}
 </main>
 {footer}

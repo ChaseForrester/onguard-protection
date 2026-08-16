@@ -1551,10 +1551,11 @@ body.lightbox-open {
 
 .page-hero {
     position: relative;
-    min-height: min(52dvh, 520px);
+    min-height: min(58dvh, 560px);
     display: flex;
     align-items: flex-end;
-    margin: 1rem 0 2rem;
+    margin: 0.6rem 0 2.2rem;
+    overflow: hidden;
     background: #080c16;
 }
 
@@ -1563,29 +1564,212 @@ body.lightbox-open {
     inset: 0;
 }
 
+.page-hero-media picture,
 .page-hero-media img {
     width: 100%;
     height: 100%;
+}
+
+.page-hero-media img {
     object-fit: cover;
-    object-position: center 18%;
+    object-position: center 40%;
 }
 
 .page-hero-media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(7, 11, 20, 0.15), rgba(7, 11, 20, 0.88));
+    background:
+        linear-gradient(90deg, rgba(7, 11, 20, 0.78) 0%, rgba(7, 11, 20, 0.35) 58%, rgba(7, 11, 20, 0.2) 100%),
+        linear-gradient(180deg, rgba(7, 11, 20, 0.12) 0%, rgba(7, 11, 20, 0.82) 100%);
 }
 
 .page-hero-copy {
     position: relative;
     z-index: 1;
-    padding-bottom: 2rem;
+    max-width: 720px;
+    padding: 2.4rem 0 2.2rem;
 }
 
 .page-hero-copy h1 {
-    font-size: clamp(2.2rem, 7vw, 4.6rem);
+    font-size: clamp(1.85rem, 5.6vw, 3.5rem);
+    line-height: 0.96;
+    margin-bottom: 0.75rem;
+}
+
+.page-hero-copy .lead {
+    color: #e6e1d8;
+    max-width: 38rem;
+}
+
+.svc-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0.4rem auto 0.2rem;
+}
+
+.svc-switcher a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line);
+    background: rgba(16, 24, 43, 0.7);
+    color: var(--muted);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 0.86rem;
+}
+
+.svc-switcher a:hover,
+.svc-switcher a.is-current {
+    color: var(--cream);
+    border-color: var(--red);
+    background: rgba(194, 39, 18, 0.16);
+}
+
+.service-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(240px, 0.7fr);
+    gap: 2rem;
+    align-items: start;
+    padding-bottom: 1rem;
+}
+
+.service-aside-card {
+    position: sticky;
+    top: 6.2rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 1.3rem 1.2rem 1.4rem;
+}
+
+.service-aside-card h2 {
+    font-size: 1.7rem;
+    margin: 0.2rem 0 0.6rem;
+}
+
+.service-aside-card p {
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+}
+
+.service-aside-card .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.check-list {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0.6rem 0 1.4rem;
+}
+
+.check-list li {
+    position: relative;
+    padding: 0.7rem 0.8rem 0.7rem 2.3rem;
+    background: rgba(16, 24, 43, 0.7);
+    border: 1px solid var(--line);
+    color: var(--cream);
+    margin-bottom: 0;
+}
+
+.check-list li::before {
+    content: "";
+    position: absolute;
+    left: 0.85rem;
+    top: 1rem;
+    width: 0.55rem;
+    height: 0.28rem;
+    border-left: 2px solid var(--red);
+    border-bottom: 2px solid var(--red);
+    transform: rotate(-45deg);
+}
+
+.muted-line {
+    color: var(--muted);
     margin-bottom: 0.8rem;
+}
+
+.suburb-chip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin: 0.6rem 0 1.6rem;
+}
+
+.suburb-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-height: 64px;
+    padding: 0.7rem 0.75rem;
+    background: #0c1220;
+    border: 1px solid var(--line);
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.suburb-chip span {
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.8rem;
+}
+
+.suburb-chip:hover {
+    border-color: var(--red);
+}
+
+.faq details {
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    padding: 0;
+    background: rgba(16, 24, 43, 0.45);
+}
+
+.faq details:last-child {
+    border-bottom: 1px solid var(--line);
+}
+
+.faq summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.95rem 1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq details[open] summary {
+    color: var(--cream);
+}
+
+.faq details .answer-block {
+    margin: 0 1rem 1rem;
+}
+
+@media (max-width: 860px) {
+    .service-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .service-aside-card {
+        position: static;
+    }
 }
 
 .prose {
@@ -1634,7 +1818,6 @@ body.lightbox-open {
 
 .faq details {
     border-bottom: 1px solid var(--line);
-    padding: 0.7rem 0;
 }
 
 .faq summary {

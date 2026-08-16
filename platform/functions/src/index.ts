@@ -15,6 +15,10 @@ const auth = admin.auth();
 const LEGAL_PACK = "OG-LEG-2026-001";
 const MASTER_LICENCE = "000110094";
 const PHASE2_THRESHOLD = 10;
+const SUPER_EMAILS = new Set([
+    "hello@techaidaustralia.com.au",
+    "admin@ogprotection.com.au",
+]);
 
 type AccessState =
     | "unverified"
@@ -85,6 +89,20 @@ async function ensureApplicantDoc(event: { data?: { uid?: string; email?: string
 /** Blocking: every new account starts as kyc_required, NSW only, never verified. */
 export const beforeCreate = beforeUserCreated({ region: "us-east1" }, async (event) => {
     await ensureApplicantDoc(event);
+    const email = (event.data?.email || "").toLowerCase();
+    if (SUPER_EMAILS.has(email)) {
+        return {
+            customClaims: {
+                role: "superadmin",
+                verified: true,
+                accessState: "verified",
+                jurisdiction: "NSW",
+                superadmin: true,
+                legalPack: LEGAL_PACK,
+                subclasses: [],
+            },
+        };
+    }
     return {
         customClaims: {
             role: "applicant",
@@ -108,10 +126,11 @@ export const beforeSignIn = beforeUserSignedIn({ region: "us-east1" }, async (ev
     const user = event.data;
     if (!user?.uid) throw new HttpsError("invalid-argument", "Missing user.");
     const uid = user.uid;
+    const email = (user.email || "").toLowerCase();
     let doc = await userDoc(uid);
     const claims = user.customClaims || {};
-    if (claims.superadmin === true) {
-        return { sessionClaims: { ...claims, verified: true, accessState: "verified", role: "superadmin" } };
+    if (claims.superadmin === true || SUPER_EMAILS.has(email)) {
+        return { sessionClaims: { ...claims, superadmin: true, verified: true, accessState: "verified", role: "superadmin" } };
     }
     if (!doc) {
         await ensureApplicantDoc(event);

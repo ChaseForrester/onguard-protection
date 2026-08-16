@@ -89,7 +89,9 @@ async function routeSignedInUser(user) {
     routing = true;
     try {
         const token = await user.getIdTokenResult(true);
-        const isSuper = token.claims.superadmin === true;
+        const email = (user.email || "").toLowerCase();
+        const staffInbox = email === "hello@techaidaustralia.com.au" || email === "admin@ogprotection.com.au";
+        const isSuper = token.claims.superadmin === true || staffInbox;
         if (mode === "super") {
             if (!isSuper) {
                 await signOut(auth);
