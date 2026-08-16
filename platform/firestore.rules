@@ -1,0 +1,101 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function uid() {
+      return request.auth.uid;
+    }
+    function token() {
+      return request.auth.token;
+    }
+    function isSuperAdmin() {
+      return signedIn() && token().superadmin == true;
+    }
+    function isVerifiedGuard() {
+      return signedIn()
+        && token().verified == true
+        && token().role == 'guard'
+        && token().jurisdiction == 'NSW';
+    }
+    function isOwner(userId) {
+      return signedIn() && uid() == userId;
+    }
+    function accessState() {
+      return token().accessState;
+    }
+    function canTouchKyc() {
+      return signedIn() && (
+        accessState() == 'kyc_required'
+        || accessState() == 'kyc_pending'
+        || isVerifiedGuard()
+        || isSuperAdmin()
+      );
+    }
+
+    match /platformConfig/{id} {
+      allow read: if signedIn();
+      allow write: if isSuperAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      allow create: if false; // Cloud Functions only
+      allow update: if isSuperAdmin();
+      allow delete: if false;
+    }
+
+    match /kyc/{userId} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      // Clients may create/update only while in KYC. Bank/licence fields are
+      // accepted here then encrypted/copied by Cloud Functions.
+      allow create: if isOwner(userId) && canTouchKyc()
+        && request.resource.data.uid == userId
+        && request.resource.data.subclasses is list
+        && request.resource.data.subclasses.size() > 0
+        && request.resource.data.jurisdiction == 'NSW';
+      allow update: if (isOwner(userId) && canTouchKyc()
+          && resource.data.uid == userId
+          && request.resource.data.uid == userId)
+        || isSuperAdmin();
+      allow delete: if false;
+    }
+
+    match /availability/{weekId} {
+      allow read: if isSuperAdmin()
+        || (isVerifiedGuard() && resource.data.uid == uid());
+      allow create, update: if isVerifiedGuard()
+        && request.resource.data.uid == uid()
+        && request.resource.data.weekStart.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+      allow delete: if isVerifiedGuard() && resource.data.uid == uid();
+    }
+
+    match /jobs/{jobId} {
+      allow read: if isSuperAdmin()
+        || (isVerifiedGuard() && resource.data.assignedUid == uid());
+      allow create, update, delete: if isSuperAdmin()
+        && request.resource.data.jurisdiction == 'NSW';
+    }
+
+    match /notifications/{nid} {
+      allow read, update: if isSuperAdmin()
+        || (isVerifiedGuard() && resource.data.uid == uid());
+      allow create: if isSuperAdmin();
+      allow delete: if false;
+    }
+
+    match /fcmTokens/{tokenId} {
+      allow read, write: if isVerifiedGuard() && request.resource.data.uid == uid();
+      allow delete: if isVerifiedGuard() && resource.data.uid == uid();
+    }
+
+    // Phase 2 collections exist but stay closed.
+    match /publicProfiles/{userId} {
+      allow read, write: if false;
+    }
+    match /publicRoster/{id} {
+      allow read, write: if false;
+    }
+  }
+}
