@@ -11,10 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.remove("nav-open");
         mobileMenuBtn.setAttribute("aria-expanded", "false");
         mobileMenuBtn.setAttribute("aria-label", "Open menu");
-        mobileMenuBtn.querySelectorAll("span").forEach((span) => {
-            span.style.transform = "none";
-            span.style.opacity = "1";
-        });
+        mobileMenuBtn.classList.remove("is-open");
     };
 
     if (mobileMenuBtn && navLinks) {
@@ -23,16 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.toggle("nav-open", open);
             mobileMenuBtn.setAttribute("aria-expanded", String(open));
             mobileMenuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-            const spans = mobileMenuBtn.querySelectorAll("span");
-            spans[0].style.transform = open ? "rotate(45deg) translate(5px, 5px)" : "none";
-            spans[1].style.opacity = open ? "0" : "1";
-            spans[2].style.transform = open ? "rotate(-45deg) translate(6px, -6px)" : "none";
+            mobileMenuBtn.classList.toggle("is-open", open);
         });
     }
 
     navItems.forEach((item) => {
         item.addEventListener("click", closeMenu);
     });
+    navLinks?.querySelector(".btn")?.addEventListener("click", closeMenu);
 
     const sections = [...document.querySelectorAll("main section[id]")];
     let sectionTops = [];
@@ -72,7 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!target) return;
             event.preventDefault();
             closeMenu();
-            const offset = target.getBoundingClientRect().top + window.pageYOffset - 90;
+            const headerH = header ? header.offsetHeight : 72;
+            const offset = target.getBoundingClientRect().top + window.pageYOffset - headerH - 8;
             window.scrollTo({ top: offset, behavior: "smooth" });
         });
     });
@@ -80,20 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (lightbox) {
         const lightboxImg = lightbox.querySelector("img");
         const lightboxCaption = lightbox.querySelector("p");
+        const closeBtn = lightbox.querySelector(".lightbox-close");
         const closeLightbox = () => {
             lightbox.hidden = true;
+            document.body.classList.remove("lightbox-open");
             lightboxImg.src = "";
             lightboxImg.alt = "";
         };
         document.querySelectorAll(".gallery-item").forEach((item) => {
             item.addEventListener("click", () => {
                 lightboxImg.src = item.dataset.src;
-                lightboxImg.alt = item.querySelector("img").alt;
+                lightboxImg.alt = item.querySelector("img")?.alt || "";
                 lightboxCaption.textContent = item.dataset.caption || "";
                 lightbox.hidden = false;
+                document.body.classList.add("lightbox-open");
+                closeBtn?.focus();
             });
         });
-        lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
+        closeBtn?.addEventListener("click", closeLightbox);
         lightbox.addEventListener("click", (event) => {
             if (event.target === lightbox) closeLightbox();
         });
@@ -179,6 +179,13 @@ function initWizard() {
         updateConditional();
     };
 
+    const goTo = (n) => {
+        showStep(n);
+        const headerH = document.querySelector(".site-header")?.offsetHeight || 72;
+        const top = form.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
+        window.scrollTo({ top, behavior: "smooth" });
+    };
+
     const field = (name) => form.elements[name];
 
     const updateBrief = () => {
@@ -226,27 +233,62 @@ function initWizard() {
         if (n === 4) {
             if (!(field("name")?.value || "").trim()) return "We need a name.";
             if (!(field("phone")?.value || "").trim()) return "We need a phone number.";
-            if (!(field("email")?.value || "").trim()) return "We need an email.";
+            const email = (field("email")?.value || "").trim();
+            if (!email) return "We need an email.";
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "That email does not look right.";
         }
         return "";
+    };
+
+    const showError = (message) => {
+        if (!errorBox) return;
+        errorBox.hidden = !message;
+        errorBox.textContent = message || "";
     };
 
     form.querySelectorAll(".wizard-next").forEach((btn) => {
         btn.addEventListener("click", () => {
             const message = validateStep(current);
             if (message) {
-                if (errorBox) {
-                    errorBox.hidden = false;
-                    errorBox.textContent = message;
-                }
+                showError(message);
                 return;
             }
-            showStep(Math.min(4, current + 1));
+            showError("");
+            goTo(Math.min(4, current + 1));
         });
     });
 
     form.querySelectorAll(".wizard-back").forEach((btn) => {
-        btn.addEventListener("click", () => showStep(Math.max(1, current - 1)));
+        btn.addEventListener("click", () => {
+            showError("");
+            goTo(Math.max(1, current - 1));
+        });
+    });
+
+    dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+            const target = Number(dot.dataset.stepDot);
+            if (target < current) {
+                showError("");
+                goTo(target);
+            }
+        });
+    });
+
+    form.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        const tag = (event.target.tagName || "").toLowerCase();
+        if (tag === "textarea" || tag === "button") return;
+        event.preventDefault();
+        if (current < 4) {
+            const message = validateStep(current);
+            if (message) {
+                showError(message);
+                return;
+            }
+            showError("");
+            goTo(current + 1);
+        }
     });
 
     form.addEventListener("input", updateBrief);

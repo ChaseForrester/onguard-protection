@@ -731,6 +731,7 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
         <li data-step-dot="3"><span>3</span> Job</li>
         <li data-step-dot="4"><span>4</span> You</li>
       </ol>
+      <p class="form-error" id="form-error" hidden role="alert"></p>
       <noscript><p class="field-hint">JavaScript is off — send the full brief in one go.</p></noscript>
       <fieldset class="wizard-step is-active" data-step="1">
         <legend>Where is the site?</legend>
@@ -767,10 +768,10 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
             </select>
           </label>
         </div>
-        <label class="cond" data-for="Event security,Crowd control">Expected crowd
+        <label class="cond" data-for="event,crowd">Expected crowd
           <input type="number" name="crowd" min="1" inputmode="numeric" placeholder="e.g. 800">
         </label>
-        <label class="cond" data-for="Static guards,Asset protection">Site type
+        <label class="cond" data-for="static,asset">Site type
           <select name="site_type">
             <option value="">Select</option>
             <option>Construction</option>
@@ -780,7 +781,7 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
             <option>Residential</option>
           </select>
         </label>
-        <label class="cond" data-for="Mobile patrols">Nights per week
+        <label class="cond" data-for="mobile,patrol">Nights per week
           <select name="nights">
             <option value="">Select</option>
             <option>1–2</option>
@@ -809,7 +810,6 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
         <label>Email
           <input type="email" name="email" required autocomplete="email" enterkeyhint="send">
         </label>
-        <p class="form-note" id="form-error" hidden></p>
         <div class="wizard-nav">
           <button type="button" class="btn btn-ghost wizard-back">Back</button>
           <button type="submit" class="btn btn-primary btn-large">Send the brief</button>
