@@ -17,6 +17,12 @@ service firebase.storage {
         && request.resource.contentType.matches('image/(jpeg|png|webp)');
     }
 
+    match /applications/{appId}/{fileName} {
+      allow read: if isSuperAdmin();
+      allow write: if imageOnly()
+        && (fileName.matches('licence-front\\..+') || fileName.matches('licence-back\\..+'));
+    }
+
     match /kyc/{userId}/{fileName} {
       allow read: if isSuperAdmin() || (signedIn() && uid() == userId);
       allow write: if kycOk() && uid() == userId && imageOnly()

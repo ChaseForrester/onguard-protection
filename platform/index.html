@@ -1113,6 +1113,10 @@
             <div class="metric-label">Pending KYC</div>
           </div>
           <div class="metric-card">
+            <div class="metric-value" id="metric-apply-count">0</div>
+            <div class="metric-label">Public applications</div>
+          </div>
+          <div class="metric-card">
             <div class="metric-value" id="metric-jobs-count">0</div>
             <div class="metric-label">Open Shifts</div>
           </div>
@@ -1125,6 +1129,8 @@
         <div class="nav-tabs" role="tablist">
           <button class="tab-btn is-active" role="tab" onclick="switchAdminTab('kyc-queue', this)">KYC Queue (<span
               id="admin-kyc-badge">0</span>)</button>
+          <button class="tab-btn" role="tab" onclick="switchAdminTab('applications', this)">Public applications (<span
+              id="admin-apply-badge">0</span>)</button>
           <button class="tab-btn" role="tab" onclick="switchAdminTab('directory', this)">Guard Directory</button>
           <button class="tab-btn" role="tab" onclick="switchAdminTab('shifts-mgr', this)">Shifts Manager</button>
         </div>
@@ -1152,6 +1158,34 @@
                   <tr>
                     <td colspan="7" class="field-hint" style="text-align:center;">No pending KYC verification requests.
                     </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="admin-tab-applications" class="admin-tab-panel" style="display:none;">
+          <div class="glass-panel">
+            <h3 style="margin-top:0; font-family:'Barlow Condensed', sans-serif;">No-login applications</h3>
+            <p class="lead" style="font-size:0.95rem;">Submitted from /apply/ without Google sign-in. Review here, then
+              invite strong candidates to Guard login for full KYC if needed.</p>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Applicant</th>
+                    <th>Role / subclasses</th>
+                    <th>Licence</th>
+                    <th>Suburb</th>
+                    <th>Images</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-apply-tbody">
+                  <tr>
+                    <td colspan="7" class="field-hint" style="text-align:center;">No public applications yet.</td>
                   </tr>
                 </tbody>
               </table>
@@ -2035,7 +2069,57 @@
         });
       });
       adminUnsubscribeList.push(unsubJobs);
+
+      const applyQuery = query(collection(db, "applications"), orderBy("createdAt", "desc"));
+      const unsubApply = onSnapshot(applyQuery, (snapshot) => {
+        const tbody = document.getElementById("admin-apply-tbody");
+        const pending = snapshot.docs.filter((d) => (d.data().status || "pending") === "pending").length;
+        document.getElementById("metric-apply-count").textContent = pending;
+        document.getElementById("admin-apply-badge").textContent = pending;
+        if (snapshot.empty) {
+          tbody.innerHTML = `<tr><td colspan="7" class="field-hint" style="text-align:center;">No public applications yet.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = "";
+        snapshot.forEach((docSnap) => {
+          const app = docSnap.data();
+          const id = docSnap.id;
+          const tr = document.createElement("tr");
+          const front = app.licenceFrontPath ? `<button class="licence-preview-btn" onclick="window.open('${app.licenceFrontPath}', '_blank')">Front</button>` : "—";
+          const back = app.licenceBackPath ? `<button class="licence-preview-btn" onclick="window.open('${app.licenceBackPath}', '_blank')">Back</button>` : "—";
+          tr.innerHTML = `
+            <td><strong>${app.fullName || "Applicant"}</strong><br><span style="font-size:0.8rem; color:var(--text-muted);">${app.email || ""} · ${app.mobile || ""}</span></td>
+            <td>${app.role || "—"}<br><span style="font-size:0.8rem; color:var(--text-muted);">${(app.subclasses || []).join(", ")}</span></td>
+            <td>${app.licenceNumber || "—"}<br><span style="font-size:0.8rem; color:var(--text-muted);">${app.licenceExpiry || ""}</span></td>
+            <td>${app.suburb || "—"}<br><span style="font-size:0.8rem; color:var(--text-muted);">${app.availability || ""}</span></td>
+            <td>${front} ${back}</td>
+            <td><span class="badge ${app.status === "shortlisted" ? "badge-verified" : app.status === "rejected" ? "badge-rejected" : "badge-pending"}">${app.status || "pending"}</span></td>
+            <td>
+              <button class="btn btn-small" onclick="reviewApplication('${id}','shortlisted')">Shortlist</button>
+              <button class="btn btn-small" onclick="reviewApplication('${id}','reviewed')">Mark reviewed</button>
+              <button class="btn btn-small" onclick="reviewApplication('${id}','rejected')" style="background:var(--primary);">Reject</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }, () => {
+        document.getElementById("admin-apply-tbody").innerHTML = `<tr><td colspan="7" class="field-hint" style="text-align:center;">Could not load public applications. Deploy Firestore rules if this is a new collection.</td></tr>`;
+      });
+      adminUnsubscribeList.push(unsubApply);
     }
+
+    window.reviewApplication = async function (id, status) {
+      try {
+        await updateDoc(doc(db, "applications", id), {
+          status,
+          reviewedAt: new Date(),
+          updatedAt: new Date()
+        });
+        showToast("Application updated.", "success");
+      } catch (err) {
+        showToast("Update failed: " + err.message);
+      }
+    };
 
     // Approve applicant KYC
     window.approveKyc = async function (uid) {

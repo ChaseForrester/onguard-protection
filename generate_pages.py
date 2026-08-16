@@ -729,6 +729,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <li><a href="{prefix}blog/index.html">Security guides</a></li>
           <li><a href="{prefix}industries/index.html">Industries</a></li>
           <li><a href="{prefix}jobs/index.html">Guard jobs portal</a></li>
+          <li><a href="{prefix}apply/">Apply without login</a></li>
           <li><a href="{prefix}login/">Guard login</a></li>
           <li><a href="{prefix}legal/index.html">Legal &amp; compliance</a></li>
         </ul>

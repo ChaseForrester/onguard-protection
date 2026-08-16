@@ -111,6 +111,36 @@ export interface NotificationDoc {
     createdAt: FirebaseFirestore.Timestamp;
 }
 
+export interface PublicApplicationDoc {
+    id: string;
+    source: "public_form";
+    status: "pending" | "reviewed" | "shortlisted" | "rejected";
+    jurisdiction: Jurisdiction;
+    role: string;
+    subclasses: Class1Code[];
+    fullName: string;
+    email: string;
+    mobile: string;
+    suburb: string;
+    availability: string;
+    notes: string;
+    licenceNumber: string;
+    licenceExpiry: string;
+    firstAidExpiry: string | null;
+    licenceFrontPath: string | null;
+    licenceBackPath: string | null;
+    accountName: string;
+    bsb: string;
+    accountNumber: string;
+    superUsi: string;
+    emailed: boolean;
+    createdAt: FirebaseFirestore.Timestamp;
+    updatedAt: FirebaseFirestore.Timestamp;
+    reviewedAt: FirebaseFirestore.Timestamp | null;
+    reviewedByUid: string | null;
+    reviewNotes: string | null;
+}
+
 export interface PlatformConfig {
     phase2Enabled: boolean;
     verifiedGuardCount: number;

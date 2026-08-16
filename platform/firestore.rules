@@ -90,6 +90,28 @@ service cloud.firestore {
       allow delete: if isVerifiedGuard() && resource.data.uid == uid();
     }
 
+    match /applications/{appId} {
+      function validPublicApplication() {
+        return request.resource.data.status == "pending"
+          && request.resource.data.source == "public_form"
+          && request.resource.data.jurisdiction == "NSW"
+          && request.resource.data.fullName is string
+          && request.resource.data.fullName.size() > 1
+          && request.resource.data.fullName.size() < 120
+          && request.resource.data.email is string
+          && request.resource.data.email.size() > 5
+          && request.resource.data.email.size() < 160
+          && request.resource.data.mobile is string
+          && request.resource.data.licenceNumber is string
+          && request.resource.data.subclasses is list
+          && request.resource.data.subclasses.size() > 0
+          && request.resource.data.subclasses.size() < 8;
+      }
+      allow create: if validPublicApplication();
+      allow read, update: if isSuperAdmin();
+      allow delete: if false;
+    }
+
     // Phase 2 collections exist but stay closed.
     match /publicProfiles/{userId} {
       allow read, write: if false;
