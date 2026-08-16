@@ -128,7 +128,7 @@ def page():
       <p>Change of mind, a Client-caused lock-out, or a force-majeure event that is not our failure is not by itself an ACL failure. A commercial cancellation fee may then apply if it is a genuine pre-estimate and is not an unfair term.</p>
       <h3>How to claim</h3>
       <ol>
-        <li>Email <a href="mailto:onguard_protection@outlook.com">onguard_protection@outlook.com</a> or call <a href="tel:+61432893343">0432 893 343</a> with the booking, site, date and problem.</li>
+        <li>Email <a href="mailto:admin@ogprotection.com.au">admin@ogprotection.com.au</a> or call <a href="tel:+61432893343">0432 893 343</a> with the booking, site, date and problem.</li>
         <li>We acknowledge within two business days and investigate run-sheets, radio logs and officer reports.</li>
         <li>If the ACL requires a remedy, we offer re-supply or a refund as the Act requires — not as a gesture.</li>
         <li>If we disagree, we say why in writing and name the tribunal, court or consumer agency.</li>
@@ -210,7 +210,7 @@ def page():
     ''')}
     {block("12. Insurance, indemnities and claims", '''
       <p>We maintain public liability and workers compensation as required at the Site, and will produce certificates of currency. Do not assume a limit or an insurer until you have the current certificate. Our indemnity covers loss to the extent caused by our negligence or wilful default, reduced by the Client’s or a third party’s contribution, and capped as in section 5 except where the law forbids a cap.</p>
-      <p>Notify claims immediately to <a href="tel:+61432893343">0432 893 343</a> and <a href="mailto:onguard_protection@outlook.com">onguard_protection@outlook.com</a>. Do not admit liability on our behalf.</p>
+      <p>Notify claims immediately to <a href="tel:+61432893343">0432 893 343</a> and <a href="mailto:admin@ogprotection.com.au">admin@ogprotection.com.au</a>. Do not admit liability on our behalf.</p>
     ''')}
     {block("13. Personnel, subcontractors and modern slavery", '''
       <p>Every operative on a licensed activity holds a current licence of the correct class. We may subcontract to another master-licensed provider and remain responsible to the Client. The <em>Modern Slavery Act 2018</em> (Cth) reporting obligation applies above the revenue threshold. Whether or not we are a reporting entity in a given year, we will not use bonded, trafficked or child labour.</p>

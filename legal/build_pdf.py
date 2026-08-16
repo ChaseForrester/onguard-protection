@@ -153,7 +153,7 @@ def cover_page():
         ["NSW Master Licence", "000110094  (SLED — Security Industry Act 1997)"],
         ["Classification", "Public-facing contractual instrument + tender annexure"],
         ["Governing law", "Laws of New South Wales and the Commonwealth of Australia"],
-        ["Contact", "0432 893 343  •  onguard_protection@outlook.com"],
+        ["Contact", "0432 893 343  •  admin@ogprotection.com.au"],
         ["Website", "https://www.ogprotection.com.au/legal/"],
     ]
     cells = [[P(a, "cellb"), P(b, "cell")] for a, b in meta]
@@ -234,7 +234,7 @@ def body():
         P("4.3 How to claim a refund or remedy", "h2"),
     ]
     story += bullets([
-        "Write to onguard_protection@outlook.com or call 0432 893 343 and identify the booking, Site, date and the problem.",
+        "Write to admin@ogprotection.com.au or call 0432 893 343 and identify the booking, Site, date and the problem.",
         "We will acknowledge within two business days and investigate, including radio logs, run-sheets and the officer’s report.",
         "If the ACL requires a remedy, we will offer re-supply, a partial refund, or a full refund of unused fees, as the Act requires — not as a gesture.",
         "If we do not agree a guarantee failed, we will say why in writing and name the Client’s right to go to a State tribunal, a court, or a consumer agency.",
@@ -321,7 +321,7 @@ def body():
     story += [
         P("12. Insurance, indemnities and claims procedure", "h1"),
         P("OnGuard maintains, and will produce certificates of currency for, public liability insurance and workers compensation as required by law in the jurisdiction of the Site. Professional indemnity or other classes are held only if stated on the certificate attached to the quote. Clients (especially councils) should not assume a limit or an insurer until they have the current certificate. OnGuard’s indemnity to the Client covers loss to the extent caused by OnGuard’s negligence or wilful default, reduced to the extent the Client or a third party caused or contributed to it. The indemnity is capped as in section 5 except where the law forbids a cap.", "body"),
-        P("Notify claims immediately to 0432 893 343 and onguard_protection@outlook.com. Do not admit liability on our behalf. Preserve radio logs, CCTV the Client controls, and medical records the injured person consents to release.", "body"),
+        P("Notify claims immediately to 0432 893 343 and admin@ogprotection.com.au. Do not admit liability on our behalf. Preserve radio logs, CCTV the Client controls, and medical records the injured person consents to release.", "body"),
         P("13. Personnel, subcontractors and modern slavery", "h1"),
         P("Every operative on a licensed activity holds a current licence of the correct class. We may subcontract to another master-licensed provider; we remain responsible to the Client for the subcontracted performance. The <i>Modern Slavery Act 2018</i> (Cth) reporting obligation applies to entities at or above the consolidated revenue threshold. Whether or not OnGuard is a reporting entity in a given year, we will not use bonded, trafficked or child labour, and we will not subcontract to a provider we know does.", "body"),
         P("Fair Work Act minimums, awards and casual conversion rules apply to our labour. Clients must not dictate rates that would force an award breach.", "body"),

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent
 SITE = "https://onguardprotection.com.au"
 PHONE = "0432 893 343"
 TEL = "+61432893343"
-EMAIL = "onguard_protection@outlook.com"
+EMAIL = "admin@ogprotection.com.au"
 LICENCE = "000110094"
 TODAY = date.today().isoformat()
 
@@ -1147,7 +1147,7 @@ def write_locations_index() -> None:
 def write_thanks() -> None:
     nav, footer = chrome(0)
     title = "Brief received | OnGuard Protection"
-    desc = "Your OnGuard Protection security brief has been sent. We reply on 0432 893 343 and onguard_protection@outlook.com."
+    desc = "Your OnGuard Protection security brief has been sent. We reply on 0432 893 343 and admin@ogprotection.com.au."
     html = f'''{head(title, desc, f"{SITE}/thanks.html", 0, "assets/logo.jpg", 1024, 1024, "OnGuard Protection logo", [org_schema()])}
 <body class="inner-page">
 {nav}
