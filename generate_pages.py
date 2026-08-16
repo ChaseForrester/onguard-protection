@@ -650,7 +650,7 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
         <ul class="footer-contact">
           <li><a href="tel:{TEL}">{PHONE}</a></li>
           <li><a href="mailto:{EMAIL}">{EMAIL}</a></li>
-          <li>Sydney NSW · Hunter · South Coast · ACT</li>
+          <li>Sydney NSW · Hunter · South Coast</li>
         </ul>
       </div>
       <div>
