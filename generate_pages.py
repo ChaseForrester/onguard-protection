@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 from datetime import date
 from pathlib import Path
+from urllib.parse import quote
 from xml.sax.saxutils import escape as xml_escape
 
 ROOT = Path(__file__).resolve().parent
@@ -644,7 +645,9 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
             <li><a href="{home}#operations">On the ground</a></li>
             <li><a href="{home}#services">Services</a></li>
             <li><a href="{loc_idx}"{" class='active'" if current=="locations" else ""}>Suburbs</a></li>
-            <li><a href="{home}#about">About</a></li>
+            <li><a href="{prefix}blog/index.html"{" class='active'" if current=="blog" else ""}>Blog</a></li>
+            <li><a href="{prefix}industries/index.html"{" class='active'" if current=="industries" else ""}>Industries</a></li>
+            <li><a href="{prefix}jobs/index.html"{" class='active'" if current=="jobs" else ""}>Jobs</a></li>
             <li><a href="{prefix}legal/index.html"{" class='active'" if current=="legal" else ""}>Legal</a></li>
             <li><a href="#quote">Contact</a></li>
           </ul>
@@ -692,6 +695,9 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
           <li>Master Licence {LICENCE}</li>
           <li><a href="https://verify.licence.nsw.gov.au/home/Security" target="_blank" rel="noopener noreferrer">Verify on SLED register</a></li>
           <li><a href="{prefix}locations/index.html">Suburb coverage</a></li>
+          <li><a href="{prefix}blog/index.html">Security guides</a></li>
+          <li><a href="{prefix}industries/index.html">Industries</a></li>
+          <li><a href="{prefix}jobs/index.html">Guard jobs portal</a></li>
           <li><a href="{prefix}legal/index.html">Legal &amp; compliance</a></li>
         </ul>
       </div>
@@ -722,6 +728,32 @@ def chrome(depth: int, current: str = "") -> tuple[str, str]:
   </div>
   <script src="{prefix}script.js" defer></script>'''
     return nav, footer
+
+
+def share_bar(url: str, title: str) -> str:
+    u = quote(url, safe="")
+    t = quote(title, safe="")
+    text = quote(f"{title} — OnGuard Protection", safe="")
+    return f'''
+<aside class="share-bar" aria-label="Share this page">
+  <p class="share-bar-kicker">Share</p>
+  <ul class="share-bar-list">
+    <li><a class="share-fb" href="https://www.facebook.com/sharer/sharer.php?u={u}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a></li>
+    <li><a class="share-x" href="https://twitter.com/intent/tweet?url={u}&amp;text={t}" target="_blank" rel="noopener noreferrer" aria-label="Share on X">X</a></li>
+    <li><a class="share-li" href="https://www.linkedin.com/sharing/share-offsite/?url={u}" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a></li>
+    <li><a class="share-wa" href="https://wa.me/?text={text}%20{u}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">WhatsApp</a></li>
+    <li><a class="share-tg" href="https://t.me/share/url?url={u}&amp;text={t}" target="_blank" rel="noopener noreferrer" aria-label="Share on Telegram">Telegram</a></li>
+    <li><a class="share-em" href="mailto:?subject={t}&amp;body={u}" aria-label="Share by email">Email</a></li>
+    <li><a class="share-rd" href="https://www.reddit.com/submit?url={u}&amp;title={t}" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a></li>
+    <li><a class="share-th" href="https://www.threads.net/intent/post?text={text}%20{u}" target="_blank" rel="noopener noreferrer" aria-label="Share on Threads">Threads</a></li>
+    <li><a class="share-pin" href="https://pinterest.com/pin/create/button/?url={u}&amp;description={t}" target="_blank" rel="noopener noreferrer" aria-label="Share on Pinterest">Pinterest</a></li>
+  </ul>
+  <p class="share-bar-follow">Follow
+    <a href="https://www.facebook.com/ogprotection/" target="_blank" rel="noopener noreferrer">Facebook</a>
+    <a href="https://www.instagram.com/onguard_protection/" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="https://www.google.com/search?q=OnGuard+Protection+NSW+security" target="_blank" rel="noopener noreferrer">Google</a>
+  </p>
+</aside>'''
 
 
 def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
@@ -1026,6 +1058,7 @@ def write_location(loc: dict) -> None:
     </section>
     <h2>Nearby coverage</h2>
     <ul class="link-list">{nearby_html}</ul>
+    {share_bar(url, title)}
   </article>
   {quote_form(prefill_suburb=loc["name"])}
 </main>
@@ -1109,6 +1142,7 @@ def write_service(svc: dict) -> None:
     </section>
     <h2>{svc["short"]} by suburb</h2>
     <ul class="link-list cols">{loc_links}</ul>
+    {share_bar(url, title)}
   </article>
   {quote_form(prefill_service=svc["name"])}
 </main>
@@ -1253,6 +1287,7 @@ def write_combo(loc: dict, svc: dict) -> None:
     <p><a href="../{loc["slug"]}.html">All security services in {loc["name"]}</a> · <a href="../../services/{svc["slug"]}.html">{svc["name"]} across NSW</a></p>
     <h2>{svc["short"]} nearby</h2>
     <ul class="link-list">{nearby_html}</ul>
+    {share_bar(url, title)}
   </article>
   {quote_form(prefill_suburb=loc["name"], prefill_service=svc["name"])}
 </main>
@@ -1514,6 +1549,14 @@ def write_sitemaps() -> list[str]:
                 ],
             )
 
+    import expand_site
+
+    for name, loc, prio in expand_site.extra_urls():
+        add(
+            name,
+            [write_url_entry(loc, changefreq="weekly", priority=prio, images=[(OG_IMAGE, OG_ALT)])],
+        )
+
     write_sitemap_index(children)
     # Search Console is already pointed at /sitemap.xml. A single urlset on
     # the live host is what actually fills "discovered URLs".
@@ -1578,8 +1621,11 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
 - [Mobile patrols]({SITE}/services/mobile-patrols.html): After-hours patrols and alarm response
 - [Corporate security]({SITE}/services/corporate-security.html): Concierge and lobby control
 - [Asset protection]({SITE}/services/asset-protection.html): Plant and compound protection
+- [Guides]({SITE}/blog/): NSW security briefs and licence explainers
+- [Industries]({SITE}/industries/): Construction, venues, events, logistics
+- [Jobs data flow]({SITE}/jobs/): Guard portal architecture
 - [Verify licence](https://verify.licence.nsw.gov.au/home/Security): NSW SLED public register for Master Licence {LICENCE}
-- [Sitemap index]({SITE}/sitemap.xml): Master sitemap index for every indexable page
+- [Sitemap]({SITE}/sitemap.xml): Machine-readable page list
 
 ## Optional
 
@@ -1724,6 +1770,9 @@ def validate_sitemaps() -> None:
     expected.update(f"{SITE}/locations/{loc['slug']}.html" for loc in LOCATIONS)
     expected.update(f"{SITE}/services/{svc['slug']}.html" for svc in SERVICES)
     expected.update(f"{SITE}/locations/{loc['slug']}/{svc['slug']}.html" for loc in LOCATIONS for svc in SERVICES)
+    import expand_site
+
+    expected.update(url for _name, url, _p in expand_site.extra_urls())
     missing = sorted(expected - set(seen))
     extra = sorted(set(seen) - expected)
     if missing:
@@ -1750,12 +1799,15 @@ def main() -> None:
     write_locations_index()
     write_thanks()
     write_404()
+    import expand_site
+
+    expand_site.write_all()
     write_tech()
     validate_sitemaps()
     combos = len(LOCATIONS) * len(SERVICES)
     print(
         f"Wrote {len(LOCATIONS)} location pages, {len(SERVICES)} service pages, "
-        f"{combos} suburb-service pages, sitemaps and agent files."
+        f"{combos} suburb-service pages, plus blog/industry/jobs pages, sitemaps and agent files."
     )
 
 

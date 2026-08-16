@@ -20,8 +20,11 @@ OnGuard Protection deploys licensed operatives for venues, construction, commerc
 - [Mobile patrols](https://www.ogprotection.com.au/services/mobile-patrols.html): After-hours patrols and alarm response
 - [Corporate security](https://www.ogprotection.com.au/services/corporate-security.html): Concierge and lobby control
 - [Asset protection](https://www.ogprotection.com.au/services/asset-protection.html): Plant and compound protection
+- [Guides](https://www.ogprotection.com.au/blog/): NSW security briefs and licence explainers
+- [Industries](https://www.ogprotection.com.au/industries/): Construction, venues, events, logistics
+- [Jobs data flow](https://www.ogprotection.com.au/jobs/): Guard portal architecture
 - [Verify licence](https://verify.licence.nsw.gov.au/home/Security): NSW SLED public register for Master Licence 000110094
-- [Sitemap index](https://www.ogprotection.com.au/sitemap.xml): Master sitemap index for every indexable page
+- [Sitemap](https://www.ogprotection.com.au/sitemap.xml): Machine-readable page list
 
 ## Optional
 

@@ -134,6 +134,11 @@ def main() -> None:
     pages += sorted((ROOT / "locations").glob("*.html"))
     pages += sorted((ROOT / "locations").glob("*/*.html"))
     pages += sorted((ROOT / "services").glob("*.html"))
+    pages += sorted((ROOT / "blog").glob("*.html"))
+    pages += sorted((ROOT / "industries").glob("*.html"))
+    jobs = ROOT / "jobs" / "index.html"
+    if jobs.exists():
+        pages.append(jobs)
     legal = ROOT / "legal" / "index.html"
     if legal.exists():
         pages.append(legal)
