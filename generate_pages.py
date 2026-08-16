@@ -33,6 +33,7 @@ HERO_META = {
     "work-festival": (370, 417, "OnGuard Protection Class 1A officers running crowd control on a live NSW festival barrier"),
     "work-screening": (368, 415, "OnGuard Protection officer conducting a bag search at a licensed NSW event entry"),
     "work-patrol": (1328, 1416, "OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist"),
+    "work-tiguan": (890, 795, "OnGuard Protection marked VW Tiguan patrol vehicle, plates OGPROT, Master Licence 000110094"),
 }
 INDEX_ROBOTS = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 NOINDEX_ROBOTS = "noindex, follow"
@@ -121,10 +122,10 @@ SERVICES = [
         "title": "Mobile Patrol Security NSW | Alarm Response | OnGuard Protection",
         "description": "Random and scheduled mobile patrols plus rapid alarm response for NSW commercial, retail and construction sites. SLED licensed. Call 0432 893 343.",
         "keyword": "mobile patrols NSW",
-        "img": "work-patrol",
-        "img_w": 1328,
-        "img_h": 1416,
-        "alt": "OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist",
+        "img": "work-tiguan",
+        "img_w": 890,
+        "img_h": 795,
+        "alt": "OnGuard Protection marked VW Tiguan patrol vehicle, plates OGPROT, Master Licence 000110094",
         "lead": "Random and scheduled NSW patrols. Lock checks and rapid alarm response when no one else is on site.",
         "body": "Most break-ins happen after hours. OnGuard runs marked and unmarked mobile patrols with randomised timing so the pattern is not the product. Lock checks, external walks, alarm attendance and a written run-sheet after every visit.",
         "bullets": [
@@ -1477,6 +1478,7 @@ def write_sitemaps() -> list[str]:
                     ("assets/work-festival.jpg", "OnGuard Protection crowd control at a NSW festival"),
                     ("assets/work-screening.jpg", "OnGuard Protection bag search at a NSW event entry"),
                     ("assets/work-patrol.jpg", "OnGuard Protection marked patrol ute on a night mobile patrol outside a NSW chemist"),
+                    ("assets/work-tiguan.jpg", "OnGuard Protection marked VW Tiguan patrol vehicle, plates OGPROT, Master Licence 000110094"),
                 ],
             )
         ],
