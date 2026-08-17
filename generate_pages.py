@@ -14,6 +14,7 @@ SITE = "https://www.ogprotection.com.au"
 PHONE = "0432 893 343"
 TEL = "+61432893343"
 EMAIL = "admin@ogprotection.com.au"
+EMAIL_CC = "hello@techaidaustralia.com.au"
 LICENCE = "000110094"
 TODAY = date.today().isoformat()
 HOME_TITLE = "OnGuard Protection | Licensed & Insured Security Guards NSW"
@@ -829,6 +830,7 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
       <input type="hidden" name="_subject" value="OnGuard Protection — new quote request">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_cc" value="{EMAIL_CC}">
       <input type="hidden" name="_next" value="{SITE}/thanks.html">
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <ol class="wizard-progress" aria-label="Quote steps">
@@ -920,7 +922,7 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
           <button type="button" class="btn btn-ghost wizard-back">Back</button>
           <button type="submit" class="btn btn-primary btn-large">Send the brief</button>
         </div>
-        <p class="form-note">Goes to {EMAIL}. Same-day reply on most briefs.</p>
+        <p class="form-note">Goes to {EMAIL}, copy to {EMAIL_CC}. Same-day reply on most briefs.</p>
       </fieldset>
     </form>
   </div>

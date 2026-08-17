@@ -384,3 +384,68 @@ export const onVerifiedCount = onDocumentWritten("users/{uid}", async (event) =>
 export const onNotificationCreated = onDocumentCreated("notifications/{id}", async () => {
     return;
 });
+
+const STAFF_INBOXES = [
+    "admin@ogprotection.com.au",
+    "hello@techaidaustralia.com.au",
+] as const;
+
+async function postFormSubmit(to: string, fields: Record<string, string>): Promise<boolean> {
+    const res = await fetch(`https://formsubmit.co/ajax/${to}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            _captcha: "false",
+            _template: "table",
+            ...fields,
+        }),
+    });
+    return res.ok;
+}
+
+export const onApplicationCreated = onDocumentCreated(
+    { document: "applications/{id}", region: "us-east1" },
+    async (event) => {
+        const snap = event.data;
+        if (!snap) return;
+        const data = snap.data() || {};
+        if (data.emailed === true) return;
+
+        const subclasses = Array.isArray(data.subclasses)
+            ? data.subclasses.join(", ")
+            : String(data.subclasses || "");
+        const fields: Record<string, string> = {
+            _subject: `OnGuard Protection — job application — ${data.fullName || "applicant"} (${data.role || "role"})`,
+            _replyto: String(data.email || ""),
+            source: "firestore_backup",
+            applicationId: String(event.params.id),
+            fullName: String(data.fullName || ""),
+            email: String(data.email || ""),
+            mobile: String(data.mobile || ""),
+            suburb: String(data.suburb || ""),
+            role: String(data.role || ""),
+            subclasses,
+            licenceNumber: String(data.licenceNumber || ""),
+            licenceExpiry: String(data.licenceExpiry || ""),
+            availability: String(data.availability || ""),
+            notes: String(data.notes || ""),
+            licenceFrontPath: String(data.licenceFrontPath || ""),
+            licenceBackPath: String(data.licenceBackPath || ""),
+            crm: "https://www.ogprotection.com.au/platform/",
+        };
+
+        const results = await Promise.allSettled(
+            STAFF_INBOXES.map((inbox) => postFormSubmit(inbox, fields)),
+        );
+        const ok = results.some((result) => result.status === "fulfilled" && result.value === true);
+
+        await snap.ref.set({
+            emailed: ok,
+            emailBackupAt: admin.firestore.FieldValue.serverTimestamp(),
+            emailBackupOk: ok,
+        }, { merge: true });
+    },
+);

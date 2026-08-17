@@ -6,7 +6,9 @@ import { firebaseConfig } from "./firebase-app.js";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
-const ADMIN_MAIL = "admin@ogprotection.com.au";
+const STAFF_MAIL = "admin@ogprotection.com.au";
+const STAFF_CC = "hello@techaidaustralia.com.au";
+const STAFF_INBOXES = [STAFF_MAIL, STAFF_CC];
 
 const form = document.getElementById("apply-form");
 if (!form) throw new Error("apply form missing");
@@ -131,23 +133,34 @@ async function uploadLicence(appId, file, name) {
     return getDownloadURL(snap.ref);
 }
 
-async function emailAdmin(payload, front, back) {
+async function postFormSubmit(to, payload, front, back) {
     const body = new FormData();
-    body.append("_subject", "OnGuard Protection — public guard application");
+    body.append("_subject", `OnGuard Protection — job application — ${payload.fullName || "applicant"} (${payload.role || "role"})`);
     body.append("_template", "table");
     body.append("_captcha", "false");
+    body.append("_replyto", payload.email || "");
     Object.entries(payload).forEach(([key, value]) => {
         if (value == null || value === "") return;
         body.append(key, String(value));
     });
     if (front) body.append("licenceFront", front, front.name);
     if (back) body.append("licenceBack", back, back.name);
-    const res = await fetch(`https://formsubmit.co/ajax/${ADMIN_MAIL}`, {
+    const res = await fetch(`https://formsubmit.co/ajax/${to}`, {
         method: "POST",
         body,
         headers: { Accept: "application/json" }
     });
-    if (!res.ok) throw new Error("Email delivery failed");
+    if (!res.ok) throw new Error(`Email delivery failed for ${to}`);
+    return res;
+}
+
+async function emailAdmin(payload, front, back) {
+    const results = await Promise.allSettled(
+        STAFF_INBOXES.map((inbox) => postFormSubmit(inbox, payload, front, back))
+    );
+    if (!results.some((result) => result.status === "fulfilled")) {
+        throw new Error("Email delivery failed");
+    }
 }
 
 form.addEventListener("submit", async (event) => {
