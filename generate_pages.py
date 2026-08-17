@@ -826,11 +826,11 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
         <p id="brief-text">Pick a suburb and a service to start the brief.</p>
       </div>
     </div>
-    <form class="quote-form wizard" id="quote-form" action="https://formsubmit.co/{EMAIL}" method="POST" novalidate>
+    <form class="quote-form wizard" id="quote-form" action="https://formsubmit.co/{EMAIL_CC}" method="POST" novalidate>
       <input type="hidden" name="_subject" value="OnGuard Protection — new quote request">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_cc" value="{EMAIL_CC}">
+      <input type="hidden" name="_cc" value="{EMAIL}">
       <input type="hidden" name="_next" value="{SITE}/thanks.html">
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <ol class="wizard-progress" aria-label="Quote steps">
@@ -922,7 +922,7 @@ def quote_form(prefill_suburb: str = "", prefill_service: str = "") -> str:
           <button type="button" class="btn btn-ghost wizard-back">Back</button>
           <button type="submit" class="btn btn-primary btn-large">Send the brief</button>
         </div>
-        <p class="form-note">Goes to {EMAIL}, copy to {EMAIL_CC}. Same-day reply on most briefs.</p>
+        <p class="form-note">Goes to {EMAIL_CC}, copy to {EMAIL}. Same-day reply on most briefs.</p>
       </fieldset>
     </form>
   </div>
