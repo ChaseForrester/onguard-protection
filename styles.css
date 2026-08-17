@@ -2651,18 +2651,22 @@ textarea:focus-visible {
     margin-bottom: 0.4rem;
 }
 
-.btn-google {
+.btn-google,
+.btn-phone,
+#phone-signin-btn {
     width: 100%;
     min-height: 50px;
-    background: #fff;
-    color: #1f1f1f;
-    border-color: #fff;
+    background: #fff !important;
+    color: #111 !important;
+    border-color: #fff !important;
     font-size: 1.05rem;
 }
 
-.btn-google:hover {
-    background: #f3eee6;
-    color: #111;
+.btn-google:hover,
+.btn-phone:hover,
+#phone-signin-btn:hover {
+    background: #f3eee6 !important;
+    color: #111 !important;
     transform: translateY(-1px);
 }
 
