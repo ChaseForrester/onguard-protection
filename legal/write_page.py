@@ -121,11 +121,11 @@ def page():
       <p>Where a signed engagement, purchase order or deed exists, that instrument prevails to the extent of inconsistency — except that the Australian Consumer Law always prevails.</p>
     ''')}
     {block("2. Parties, definitions and interpretation", '''
-      <p><strong>Client</strong> means the person or entity that requests or receives services. <strong>Consumer</strong> has the meaning in s 3 of the ACL (household-type services, or a price at or under the prescribed threshold — currently $100,000). <strong>Services</strong> means crowd control, event security, static guarding, mobile patrols, alarm response, corporate concierge, access control, asset protection and, only if scheduled, a Class 1D dog team. <strong>Regulator</strong> includes the ACCC, SLED, SafeWork NSW, the OAIC, and a Defence security authority.</p>
+      <p><strong>Client</strong> means the person or entity that requests or receives services. <strong>Consumer</strong> has the meaning in s 3 of the ACL (household-type services, or a price at or under the prescribed threshold — currently $100,000). <strong>Services</strong> means crowd control, event security, static guarding, mobile patrols, alarm response, corporate concierge, access control and asset protection. <strong>Regulator</strong> includes the ACCC, SLED, SafeWork NSW, the OAIC, and a Defence security authority.</p>
       <p>If a provision is void, the rest continues. Nothing in this Pack is a warranty that a particular ISO certificate, DISP membership, NV1, NV2 or higher clearance is currently held — those are stated, if at all, only on a signed schedule attached to the booking.</p>
     ''')}
     {block("3. Scope of services", '''
-      <p>OnGuard supplies licensed security labour and site presence in New South Wales. We do not, unless a separate written instrument and the matching licence class are scheduled, supply locksmithing, firearms, cash-in-transit, private inquiry, monitoring-centre operations, or covert electronic surveillance. The Client remains responsible for site induction content only the occupier can provide, and for directions that would require us to break the law.</p>
+      <p>OnGuard supplies licensed security labour and site presence in New South Wales. We do not, unless a separate written instrument and the matching licence class are scheduled, supply locksmithing, firearms, cash-in-transit, private inquiry, monitoring-centre operations, or covert electronic surveillance. Dog teams are not a current OnGuard product line. The Client remains responsible for site induction content only the occupier can provide, and for directions that would require us to break the law.</p>
       <p>A quotation is an invitation to treat unless stated to be a standing offer. A contract is formed when we confirm the booking in writing or first deploy after a clear instruction to proceed.</p>
     ''')}
     {block("4. Australian Consumer Law, ACCC and refunds", '''
@@ -264,8 +264,8 @@ def page():
           <tr>
             <td><strong>1D Guard Dog Handler</strong></td>
             <td>Patrol, protect or guard any property <em>with a dog</em>. The only Class 1 subclass that authorises dog work.</td>
-            <td>Named dog team on a quote: night static, compound, industrial gate. Handler holds 1D. Dog is identified on the run-sheet.</td>
-            <td class="will-not">Improvised animals. A 1A walking a dog. Dog work that is not on the quote.</td>
+            <td>Not a current OnGuard product line.</td>
+            <td class="will-not">Any dog team. A 1A walking a dog. Dog work sold as a current OnGuard service.</td>
           </tr>
           <tr>
             <td><strong>1E Monitoring Centre Operator</strong></td>
@@ -314,7 +314,6 @@ def page():
         <li>Certificates of currency (public liability and workers compensation as a minimum).</li>
         <li>Named roster for the first four weeks: officer, licence number, subclass, expiry, first-aid expiry where the post requires it.</li>
         <li>If the RFT demands a numbered ISO certificate, DISP membership, NV1, NV2 or a higher clearance — attach the current instrument <em>or</em> mark the requirement as not held / condition subsequent. Do not tick “held” if it is not held.</li>
-        <li>If a dog team is proposed — 1D licence, animal identification, and the Site’s animal policy.</li>
         <li>If the Site is outside NSW — do not bid unless a local master/firm licence is attached.</li>
       </ul>
     ''')}

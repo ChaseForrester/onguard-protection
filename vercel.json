@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/blog/k9-asset-protection-nsw.html",
+      "destination": "/services/asset-protection.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/k9-asset-protection-nsw",
+      "destination": "/services/asset-protection.html",
+      "permanent": true
+    }
+  ]
+}
